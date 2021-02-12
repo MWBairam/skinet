@@ -1,3 +1,4 @@
+using System.Reflection;
 using Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,6 +10,19 @@ namespace Infrastructure.Data
         public StoreContext(DbContextOptions<StoreContext> options) : base(options)
         {
         }
+        
         public DbSet<Product> Products {get; set;}
+        public DbSet<ProductType> ProductTypes {get; set;}
+        public DbSet<ProductBrand> ProductBrands {get; set;}
+
+
+
+
+        //to apply the config (in Config folder) of the Entities, we need to override one function of the DbContext derived class:
+        protected override void OnModelCreating(ModelBuilder modelbuilder)
+        {
+            base.OnModelCreating(modelbuilder);
+            modelbuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        } 
     }
 }

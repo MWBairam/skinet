@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -51,6 +52,9 @@ namespace API
 
             //add the DbContext service, while using sqlite, with the configured connection string in appsettings.Development.json
             services.AddDbContext<StoreContext>(x => x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
+
+            //add the interfaces/implementations services:
+            services.AddScoped<IProductRepository, ProductRepository>();
         }
 
 
