@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.Helper;
+using AutoMapper;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
@@ -14,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+
 
 namespace API
 {
@@ -54,7 +57,16 @@ namespace API
             services.AddDbContext<StoreContext>(x => x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
 
             //add the interfaces/implementations services:
-            services.AddScoped<IProductRepository, ProductRepository>();
+            //services.AddScoped<IProductRepository, ProductRepository>();
+            //that service is not used anymore since we are using the below IgenericRepository interface and its GenericRepository Implementation
+
+            //add the generic interface/implementation service:
+            services.AddScoped(  typeof(IGenericRepository<>) , (  typeof(GenericRepository<>)  ) );
+
+            //add the AutoMapper service:
+            //define in it the location of the Mapping profile we want using typeof()
+            //the mapping profile we created is in API Project -> Helper folder
+            services.AddAutoMapper(typeof(MappingProfiles));
         }
 
 
@@ -80,6 +92,8 @@ namespace API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseStaticFiles();
 
             app.UseAuthorization();
 
