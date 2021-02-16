@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.Errors;
+using API.Extensions;
 using API.Helper;
+using API.MiddleWare;
 using AutoMapper;
 using Core.Interfaces;
 using Infrastructure.Data;
@@ -47,26 +50,26 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
 
+
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
-            });
+            //bring the service written in the Extentions foldr -> ApplicationServicesExtensions class:
+            //(we wrote those services there to empty more space in here)
+            services.AddApplicationServices();
+
+            services.AddSwaggerDocumentation();
+
+
 
             //add the DbContext service, while using sqlite, with the configured connection string in appsettings.Development.json
             services.AddDbContext<StoreContext>(x => x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
-
-            //add the interfaces/implementations services:
-            //services.AddScoped<IProductRepository, ProductRepository>();
-            //that service is not used anymore since we are using the below IgenericRepository interface and its GenericRepository Implementation
-
-            //add the generic interface/implementation service:
-            services.AddScoped(  typeof(IGenericRepository<>) , (  typeof(GenericRepository<>)  ) );
 
             //add the AutoMapper service:
             //define in it the location of the Mapping profile we want using typeof()
             //the mapping profile we created is in API Project -> Helper folder
             services.AddAutoMapper(typeof(MappingProfiles));
+
+
+
         }
 
 
@@ -84,10 +87,20 @@ namespace API
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
+                //instead of using the following midleware for exception handling during development mode only,
+                //we will use the ExceptionMiddleWare class in the MiddleWare folder out of this if for development and production environment
+                //app.UseDeveloperExceptionPage();
+
+
+                //use the Swagger MiddleWare from the Extensions folder -> SwaggerServiceExtensions:
+                //(we wrote that MidlleWare there to empty more space in here)
+                app.UseSwaggerDocumentation();
             }
+            
+            //our created exception handler for development and production environment instead of the above app.UseDeveloperExceptionPage();
+            app.UseMiddleware<ExceptionMiddleWare>();
+
+            app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
             app.UseHttpsRedirection();
 

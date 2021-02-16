@@ -9,6 +9,8 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    //make swagger ignores this API and not to show this API in its webUI:
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
