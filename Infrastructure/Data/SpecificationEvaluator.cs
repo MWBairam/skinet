@@ -27,6 +27,20 @@ namespace Infrastructure.Data
             {
                 query = query.Where(ISpecification.Criteria);
             }
+
+
+            //this part is added for Sorting operations:
+            if(ISpecification.OrderBy != null)
+            {
+                query = query.OrderBy(ISpecification.OrderBy);
+            }
+            if(ISpecification.OrderByDescending != null)
+            {
+                query = query.OrderByDescending(ISpecification.OrderByDescending);
+            }
+
+
+
             //at last, aggregate the previously created .where with .Includes we want 
             query = ISpecification.Includes.Aggregate(      query    ,      (current, include) => current.Include(include)            );
             //example of the last result:

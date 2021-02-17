@@ -42,8 +42,12 @@ namespace API.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts()
+        public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts(string sort, int? brandId, int? typeId)
         {
+            //the int? means that the int can be null and it is completely optional to pass avalue to it or no !
+            //that because we may filter based on brand only or type only or both of them !
+
+
             //if we used ListAllAsync() function from the IGenericRepository:
             //return Ok(await _productsRepo.ListAllAsync());
             //it does not return the ProductType{Id, name} and ProductBrand{Id, name} of each product when quering the Products
@@ -52,7 +56,7 @@ namespace API.Controllers
 
             //now, we do not want to return all the attributes in the Core Project -> Entities folder -> Product class
             //we want to return the ones in the Dtos folder -> ProductToReturnDto only:
-            var products = await _productsRepo.ListAsync(new ProductsWithTypesAndBrandsSpecification());
+            var products = await _productsRepo.ListAsync(new ProductsWithTypesAndBrandsSpecification(sort, brandId,  typeId));
             // return products.Select(product => new ProductToReturnDto
             // {
             //     Id = product.Id,

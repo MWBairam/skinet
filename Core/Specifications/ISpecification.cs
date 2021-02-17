@@ -20,5 +20,15 @@ namespace Core.Specifications
 
          Expression<Func<T, bool>> Criteria {get; }
          List<Expression<Func<T, object>>> Includes {get; }
-    }
+
+
+
+
+
+
+         //also, another set of attributes used for "Products" sorting when we bring the list of products from the DB:
+         Expression<Func<T, object>> OrderBy {get; }
+         Expression<Func<T, object>> OrderByDescending {get; }
+
+     }
 }

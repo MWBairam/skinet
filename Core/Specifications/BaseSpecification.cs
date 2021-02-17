@@ -24,8 +24,10 @@ namespace Core.Specifications
 
 
 
+
+
         //we need also, not only to {get;} the value of the Criteria, but also to {set;} it.
-        //we can do that by writing above {get; set;} besides Criteria, but to set a value from another class, we will have to do BaseSpecification.Criteria = and we should write "Public" before Criteria as well
+        //we can do that by writing above {get; set;} besides Criteria, but to set a value from another class, we will have to take an instance of this class, do BaseSpecification.Criteria =, and we should write "Public" before Criteria as well
         //we will set its value using a constructor for this class, so when we call this class, we pass the value of the Criteria with it:
         public BaseSpecification(Expression<Func<T, bool>> spec_criteria)
         {
@@ -58,5 +60,27 @@ namespace Core.Specifications
         {
 
         }
+
+
+
+
+
+
+        //Implement the other attributes dedicted for "Products" sorting:
+        public Expression<Func<T, object>> OrderBy {get; private set;}
+        public Expression<Func<T, object>> OrderByDescending {get; private set;}
+        //we need also, not only to {get;} the value of the OrderBy, but also to {set;} it.
+        //we can do that by writing above {get; set;} besides OrderBy, but to set a value from another class, we will have to take an instance of this class, do BaseSpecification.OrderBy =, and we should write "Public" before OrderBy as well
+        //we will set its value using a protected function for this class, so when we call this class, we pass the value of the OrderBy with it:
+         protected void AddOrderBy(Expression<Func<T, object>> OrderByExpression)
+        {
+            OrderBy = OrderByExpression;
+        }
+        protected void AddOrderByDescending(Expression<Func<T, object>> OrderByDescendingExpression)
+        {
+            OrderByDescending = OrderByDescendingExpression;
+        }
+        //then the next step for sorting, we should add a query for that in the SpecificationEvaluator class in the Data folder in the Infrastrucutre project
+        
     }
 }
