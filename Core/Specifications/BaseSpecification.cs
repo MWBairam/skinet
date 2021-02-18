@@ -66,13 +66,17 @@ namespace Core.Specifications
 
 
 
+
+
+
+
         //Implement the other attributes dedicted for "Products" sorting:
         public Expression<Func<T, object>> OrderBy {get; private set;}
         public Expression<Func<T, object>> OrderByDescending {get; private set;}
         //we need also, not only to {get;} the value of the OrderBy, but also to {set;} it.
         //we can do that by writing above {get; set;} besides OrderBy, but to set a value from another class, we will have to take an instance of this class, do BaseSpecification.OrderBy =, and we should write "Public" before OrderBy as well
         //we will set its value using a protected function for this class, so when we call this class, we pass the value of the OrderBy with it:
-         protected void AddOrderBy(Expression<Func<T, object>> OrderByExpression)
+        protected void AddOrderBy(Expression<Func<T, object>> OrderByExpression)
         {
             OrderBy = OrderByExpression;
         }
@@ -81,6 +85,30 @@ namespace Core.Specifications
             OrderByDescending = OrderByDescendingExpression;
         }
         //then the next step for sorting, we should add a query for that in the SpecificationEvaluator class in the Data folder in the Infrastrucutre project
+        
+
+
+
+
+
+
+
+
+
+        //Implement the other attributes dedicted for "Products" pagination:
+        public int Take {get; private set;}
+        public int Skip {get; private set;}
+        public bool IsPagingEnabled {get; private set;}
+        //we need also, not only to {get;} the values of these, but also to {set;} them.
+        //we can do that by writing above {get; set;} besides each attribute, but to set a value from another class, we will have to take an instance of this class, do BaseSpecification.Take =, and we should write "Public" before Take as well
+        //we will set these attributes using a protected function for this class, so when we call this class, we pass the values of these with it:
+        protected void ApplyPaging(int skip, int take )
+        {
+            Take = take;
+            Skip = skip;
+            IsPagingEnabled = true; //this will be evaluated in the SpecificationEvaluator class in the Infrastructure project
+        }
+        //then the next step for paging, we should add a query for that in the SpecificationEvaluator class in the Data folder in the Infrastrucutre project
         
     }
 }

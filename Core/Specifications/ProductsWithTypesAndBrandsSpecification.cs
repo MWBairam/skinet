@@ -22,9 +22,17 @@ namespace Core.Specifications
         //the "Criteria" attribute was mainly built to have an expression such as x => x.Id when quering a specific product for example in the second constructor at the end of this file below
         //but since it is goingto be constructed in a .Where() lambda expression in the SpecificationEvaluator in Infrastructure project Data folder,
         //so we can use it as well to write an expression like: x => x.brandId and x => x.typeId or any one of these expressions alone
-        //so do that in the :base() part to pass the criteria we want
-        public ProductsWithTypesAndBrandsSpecification(string sort, int? brandId, int? typeId)
-        :base (x => (!brandId.HasValue || x.ProductBrandId == brandId) && (!typeId.HasValue || x.ProductTypeId == typeId))
+        //so do that in the :base() part to pass the criteria we want.
+        //and for search part as well.
+        //instead of:
+        //public ProductsWithTypesAndBrandsSpecification(string sort, int? brandId, int? typeId, .....)
+        //:base (x => (!brandId.HasValue || x.ProductBrandId == brandId) && (!typeId.HasValue || x.ProductTypeId == typeId))
+        //we created a class ProductSpecParams where we store the parameters related to GetProducts() function in the ProductController
+        //so use it here:
+        public ProductsWithTypesAndBrandsSpecification(ProductSpecParams ProductParams)
+        :base (x => (string.IsNullOrEmpty(ProductParams.Search) || x.Name.ToLower().Contains(ProductParams.Search)) 
+                 && (!ProductParams.TypeId.HasValue || x.ProductTypeId == ProductParams.TypeId)  //it means, if the typeId has a value, example TypeId=2, the !HasValue returns false, so implement what is on the left of "elsewhere ||" (easier way other than using if)
+                 && (!ProductParams.BrandId.HasValue || x.ProductBrandId == ProductParams.BrandId) )
         {
             //use the AddInclude function in the BaseSpecification class to add the following 2 lambda expressions in the "Includes" list of expressions
             AddInclude(x => x.ProductType);
@@ -35,9 +43,9 @@ namespace Core.Specifications
             //this is added to apply the sorting functionality
             //besides the above parameter string sort
             AddOrderBy(x => x.Name);
-            if(!string.IsNullOrEmpty(sort))
+            if(!string.IsNullOrEmpty(ProductParams.sort))
             {
-                switch(sort)
+                switch(ProductParams.sort)
                 {
                     case "priceAsc": AddOrderBy(x => x.Price);
                     break;
@@ -49,6 +57,14 @@ namespace Core.Specifications
                     break;
                 }
             }
+
+
+            //this is added to paginate the Products returned into pages (6 Products per page for example)
+            ApplyPaging(   ProductParams.PageSize * (ProductParams.PageIndex -1)  , ProductParams.PageSize);
+            //remember that ApplyPaging(skip, take) is in BaseSpecification class (ISpecification interface implementation)
+            //the -1 is requiered for the case of PageIndex = 1,
+            //if it was not exxisted, we will have skip=5 and take=5 so we will get nothing !
+            //with -1, and PageIndex=1, we will skip=0 and take=5
 
         }
 

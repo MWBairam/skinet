@@ -70,6 +70,16 @@ namespace API
 
 
 
+            //Configure CORS:
+            //enable (CORS))Cross origin Resource sharing support on our API so Angular developer can work on what we are returning from our API 
+            //so we send an appropriate header in our responses to our Anguler clients (API Consumers) 
+            //it is a mechanism that's used to tell browsers to give a web application running at one origin an access to selected resources from a different origin 
+            //,and for security reasons, browsers restrict cross origin  HTTP requests initiated from javascript. 
+            //So if we want to see our results coming back from the API in the browser then we're going to need to send back across origin resource sharing header to enable that to happen.
+            services.AddCors(opt => {opt.AddPolicy("CorsPolicy", policy => {policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");});});
+            //we specified the link where our angular client will be coming from
+            //and basically we are telling our client application if it is running on an unsecure port, we will not return a header that is going to allow the browser to display the returned data
+            //then add its middleware below 
         }
 
 
@@ -108,6 +118,8 @@ namespace API
 
             app.UseStaticFiles();
 
+            app.UseCors("CorsPolicy");
+            
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

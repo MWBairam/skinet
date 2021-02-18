@@ -9,6 +9,7 @@ using Core.Specifications;
 using API.Dtos;
 using System.Linq;
 using AutoMapper;
+using API.Helper;
 
 namespace API.Controllers
 {
@@ -41,10 +42,21 @@ namespace API.Controllers
         }
 
 
-        [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts(string sort, int? brandId, int? typeId)
-        {
-            //the int? means that the int can be null and it is completely optional to pass avalue to it or no !
+
+
+
+
+
+
+
+        //[HttpGet]
+        //public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts([FromQuery]ProductSpecParams ProductParams)
+        //{
+            //instead of writing GetProducts(string sort, int? brandId, int? typeId, int MaxPageSize, int PageIndex, int _PageSize, .....), we will write these parameters in a class ProductSpecParams in the Core project in the Specifications folder
+            //then use that class as the parameter in this GetProducts function
+            //and beside the class name, write [FromQuery] so that this class will check and set its attributes from the https request link (what we call it here query string)
+
+            //the int? in the ProductSpecParams class attributes means that the int can be null and it is completely optional to pass avalue to it or no !
             //that because we may filter based on brand only or type only or both of them !
 
 
@@ -56,7 +68,9 @@ namespace API.Controllers
 
             //now, we do not want to return all the attributes in the Core Project -> Entities folder -> Product class
             //we want to return the ones in the Dtos folder -> ProductToReturnDto only:
-            var products = await _productsRepo.ListAsync(new ProductsWithTypesAndBrandsSpecification(sort, brandId,  typeId));
+               //var products = await _productsRepo.ListAsync(new ProductsWithTypesAndBrandsSpecification(sort, brandId,  typeId));
+               //update this using the ProductSpecParams class:
+            //var products = await _productsRepo.ListAsync(new ProductsWithTypesAndBrandsSpecification(ProductParams));
             // return products.Select(product => new ProductToReturnDto
             // {
             //     Id = product.Id,
@@ -71,9 +85,33 @@ namespace API.Controllers
 
             //instead of doing the previous mapping manually, we will do it using the auto mapper:
             //we injected the Imapper interface (microsoft already defined interface) in the constructor:
-            return Ok(_mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(products));
+            //return Ok(_mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(products));
             //and change the return type above from Task<ActionResult<Product>> to Task<ActionResult<ProductToReturnDto>>
+        //}
+        //rewrite the above GetProducts function to get the paginated list of Products with the number of filtered products and PageIndex and Page Size
+        [HttpGet]
+        public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts([FromQuery]ProductSpecParams ProductParams)
+        {
+            var products = await _productsRepo.ListAsync(new ProductsWithTypesAndBrandsSpecification(ProductParams));
+
+            var count = await _productsRepo.CountAsync(new ProductWithFiltersForCountSpecification(ProductParams));  
+
+
+            var mappedData = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(products);
+            return Ok(new Pagination<ProductToReturnDto>(ProductParams.PageIndex, ProductParams.PageSize, count, mappedData));
+            //pagination is a class to hold paginated list of data with counting all filtered items
         }
+  
+
+
+
+
+
+
+
+
+
+
 
         //the id in the HttpGet because we have 2 HttpGet methods in this api, so the controller is not confused about what get should be useing when called !
         //sice we have 2 API Get functions, use in the terminal ">dotnet watch run" in order to run and test in postman, otherwise,
@@ -117,6 +155,11 @@ namespace API.Controllers
 
 
 
+
+
+
+
+
         //let us bring the Brands and Types from the same Repository we used:
         //add a route for this Get as "brands" so we can call it using https://localhost:5001/api/products/brands :
         [HttpGet("brands")]
@@ -124,6 +167,14 @@ namespace API.Controllers
         {
             return Ok(await _productBrandRepo.ListAllAsync());
         }
+
+
+
+
+
+
+
+
 
         //add a route for this Get as "types" https://localhost:5001/api/products/types :
         [HttpGet("types")]

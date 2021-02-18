@@ -44,5 +44,11 @@ namespace Core.Interfaces
         //but just let us stick with the lecturer names
 
 
+
+
+        //this is related to the Pagination class in the Helper folder:
+        Task<int> CountAsync(ISpecification<T> spec);
+
+
     }
 }

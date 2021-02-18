@@ -30,5 +30,16 @@ namespace Core.Specifications
          Expression<Func<T, object>> OrderBy {get; }
          Expression<Func<T, object>> OrderByDescending {get; }
 
+
+
+
+         //also, another set of attributes used for "Products" pagination:
+         int Take {get;}
+         int Skip {get;}
+         bool IsPagingEnabled {get;}
+         //so if we have 10 products in the DB, and we want to get these paginated, we set IsPagingaEnabled = true
+         //then, if we want to get the first 5 products in a page, we take=5 and skip=null 
+         //then to get the next 5 products, take=5 and skip=5 (skip first 5 products)
+
      }
 }

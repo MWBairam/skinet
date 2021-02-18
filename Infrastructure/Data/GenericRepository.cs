@@ -57,5 +57,17 @@ namespace Infrastructure.Data
             //to call it, we pass to it, our DBContext table a linq AsQueryable table, with the ISpecification (which has Criteria, Includes needed)
             return await SpecificationEvaluator<T>.GetQuery(_Context.Set<T>().AsQueryable(), ISpecification).ToListAsync();
         }
+
+
+
+
+
+
+        //this is related to the Pagination class in the Helper folder:
+        public async Task<int> CountAsync(ISpecification<T> ISpecification)
+        {
+            //count the number of result returned (using microsoft .CountAsync() function) (our function name is also CountAsync())
+            return await SpecificationEvaluator<T>.GetQuery(_Context.Set<T>().AsQueryable(), ISpecification).CountAsync();
+        }
     }
 }

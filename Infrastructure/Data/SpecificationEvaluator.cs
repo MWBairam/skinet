@@ -29,6 +29,8 @@ namespace Infrastructure.Data
             }
 
 
+
+
             //this part is added for Sorting operations:
             if(ISpecification.OrderBy != null)
             {
@@ -41,8 +43,22 @@ namespace Infrastructure.Data
 
 
 
+
+            //this part is added for pagination purposes:
+            if(ISpecification.IsPagingEnabled)
+            {
+                query = query.Skip(ISpecification.Skip).Take(ISpecification.Take);
+                //Skip() and Take() are microsoft defined functions
+                //so if we have 10 products in the DB, and we want to get these paginated, we set IsPagingaEnabled = true
+                //then, if we want to get the first 5 products in a page, we take=5 and skip=null 
+                //then to get the next 5 products, take=5 and skip=5 (skip first 5 products)
+            }
+
+
+
+
             //at last, aggregate the previously created .where with .Includes we want 
-            query = ISpecification.Includes.Aggregate(      query    ,      (current, include) => current.Include(include)            );
+            query = ISpecification.Includes.Aggregate(      query    ,      (current, include) => current.Include(include)       );
             //example of the last result:
             // _Context.Products.where(p => p.Id == id).Include(p => ProductType).Include(ProductBrand)
             //supposing that we passed _Context.Products to inputquery when we called this function in the GenericRepository functions
