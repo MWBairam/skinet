@@ -1,13 +1,8 @@
 <app-nav-bar></app-nav-bar>
 
 <div class="container" style="margin-top: 140px;">
-    <h1>Welcome to {{title}}!</h1>
-
-    <ul>
-        <li class="list-unstyled" *ngFor="let item of products">
-            {{item.name}}
-        </li>
-    </ul>
-    <!-- *ngFor is like a forEach loop, products is the array in the app.component.ts-->
-
+    <!--<h1>Welcome to {{title}}!</h1>-->
+    
+    <!-- display the products list -->
+    <app-shop></app-shop>
 </div>
