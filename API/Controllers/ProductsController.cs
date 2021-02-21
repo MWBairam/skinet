@@ -10,11 +10,13 @@ using API.Dtos;
 using System.Linq;
 using AutoMapper;
 using API.Helper;
+using Microsoft.AspNetCore.Cors;
 
 namespace API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+
     //with the above route, we will be calling the api as https://localhost:5001/api/products where products is the controller name
     public class ProductsController : ControllerBase
     {

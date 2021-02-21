@@ -50,24 +50,25 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
 
-
-            services.AddControllers();
-            //bring the service written in the Extentions foldr -> ApplicationServicesExtensions class:
-            //(we wrote those services there to empty more space in here)
-            services.AddApplicationServices();
-
-            services.AddSwaggerDocumentation();
-
-
-
-            //add the DbContext service, while using sqlite, with the configured connection string in appsettings.Development.json
-            services.AddDbContext<StoreContext>(x => x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
-
             //add the AutoMapper service:
             //define in it the location of the Mapping profile we want using typeof()
             //the mapping profile we created is in API Project -> Helper folder
             services.AddAutoMapper(typeof(MappingProfiles));
 
+
+            services.AddControllers();
+            
+            
+            //add the DbContext service, while using sqlite, with the configured connection string in appsettings.Development.json
+            services.AddDbContext<StoreContext>(x => x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
+
+
+            //bring the service written in the Extentions foldr -> ApplicationServicesExtensions class:
+            //(we wrote those services there to empty more space in here)
+            services.AddApplicationServices();
+
+
+            services.AddSwaggerDocumentation();
 
 
             //Configure CORS:
