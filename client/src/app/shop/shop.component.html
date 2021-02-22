@@ -3,10 +3,17 @@
         <!-- Side lists -->
         <section class="col-3">
             <h5 class="tex-warning ml3">Sort</h5>
-            <select class="custom-select mb-3">
-                <option>Alphabetical</option>
-                <option>Price: Low To High</option>
-                <option>Price: Hight to low</option>
+            <select class="custom-select mb-3" (change)="OnSortSelected($event.target.value)">
+                <option *ngFor="let item of sortOptions"
+                        [value]="item.value"
+                >
+                {{item.name}}
+            </option>
+            <!-- give the entire select list a change event, so when its selected option changes, call the OnSortSelected function to bring the new sorted list -->
+            <!-- $event.target.value will read the selected value-->
+            <!-- *ngFor is a for each loop to loop on the available sort options written in the sortOptions in shop.component.ts to generate for each one an <option> tag-->
+            <!-- the value in item.value came from the value field in the sortOptions in shop.component.ts -->
+            <!-- the name in item.name came from the name field in the sortOptions in shop.component.ts -->
             </select>
             <h5 class="text-warning ml-3">Brands</h5>
             <ul class="list-group my-3"> <!-- my is margin on y axis -->
@@ -23,6 +30,7 @@
                 <!-- we are not using a child/parent components concept like how we did it in products below -->
                 <!-- the expression [class.active]="item.id === this.brandIdSelected" means, give this <li> the class="active" (which will highlight it with blue color) if the item.id eequals the brandIdSelected in the shop.component.ts-->
                 <!-- give this <li> a click event, so once clicked, call the function OnBrandSelected from the shop.component.ts to bring a list of products filtered on this item (barnd) Id-->
+                <!-- the id in item.id came from the "brand" model in the models folder-->
             </ul>
             <h5 class="text-warning ml-3">Types</h5>
             <ul class="list-group my-3">

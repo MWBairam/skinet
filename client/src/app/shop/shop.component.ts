@@ -21,6 +21,17 @@ export class ShopComponent implements OnInit
   //the following will be used when we get a filtered list of products according to brandId and typeId:
   brandIdSelected: number = 0; //initial value of 0 
   typeIdSelected: number = 0; //initial value of 0 
+  //the following will be used when we get a sorted list of products:
+  sortSelected: string = 'name'; //initial value of 'name'
+  sortOptions = 
+  [
+   {name: 'Alphabetical', value:'name'},
+   {name: 'Price: Low to High', value:'priceAsc'},
+   {name: 'Price: High to Low', value:'priceDesc'}
+  ];
+  //it is an arry
+  //the name field what we display on the HTML webPage, and the value field is what we want to append to the https request link
+
 
  
 
@@ -55,9 +66,9 @@ export class ShopComponent implements OnInit
     //once this component is initialized, bring the list of products, brnads and types:
     //1-products:
     //the getProducts() will be called once this component is instantiated,
-    //with the above brandIdSelected = 0 & typeIdSelected =0
-    //which means pass to the .shopService.getProducts(0, 0)  
-    //then in the shop.service.ts, we wrote if(brandId), so it brandId =0 we will have if(0) and the brandId=xx will not be added to the https request !
+    //with the above brandIdSelected = 0 & typeIdSelected =0 (and sortSelected = name)
+    //which means pass to the .shopService.getProducts(0, 0, name)  
+    //then in the shop.service.ts, we wrote if(brandId), so it brandId =0 we will have if(0) (which means false) and the 'brandId=xx' will not be added to the https request !
     //someone will ask, what if I want to query the brandId=0 & typeId=0 ?
     //the answer is, in the sql DB, we started the entries from Id=1 in the tables,
     //so indeed ther is no productId=0 and no brandId=0 and no typeId=0 !! just for this moment 
@@ -74,7 +85,7 @@ export class ShopComponent implements OnInit
   {
     //pass the above brandIdSelected and typeIdSelected to the service method:
     //those properties, brandIdSelected and typeIdSelected, has setters below, and called once an <li></li> element of a brand or type is clicked
-    this.shopService.getProducts(this.brandIdSelected, this.typeIdSelected).subscribe
+    this.shopService.getProducts(this.brandIdSelected, this.typeIdSelected, this.sortSelected).subscribe
     (
       response => {console.log(response); this.products = response.data;},
       error => {console.log(error)}
@@ -121,6 +132,15 @@ export class ShopComponent implements OnInit
     this.typeIdSelected = clickedTypeId;
     //now the above typeIdSelected has been set to the brandId which the user clicked on
     //now call the above getProducts() function which uses this typeIdSelected
+    this.getProducts();
+  }
+
+  //d-methods which will be called only and only once the select list of sort type (in the shop.component.html) value is changed: 
+  OnSortSelected(clickedSortType: string)
+  {
+    this.sortSelected = clickedSortType;
+    //now the above sortSelected has been set to the clicked Sort Type which the user clicked on
+    //now call the above getProducts() function which uses this clickedSortType
     this.getProducts();
   }
 

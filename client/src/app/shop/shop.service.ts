@@ -25,7 +25,7 @@ export class ShopService
 
 
   //3-methods:
-  getProducts(brandId? : number, typeId? : number)
+  getProducts(brandId? : number, typeId? : number, sort?: string)
   {
     //1-to return the list of products without considering the brabdId or typeId:
     //    return this.http.get<IPagination>(this.baseurl + 'products');
@@ -39,6 +39,10 @@ export class ShopService
     //if we passed a value to brandId and/or typeId, so embed the ?brandId=xx&typeId=yy 
     //the final link in the .get will be for example: https://localhost:5001/api/products?typeId=3&brandId=2 
     //and if the brandId and typeId are nukk, the link keeps being: https://localhost:5001/api/products
+
+    //same explanation for the sort to add to the https request &sort=priceAsc for example
+
+
     let params = new HttpParams();
     //in C#, when initialize a new object, we write: "var obj = new className();"" or "className obj = new className();"
     //here it is the same concept, but at first we write "let" or "const"
@@ -52,9 +56,13 @@ export class ShopService
     {
       params = params.append('typeId', typeId.toString());
     }
-    //now return the list of filtered products according to a brandId and/or typeId:
+    if(sort)
+    {
+      params = params.append('sort', sort); //sort=name or priceAsc or priceDesc
+    }
+    //now return the list of filtered products according to a brandId and/or typeId (and sorted as well):
     //   return this.http.get<IPagination>(this.baseurl + 'products', {observe: 'response', params});
-    //the {observe: 'response', params} part will add the ?brandId=xx&typeId=yy to the https request https://localhost:5001/api/products
+    //the {observe: 'response', params} part will add the,for example, ?brandId=2&typeId=3&sort=priceAsc to the https request https://localhost:5001/api/products
   
     //indeed, when we used the "observe:", the returned value will not be of type "IPagination",
     //and we will not be able to use .subscribe in the shop.component.ts to extraxt the "data" variable of the returned "IPagination" object
