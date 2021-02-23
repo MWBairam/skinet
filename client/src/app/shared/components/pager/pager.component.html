@@ -1,0 +1,47 @@
+<!--  
+//if we want to write the html code of this pager in shop.component.html, we will write this: 
+
+<pagination 
+[boundaryLinks]="true" 
+[totalItems]="this.totalCount"
+
+(pageChanged)="onPageChanged($event)"
+[itemsPerPage]="this.shopParams.pageSize"
+
+previousText="&lsaquo;" 
+nextText="&rsaquo;" 
+firstText="&laquo;" 
+lastText="&raquo;">
+</pagination>
+
+// this pagination html tag is from ngx-bootstrap library imported in shared.module.ts which is imported in shop.module.ts
+// assign pageChanged event which is designed by ngx-bootstrap, and happens when the user click on a page number or next or previous or ... 
+// set the value of items per page to the pageSize we have in the shopParams in the shop.component.ts 
+// the total amount of items to be paginated also set it from the totalcount the shop.component.ts 
+-->
+
+
+
+
+
+
+
+
+<!-- but we will use this pagination-header.component.html in shop.component.html, so we will write the following here:-->
+<pagination 
+[boundaryLinks]="true" 
+[totalItems]="this.totalCount"
+
+(pageChanged)="onPagerchange($event)"
+[itemsPerPage]="this.pageSize"
+
+previousText="&lsaquo;" 
+nextText="&rsaquo;" 
+firstText="&laquo;" 
+lastText="&raquo;"
+>
+</pagination>
+<!-- we are not using the function onPageChanged in shop.component.ts directly,
+we are using here the onPagerChange in the pager.component.ts 
+-->
+

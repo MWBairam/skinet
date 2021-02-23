@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ShopComponent } from './shop.component';
 import { ProductItemComponent } from './product-item/product-item.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -9,7 +10,10 @@ import { ProductItemComponent } from './product-item/product-item.component';
   declarations: [ShopComponent, ProductItemComponent],
   imports: [
     //each module by default imports the CommonModule which provide the common functionalities like variables, loops, ....
-    CommonModule
+    CommonModule,
+    //import the shared.module.ts from the shared folder we created before
+    //so that we can use all ngx-bootstrap imports there in here, like the PaginationModule:
+    SharedModule
   ],
   //add this export part, so that we can use the declared ShopComponent from everywhere:
   //what I mean is in any .html file, we can add the component using its selector <app-shop></app-shop>

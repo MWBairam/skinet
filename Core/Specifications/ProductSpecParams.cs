@@ -27,11 +27,11 @@ namespace Core.Specifications
         //a-we will consider by default at the begininng that the page Index is 1 (the first one)
         public int PageIndex {get; set;} = 1;
    
-        //b-we will consider the number of products returned within a page is 6
+        //b-we will consider the number of products returned within a page is 6 or ...
         //so _PageSize = PageSize
         //but will allow the client angular side to request more thatn that
         //but if requested more than the MaxPageSize, we will return only 50 products for a page
-        private int _PageSize {get; set;} = 6;
+        private int _PageSize {get; set;} = 9;
         private const int MaxPageSize = 50;
         public int PageSize 
         {

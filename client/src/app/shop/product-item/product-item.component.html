@@ -1,7 +1,7 @@
 <!-- here we will use the [product] passed to here from the shop.component.html where this product-item is used-->
 
 <div class="card h-100 shadow-sm"> <!-- h-100 will ensure if we have cards with different sizes, those will be re-sized to the same size in the same row-->
-  <img src="{{product.pictureUrl}}" alt="{{product.name}}" class="img-fluid bg-info"> <!-- img-fluid so that images are not stretched to down too much, bg-info to highlight image area, -->
+  <img src="{{product.pictureUrl}}" alt="{{product.name}}" class="img-fluid bg-info"> <!-- img-fluid so that images are not stretched to down too much, bg-info to highlight image area https://getbootstrap.com/docs/4.0/utilities/colors/, -->
   <div class="card-body d-flex flex-column">
     <a href="#"><h6 class="text-uppercase">{{product.name}}</h6></a>
     <span class="mb-2">{{product.price | currency}}</span> <!-- the pipe used here | allow us to reformat the text to what we want, cuurency in here-->

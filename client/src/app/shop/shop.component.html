@@ -19,7 +19,7 @@
             <ul class="list-group my-3"> <!-- my is margin on y axis -->
                 <li class="list-group-item" 
                     *ngFor="let item of brands"
-                    [class.active]="item.id === this.brandIdSelected"
+                    [class.active]="item.id === this.shopParams.brandId"
                     [value]="item.id"
                     (click)="OnBrandSelected(item.id)"
                 >
@@ -28,7 +28,8 @@
                 <!-- *ngFor is like a forEach loop, so for each item in the brands list, generate an <li> -->
                 <!-- brands is the property from  shop.component.ts-->
                 <!-- we are not using a child/parent components concept like how we did it in products below -->
-                <!-- the expression [class.active]="item.id === this.brandIdSelected" means, give this <li> the class="active" (which will highlight it with blue color) if the item.id eequals the brandIdSelected in the shop.component.ts-->
+                <!-- the expression [class.active]="item.id === this..shopParams.brandId" means, give this <li> the class="active" (which will highlight it with blue color) if the item.id eequals the .shopParams.brandId in the shop.component.ts-->
+                <!-- by default, active class will highlight using blue color, but I overrided that in shop.component.scss -->
                 <!-- give this <li> a click event, so once clicked, call the function OnBrandSelected from the shop.component.ts to bring a list of products filtered on this item (barnd) Id-->
                 <!-- the id in item.id came from the "brand" model in the models folder-->
             </ul>
@@ -36,7 +37,7 @@
             <ul class="list-group my-3">
                 <li class="list-group-item" 
                     *ngFor="let item of types"
-                    [class.active]="item.id === this.typeIdSelected"
+                    [class.active]="item.id === this.shopParams.typeId"
                     [value]="item.id"
                     (click)="OnTypeSelected(item.id)"                   
                 >
@@ -47,13 +48,27 @@
         </section>
         <section class="col-9">
             <div class="d-flex justify-content-between align-items-center pb-2">
-                <!-- Header os number of results -->
-                <header><span>Showing <strong>10</strong> of <strong>16</strong> Results</span></header>
+                <!-- Header of number of results -->
+                <app-paging-header
+                [totalCount]="this.totalCount"
+                [pageSize]="this.shopParams.pageSize"
+                [pageNumber]="this.shopParams.pageNumber"
+                >
+                <!-- it is component in the shared folder -> components folder, called paging-header-->
+                <!-- call it using its selector app-paging-header -->
+                <!-- the parameters inside [] are from the paging-heder.component.ts in shared\components folder-->
+                <!-- the parametrs on the right with "this" arefrom the shop.component.ts -->
+                <!-- like this way, we passed the values from the parent component shop.component.ts to the child component paging-header.component.ts which will pass them to paging-header.component.html-->
+                </app-paging-header>
+
                 <!-- Search box-->
                 <div class="form-inline mt-2">
-                    <input class="form-control mr-2" style="width: 300px" placeholder="Search" type="text">
-                    <button class="btn btn-outline-primary my-2">Search</button>
-                    <button class="btn btn-outline-success ml-2 my-2">Reset</button>
+                    <!-- we will not use Angular Forms here, we will use something different -->
+                    <!-- add "template refrence variable" to this input, using the #, and call it search -->
+                    <input (keyup.enter)="onSearch()" class="form-control mr-2" #search style="width: 300px" placeholder="Search" type="text">
+                    <button (click)="onSearch()" class="btn btn-outline-primary my-2">Search</button>
+                    <button (click)="onReset()" class="btn btn-outline-success ml-2 my-2">Reset</button>
+                    <!-- to search, we can click on search button, or press enter (keyup event) and the onSearch method will be called-->
                 </div>    
             </div>
             <!-- products -->
@@ -66,6 +81,26 @@
                 <!-- products is the property from  shop.component.ts -->
                 <!-- and that is how we linked and passed the data from the parent (shop.component.ts)-> child component (product-item.component.ts)-->
                 <!-- https://zeroesandones.medium.com/how-to-pass-data-from-parent-to-child-component-in-angular-9-dc7a0a64256c-->
+            </div>
+            <!-- Pages numbers, next and back buttons -->
+            <div class="d-flex justify-content-center" *ngIf="totalCount > 0"> <!-- those classes and div to center this pagination part--> <!-- when the filter returns 0 product, hide the pagination area -->
+                <app-pager
+                [pageSize]="this.shopParams.pageSize"
+                [totalCount]="this.totalCount"
+                (pageChanged)="onPageChanged($event)"
+                >
+                </app-pager>
+                <!-- the pagination html code is written in pager.component.html in shared/components folder -->
+                <!-- we caledd that component using its selector app-pager -->
+                <!-- inside that component, we used a pagination html tag which is from ngx-bootstrap library imported in shared.module.ts which is imported in shop.module.ts-->
+                <!-- assign pageChanged event which is designed by ngx-bootstrap, and happens when the user click on a page number or next or previous or ... -->
+                <!-- once this event is triggered, 
+                    there should be an interaction between:
+                    onPageChanged method in here in shop.component.ts,
+                    tonPagerChange method in pager.component.ts,
+                    but I did not understand how !!-->
+                <!-- what is inside [] is in pager.component.ts in shared/components folder -->
+                <!-- the parameters with "this" are in shop.component.ts -->
             </div>
         </section>
     </div>
