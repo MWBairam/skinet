@@ -10,3 +10,30 @@
     top: -12px;
     right: 32px;
 }
+
+
+a {
+    text-decoration: none; //to disable the underline
+    color: #343a40;
+
+    //we want to add a sub style class for tha <a>, and instead of writing:
+    //a .active {} out of this class like how we used to do it in CSS, we can write "&.active{}" inside here, which a good feature from scss  
+    &.active{ 
+        color: orange;
+    }
+}
+
+
+.logo{
+    //this class i applied on the <img> tag where we inserted our logo image 
+    
+    //make the mouse looks like a pointer when we hover over the logo !
+    cursor: pointer;
+    
+    //when the logo is clicked, a border appears around it ! we want to cancel it,
+    //so overrid the "focus" bootstrap class:
+    //use &:focus not &.focus 
+    &:focus{
+        outline: none;
+    }
+}

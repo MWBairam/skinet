@@ -1,1 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+
+//I should add these in the angular.json in the styles part,
+//but the angular app did not read them from there, so I added them here in Styles.scss 
+//and the styles.scss is imported in angular.json by default
+
+//toastr erro notification support, used is core folder -> interceptors -> error.interceptor.ts
+@import url('../node_modules/ngx-toastr/toastr.css');
+//font awesome icons 
+@import url('../node_modules/font-awesome/css/font-awesome.min.css');

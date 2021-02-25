@@ -5,6 +5,7 @@ import { IPagination } from '../shared/models/pagination';
 import { IType } from '../shared/models/productType';
 import { map } from 'rxjs/operators';
 import { shopParams } from '../shared/models/shopParams';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,9 @@ import { shopParams } from '../shared/models/shopParams';
 export class ShopService
 {
   //1-properties:
-  baseurl = 'https://localhost:5001/api/'
+  //baseurl = 'https://localhost:5001/api/'
+  //or bring the url from the environments folder ->environment.ts (environmetn.prod.ts for production)
+  baseurl = environment.apiUrl;
 
 
   //2-constructor:
@@ -108,5 +111,13 @@ export class ShopService
   getTypes()
   {
     return this.http.get<IType[]>(this.baseurl + 'products/types');
+  }
+
+
+
+  //get product by its id:
+  getProduct(id: number)
+  {
+    return this.http.get<IProduct>(this.baseurl + 'products/' + id)
   }
 }

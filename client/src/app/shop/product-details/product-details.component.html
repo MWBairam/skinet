@@ -1,0 +1,31 @@
+<div class="row" *ngIf="product">
+    <!-- "product" is the property from the product-details-component.ts-->
+    <!-- without the "if", the angular web page will load first producing an error saying that "product" is empty, then
+         the "product" will be filled with data from the method loadProduct, then
+         the "product" will be displayed here. but anyway, we got an error while loading the product details !
+         so to avoid that, while loading the angular web page, check if "product" not empty,
+         at first, it is empty, so will not be displayed here,
+         then after the loadFunction fill it with data, the condition above will be true, so the "product" is displayed !
+    -->
+    <div class="col-6">
+        <img src="{{product.pictureUrl}}" alt="{{product.name}}" class="img-fluid w-100">
+    </div>
+    <div class="col-6">
+        <h3>{{product.name}}</h3>
+        <p>{{product.price | currency}}</p> <!-- | is a pipe, and "currency" will reformat the value here to be a currency value and by default wil use dollar sign-->
+        <div class="d-flex justify-content-start align-items-center">
+            <img src="assets/images/plus.png" alt="increase" class="mr-2" style="max-height: 30px; cursor: pointer; font-size: 2em;">
+            <span class="font-weight-bold" style="font-size: 1.5em;">2</span>
+            <img src="assets/images/minus.png" alt="decrease" class="mx-2" style="max-height: 30px; cursor: pointer; font-size: 2em;"> <!-- mx is margin from left and right -->
+            <button class="btn btn-outline-secondary btn-lg ml-4">Add to cart</button>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-12 ml-3">
+            <h4>Description</h4>
+            <p>{{product.description}}</p>
+        </div>
+    </div>
+</div>
+
+

@@ -4,5 +4,11 @@
     <!--<h1>Welcome to {{title}}!</h1>-->
     
     <!-- display the products list -->
-    <app-shop></app-shop>
+    <!-- <app-shop></app-shop> --> 
+    <!-- or display the home page -->
+    <!-- <app-home></app-home> -->
+    
+    <!-- we will not use the above way of coures, we will use the our routes identified in app-routing.module.ts with the angular router-->
+    <router-outlet></router-outlet>
+    <!-- this will call a specific component using its selector according to the link navigated in the browser and the routes in app-routing.module.ts -->
 </div>

@@ -16,7 +16,8 @@ namespace API.MiddleWare
     //     app.UseDeveloperExceptionPage();
     //}
     //will be used as the MiddleWare which throws the exceptions whether we are in development mode, or production mode
-    //and in the shape we want !
+    //and in the shape we want which was designed in Errors folder !
+    //we will use try and catch as below 
 
     public class ExceptionMiddleWare
     {

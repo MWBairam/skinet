@@ -1,0 +1,16 @@
+<!-- add buttons with click events to call functions in test-error.component.ts to recieve errors for testing -->
+<div class="container mt-5">
+    <button (click)="get404Error()" class="btn btn-outline-primary mr-3">Test 404 Error</button>
+    <button (click)="get500Error()" class="btn btn-outline-primary mr-3">Test 500 Error</button>
+    <button (click)="get400Error()" class="btn btn-outline-primary mr-3">Test 400 Error</button>
+    <button (click)="get400ValidationError()" class="btn btn-outline-primary mr-3">Test 400 Validation Error</button>
+</div>
+
+<!-- 400 validation-based error  -->
+<!-- to test it, in the test-error.component.ts, getget400ValidatioError(), we logged the the validation array (errors) in the test-errors.component.ts to the conole, and displayed it in test-errors.component.ts without redirecting it (using a routerLink route to any other page when we click on the test button of validatio error there) -->
+<!-- for real life, we throw this errors arry using the error.interceptor.ts in interceptors folder  -->
+<div class="row mt-5" *ngIf="validationErrors"> <!-- if ValidationError in the test-error.component.ts in get400ValidatioErrors() function got filled -->
+    <ul class="text-danger">
+    <li *ngFor="let error of validationErrors">{{error}}</li>
+    </ul>
+</div>

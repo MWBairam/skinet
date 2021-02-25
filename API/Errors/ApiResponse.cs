@@ -1,9 +1,18 @@
+//in this class we will build a consistent (unified) error response for the errors we presented in Controllers\BuggyController
+
+//for testing purposes, use this response in the Controllers\ByggyController to retrun it one NotFOund() and BadRequest() errors are generated !
+
+//for the real world purposes, use this error format in the MiddleWare folder -> ExceptionMiddleWare,
+//so our application will return the below format of errors.
+
+
+
+
+
 using System;
 
 namespace API.Errors
 {
-    //in this class we will build a consistent (unified) error response for the errors we presented in Controllers\BuggyController
-    //use this response in the Controllers\ByggyController to retrun it one NotFOund() and BadRequest() errors are generated !
     public class ApiResponse
     {
         //Attributes:

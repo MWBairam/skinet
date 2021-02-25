@@ -1,6 +1,8 @@
 namespace API.Errors
 {
-    //this class is exactly as same as the ApiResponse
+    //read first the note in the top of the ApiResponse class
+    
+    //this class is exactly as same as the ApiResponse, so it is considered an expansion for it
     //this class will be used to re-shape the "server error" exception
     //it inherits the ApiResponse class
     //the only new thing in it and not existed in the ApiResponse is the "Details" 

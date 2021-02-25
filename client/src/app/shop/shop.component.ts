@@ -186,7 +186,7 @@ export class ShopComponent implements OnInit
     this.shopParams.pageNumber = clickedPage.page;
     this.getProducts();
   }
-  //f-2 methods to deal with the search texbox input html element and reset button in shop.component.html:
+  //f-two methods to deal with the search texbox input html element and reset button in shop.component.html:
   onSearch()
   {
     //get the value from the search texbox input html element, and set it to the above searchTerm
@@ -203,6 +203,7 @@ export class ShopComponent implements OnInit
     //now again get the list of products:
     this.getProducts();
   }
+
 
 
 

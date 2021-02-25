@@ -1,10 +1,18 @@
 
 <div class="d-flex flex-column flex-md-row align-items-center justify-content-between p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm fixed-top">
-  <img src="/assets/images/logo.png" style="max-height: 70px;" alt="logo">
+  <img src="/assets/images/logo.png" style="max-height: 70px;" class="logo" alt="logo" routerLink="/">
+  <!-- the class="logo" is in the nav-bar.component.scss-->
   <nav class="my-2 my-md-0 mr-md-3 text-uppercase" style="font-size: larger;">
-    <a class="p-2 text-dark" href="#">Home</a>
-    <a class="p-2 text-dark" href="#">Shop</a>
+    <a class="p-2" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+    <a class="p-2" routerLink="/shop" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Shop</a>
+    <!-- routerLink is to go to https://localhost:4200/ to open the home.component.html, and this uses the routes in app-routing.component.ts-->
+    <!-- we can write [router-link]="['/']" or router-link="/" to take us to the hompe page-->
+    <!-- apply the bootstrap class active when this link is clicked-->
+    <!-- in nav-bar.component.scss there are style for the <a> element in activa and not active state -->
+    <!-- without [routerLinkActiveOptions]="{exact: true} the <a> will keep having the class "active" applied for ever once it is clicked, so apply the routerLinkActive only when we are in the page of the exactl link  -->
     <a class="p-2 text-dark" href="#">Contact</a>
+    <a class="p-2 text-dark" routerLink="/test-errors">Errors</a>
+    <!-- this button is to take us to the test-errors component which is for testing-->
   </nav>
   <div class="d-flex align-items-center">
     <a class="position-relative">
