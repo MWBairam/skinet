@@ -11,12 +11,17 @@ import { ShopComponent } from './shop/shop.component';
 //a const to hold the routes we have for different web pages we have:
 const routes: Routes = [
   //the order of routes here is importent !
-  //spcifically for the last route which is a wildcard for any invalid link to redirect you to home page !
+  //spcifically for the last route which is a wildcard for any invalid link to redirect you to home page or not-found page !
+
+  //in all of the routes below, we add a data property which is used by the breadcrumb functionality !
+  //breadcrumb is the page location where the user is at !
+  //for example: Home/Library/Data 
+  //and we added the breadcrumb in the app/core/section-header/ component 
 
   
   
   //add a route to the "home" page (module/component) when the user request https://localhost:4200 only without adding anything else
-  {path: '', component: HomeComponent}, //the '' means nothing after https://localhost:4200 
+  {path: '', component: HomeComponent, data: {breadcrumb: 'Home'}}, //the '' means nothing after https://localhost:4200 
   
 
 
@@ -31,25 +36,27 @@ const routes: Routes = [
   //so load the shop.module.ts & shop.component.ts once the user clickes on the shop button in the navbar !
   //this is called lazyLoading !
   //then in here, we will write the following to say that there are routes in the shop.module.ts:
-  {path: 'shop', loadChildren: () => import('./shop/shop.module').then(mod =>mod.ShopModule)},
+  {path: 'shop', loadChildren: () => import('./shop/shop.module').then(mod =>mod.ShopModule), data: {breadcrumb: 'Shop'}},
+  //another breadcrumb configuration is done in teh shop-routing.module.ts as well !
 
 
   
 
   //the following link is for the test-errors component in core folder:
-  {path: 'test-errors', component: TestErrorsComponent},
+  {path: 'test-errors', component: TestErrorsComponent, data: {breadcrumb: 'test-errors'}},
 
 
 
   //the following paths will be used to redirect users to the not-found or server-error components where we display and handle the 404 and 500 errors:
   //to catch an error somewhere, we will use what we call it "HttpInterceptor" which is same as the try and catch in C#
   //so we can intercept the https responses coming from the api and check if those contain any error 
-  {path: 'not-found', component: NotFoundComponent},
+  {path: 'not-found', component: NotFoundComponent, data: {breadcrumb: 'not-found'}},
   {path: 'server-error', component: ServerErrorComponent},
 
 
   //if any other link (**) requested other than the above, redirect to https://loclahost:4200 with adding nothing to the link, which means to the home route above 
-  {path: '**', redirectTo: '', pathMatch:'full'}
+  //or we can redirect it to the not-found.component.html 
+  {path: '**', redirectTo: 'not-found', pathMatch:'full'}
 
 
 

@@ -117,7 +117,7 @@ export class ShopComponent implements OnInit
       response => {console.log(response); this.products = response.data; this.shopParams.pageNumber = response.pageIndex; this.shopParams.pageSize = response.pageSize; this.totalCount = response.count},
       error => {console.log(error)}
     );
-    //the getProducts in shop.service.ts is a http.get methode which retruns an observables
+    //the getProducts in shop.service.ts is a http.get methode which retruns an observable
     //we should subscribe to our returned observables in order to take out its value using .subscribe()
 
     //after getting the response from the api, assign the value to a var called "response" 

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { BreadcrumbService } from 'xng-breadcrumb';
 import { ShopService } from '../shop.service';
 
 @Component({
@@ -17,7 +18,15 @@ export class ProductDetailsComponent implements OnInit
   //2-constructor:
   //inject the shopService where all of our ".get https responses" methods are there.
   //also, inject the activeRoute service, which is used to extract the current route (url). to know why we need it? read the below notes.
-  constructor(private shopService: ShopService, private activedRoute: ActivatedRoute) { }
+  //also:
+  //we used what we call it the "breadcrumb" which is the page location where the user is at !
+  //for example: Home/Library/Data 
+  //and we added the breadcrumb in the app/core/section-header/ component so we can show it in the section-header !
+  //so, in shop-routing.module.ts, we added to the route a data property to be used by the breadcrumb:
+  //{path: ':id', component: ProductDetailsComponent, data: {breadcrumb: {alias: 'ProductDetaisl'} }}
+  //we added in it an alias, whcih is going to be replaced with the product name in below loadProduct method.
+  //we need for that to inject the Breadcrumb service.
+  constructor(private shopService: ShopService, private activedRoute: ActivatedRoute, private breadcrumbService: BreadcrumbService) { }
 
 
   //3-methods:
@@ -46,7 +55,9 @@ export class ProductDetailsComponent implements OnInit
     this.shopService.getProduct(SelectedproductId)
     .subscribe
     (
-      response => {console.log(response); this.product = response;},
+      response => {console.log(response); this.product = response; this.breadcrumbService.set('@ProductDetails', this.product.name)},  
+      //to understand this breadcrumb part, read notes above in the constructor.
+      //we accessed the alias ProductDetails using the @ and replaced it with the product name !
       error => {console.log(error)}
     );
     

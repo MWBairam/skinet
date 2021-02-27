@@ -15,8 +15,14 @@ const routes: Routes = [
   {path: 'shop/:id', component:ProductDetailsComponent}
   */
   //but we will write them here, and in app-routing.module.ts we will say to load routes from this child routing module.
-  {path: '', component: ShopComponent}, 
-  {path: ':id', component: ProductDetailsComponent}
+
+  //also:
+  //in all of the routes below, we add a data property which is used by the breadcrumb functionality !
+  //breadcrumb is the page location where the user is at !
+  //for example: Home/Library/Data 
+  //and we added the breadcrumb in the app/core/section-header/ component 
+  {path: '', component: ShopComponent},  //no need to add a breadcrumb data property here, it is gotten from the route in the app-routing.module.ts
+  {path: ':id', component: ProductDetailsComponent, data: {breadcrumb: {alias: 'ProductDetails'} }} //we created an alias, so we can use it in the product-details.component.ts to replace it from there with the product Name !
 ]
 
 

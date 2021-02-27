@@ -8,3 +8,26 @@
 @import url('../node_modules/ngx-toastr/toastr.css');
 //font awesome icons 
 @import url('../node_modules/font-awesome/css/font-awesome.min.css');
+
+
+
+
+//this part is for the breadcrumb:
+//breadcrumb is the page location where the user is at !
+//for example: Home/Library/Data 
+//and we added the breadcrumb in the app/core/section-header/ component 
+//now do some styling for the breadcrumb,
+//we need to override the default styling,
+//we will do that in this Styles.scss file:
+.xng-breadcrumb-root {
+    padding: 8px 16px;
+    display: inline;
+    border-radius: 0;
+}
+label.xng-breadcrumb-trail {
+    margin-bottom: 0;
+    color: orange;
+}
+.xng-breadcrumb-separator {
+    padding: 0 0;
+}

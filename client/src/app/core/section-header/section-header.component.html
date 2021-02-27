@@ -1,0 +1,72 @@
+
+<ng-container *ngIf="(myBreadcrumb$ | async) as extractedBreadcrumbValue">
+    <section *ngIf="extractedBreadcrumbValue.length > 0 && extractedBreadcrumbValue[extractedBreadcrumbValue.length-1].label !== 'Home'" class="py-5" style="margin-top: 105px; background-color: #f5f5f5;">
+        <div class="container">
+            <div class="row d-flex align-items-center">
+                <div class="col-9">
+                    <h1>{{extractedBreadcrumbValue.length > 0 && extractedBreadcrumbValue[extractedBreadcrumbValue.length-1].label | titlecase}}</h1>
+                </div>
+                <div class="col-3">
+                    <xng-breadcrumb></xng-breadcrumb>
+                </div>
+            </div>
+        </div>
+    </section>
+</ng-container>
+
+<!-- 
+-creating the section header, in it we will add what we call it "breadcrumb" 
+-breadcrumb is the page location where the user is at !
+for example:
+Home / Library /  Data 
+-we will use it from here: https://getbootstrap.com/docs/5.0/components/breadcrumb/
+-->
+<!-- py-5 means padding from the top and bottom using the class py-5-->
+<!-- margin-top is used because we want to place our breadcrumb under the nav-bar-->
+<!-- the color used is a little bit grey for the background of the section-header which holds the breadcrunb -->
+
+<!--
+     we imported in core.module.ts the BreadCrumb Module we installed using npm install --save xng-breadcrumb from https://www.npmjs.com/package/xng-breadcrumb.
+     it is used in here, section-header, to show a link of the current page where the user is at, like Home/library/product.
+     it is fully integrated with Angular.
+
+     the way it works is that it reads a data property in the route (path) we added in app-routing.module.ts
+     like:
+     {path: '', component: HomeComponent, data: {breadcrumb: 'Home'}}
+-->
+
+<!-- 
+    
+    //for displaying the breadcrumb link in the section-header, we added the tag <xng-breadcrumb></xng-breadcrumb> in the section-header.component.html
+
+    //also, we want to populate the title of the page in the section-header besides the displayed breadcrumb,
+    //the title is also based on what is dislplayed in the breadcrumb 
+    //for example we are in Home/Shop/AdidasBoots, the title to display is AddidasBoots 
+    //we will do that using the property in the section-header.component.ts,
+    //which is an observable, using the the below:
+
+    *ngIf="(myBreadcrumb$ | async) as breadcrumbs 
+
+    in that ngIf, we extracted the vlaues in the observable we have using an html pipe called "| async" 
+    (remember the note in the section-header.component.ts in the ngonInit())
+    
+    and checked if there is a value in it using the ngIf, so that what is inside the ng-container is performed !
+    and said that the extracted value name is extractedBreadcrumbValue. 
+    
+    in the next ngIf:
+    *ngIf="extractedBreadcrumbValue.length > 0 && extractedBreadcrumbValue[extractedBreadcrumbValue.length-1].label !== 'Home'"
+    we checked again if there is a value in the extractedBreadcrumbValue using .lenght>0
+    then checked the last part of it is not the 'Home'. For example, if it is Home/Shop/Boots, so the last part here is Boots. 
+    if that is true, then perform what is inside the ng-container:
+
+    the title to display is:
+    <h1>{{extractedBreadcrumbValue.length > 0 && extractedBreadcrumbValue[extractedBreadcrumbValue.length-1].label | titlecase}}</h1>
+    also made a double check on if there is a value in the extractedBreadcrumbValue using .lenght>0
+    then displayed the last part of it (which is in the place of length-1 since the indexing starts from 0) using the .label and an html pipe called "| titlecase" which formats the text to be as a title
+    for example, For example, if extractedBreadcrumbValue is Home/Shop/Boots, so the last part here is Boots which is the title to be displayed !
+
+    since we used the .length-1].label !== 'Home', the section header will not work for the Home page !
+    we will fix that later.
+
+
+-->
