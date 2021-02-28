@@ -23,10 +23,16 @@ export class ProductDetailsComponent implements OnInit
   //for example: Home/Library/Data 
   //and we added the breadcrumb in the app/core/section-header/ component so we can show it in the section-header !
   //so, in shop-routing.module.ts, we added to the route a data property to be used by the breadcrumb:
-  //{path: ':id', component: ProductDetailsComponent, data: {breadcrumb: {alias: 'ProductDetaisl'} }}
+  //{path: ':id', component: ProductDetailsComponent, data: {breadcrumb: {alias: 'ProductDetails'} }}
   //we added in it an alias, whcih is going to be replaced with the product name in below loadProduct method.
   //we need for that to inject the Breadcrumb service.
-  constructor(private shopService: ShopService, private activedRoute: ActivatedRoute, private breadcrumbService: BreadcrumbService) { }
+  constructor(private shopService: ShopService, private activedRoute: ActivatedRoute, private breadcrumbService: BreadcrumbService) 
+  { 
+    //also, hide the breadcrumb (so also hiding the title on its left) while we are displaying the ngx-spinner we talked about in core/loading.interceptor.ts 
+    //this is happening in the constructor once the component loads,
+    //but below in the loadProduct() function, we are displaying the product name 
+    this.breadcrumbService.set('@ProductDetails', '');
+  }
 
 
   //3-methods:

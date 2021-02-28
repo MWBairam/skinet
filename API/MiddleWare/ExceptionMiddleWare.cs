@@ -62,7 +62,7 @@ namespace API.MiddleWare
                 //in startup file, Configure function, the app. lines, each one of those is a middleware is being used in our application,
                 //the first one usually  is the app.UseDeveloperExceptionPage(); as we said above at the beginning of this class,
                 //then comes the other middlewares,
-                //so if there is no exception, simple move the http request on to the next middleware
+                //so if there is no exception, simple move the http request on to the "next" middleware
 
                 //if there is an exception, catch it:
             }

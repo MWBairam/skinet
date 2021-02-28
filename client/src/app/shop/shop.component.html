@@ -1,51 +1,55 @@
-<div class="container mt-5"> <!-- mt is margin top-->
+<div class="container mt-3"> <!-- mt is margin top-->
     <div class="row">
         <!-- Side lists -->
-        <section class="col-3">
-            <h5 class="tex-warning ml3">Sort</h5>
-            <select class="custom-select mb-3" (change)="OnSortSelected($event.target.value)">
-                <option *ngFor="let item of sortOptions"
-                        [value]="item.value"
-                >
-                {{item.name}}
-            </option>
-            <!-- give the entire select list a change event, so when its selected option changes, call the OnSortSelected function to bring the new sorted list -->
-            <!-- $event.target.value will read the selected value-->
-            <!-- *ngFor is a for each loop to loop on the available sort options written in the sortOptions in shop.component.ts to generate for each one an <option> tag-->
-            <!-- the value in item.value came from the value field in the sortOptions in shop.component.ts -->
-            <!-- the name in item.name came from the name field in the sortOptions in shop.component.ts -->
-            </select>
-            <h5 class="text-warning ml-3">Brands</h5>
-            <ul class="list-group my-3"> <!-- my is margin on y axis -->
-                <li class="list-group-item" 
-                    *ngFor="let item of brands"
-                    [class.active]="item.id === this.shopParams.brandId"
-                    [value]="item.id"
-                    (click)="OnBrandSelected(item.id)"
-                >
-                {{item.name}}
-                </li>
-                <!-- *ngFor is like a forEach loop, so for each item in the brands list, generate an <li> -->
-                <!-- brands is the property from  shop.component.ts-->
-                <!-- we are not using a child/parent components concept like how we did it in products below -->
-                <!-- the expression [class.active]="item.id === this..shopParams.brandId" means, give this <li> the class="active" (which will highlight it with blue color) if the item.id eequals the .shopParams.brandId in the shop.component.ts-->
-                <!-- by default, active class will highlight using blue color, but I overrided that in shop.component.scss -->
-                <!-- give this <li> a click event, so once clicked, call the function OnBrandSelected from the shop.component.ts to bring a list of products filtered on this item (barnd) Id-->
-                <!-- the id in item.id came from the "brand" model in the models folder-->
-            </ul>
-            <h5 class="text-warning ml-3">Types</h5>
-            <ul class="list-group my-3">
-                <li class="list-group-item" 
-                    *ngFor="let item of types"
-                    [class.active]="item.id === this.shopParams.typeId"
-                    [value]="item.id"
-                    (click)="OnTypeSelected(item.id)"                   
-                >
-                {{item.name}}
-                </li>
-                <!-- types is the property from  shop.component.ts-->
-            </ul>
-        </section>
+        <ng-container *ngIf="types && brands">
+            <!-- check if the https response came back and filled the types and brands properties in the shop.component.ts, then show the below html tags-->
+            <!-- this is also important for the ngx-spinner we talked about in core/loading.interceptor.ts to hide the below while the spinner is being displayed -->
+            <section class="col-3">
+                <h5 class="tex-warning ml-3 mt-4 mb-4" style="color: rgb(240, 173, 78);">Sort</h5>
+                <select class="custom-select mb-4" (change)="OnSortSelected($event.target.value)">
+                    <option *ngFor="let item of sortOptions"
+                            [value]="item.value"
+                    >
+                    {{item.name}}
+                </option>
+                <!-- give the entire select list a change event, so when its selected option changes, call the OnSortSelected function to bring the new sorted list -->
+                <!-- $event.target.value will read the selected value-->
+                <!-- *ngFor is a for each loop to loop on the available sort options written in the sortOptions in shop.component.ts to generate for each one an <option> tag-->
+                <!-- the value in item.value came from the value field in the sortOptions in shop.component.ts -->
+                <!-- the name in item.name came from the name field in the sortOptions in shop.component.ts -->
+                </select>
+                <h5 class="text-warning ml-3">Brands</h5>
+                <ul class="list-group my-3"> <!-- my is margin on y axis -->
+                    <li class="list-group-item" 
+                        *ngFor="let item of brands"
+                        [class.active]="item.id === this.shopParams.brandId"
+                        [value]="item.id"
+                        (click)="OnBrandSelected(item.id)"
+                    >
+                    {{item.name}}
+                    </li>
+                    <!-- *ngFor is like a forEach loop, so for each item in the brands list, generate an <li> -->
+                    <!-- brands is the property from  shop.component.ts-->
+                    <!-- we are not using a child/parent components concept like how we did it in products below -->
+                    <!-- the expression [class.active]="item.id === this..shopParams.brandId" means, give this <li> the class="active" (which will highlight it with blue color) if the item.id eequals the .shopParams.brandId in the shop.component.ts-->
+                    <!-- by default, active class will highlight using blue color, but I overrided that in shop.component.scss -->
+                    <!-- give this <li> a click event, so once clicked, call the function OnBrandSelected from the shop.component.ts to bring a list of products filtered on this item (barnd) Id-->
+                    <!-- the id in item.id came from the "brand" model in the models folder-->
+                </ul>
+                <h5 class="text-warning ml-3">Types</h5>
+                <ul class="list-group my-3">
+                    <li class="list-group-item" 
+                        *ngFor="let item of types"
+                        [class.active]="item.id === this.shopParams.typeId"
+                        [value]="item.id"
+                        (click)="OnTypeSelected(item.id)"                   
+                    >
+                    {{item.name}}
+                    </li>
+                    <!-- types is the property from  shop.component.ts-->
+                </ul>
+            </section>
+       </ng-container>
         <section class="col-9">
             <div class="d-flex justify-content-between align-items-center pb-2">
                 <!-- Header of number of results -->
@@ -62,7 +66,10 @@
                 </app-paging-header>
 
                 <!-- Search box-->
-                <div class="form-inline mt-2">
+                <div class="form-inline" *ngIf="products">
+                    <!-- check if the https response came back and filled the "products" property in the shop.component.ts, then show the below html tags -->
+                    <!-- this is also important for the ngx-spinner we talked about in core/loading.interceptor.ts to hide the below while the spinner is being displayed -->
+
                     <!-- we will not use Angular Forms here, we will use something different -->
                     <!-- add "template refrence variable" to this input, using the #, and call it search -->
                     <input (keyup.enter)="onSearch()" class="form-control mr-2" #search style="width: 300px" placeholder="Search" type="text">

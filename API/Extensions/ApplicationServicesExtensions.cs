@@ -32,6 +32,10 @@ namespace API.Extensions
             services.AddScoped(  typeof(IGenericRepository<>) , (  typeof(GenericRepository<>)  ) );
 
 
+            //and we used Redis to store customers' baskets and in it basket items.
+            //we used for that IBasketRepository and BasketRepository so we need to register these here:
+            //(redis connection string service is in startup.cs)
+            services.AddScoped<IBasketRepository, BasketRepository>();
 
 
 

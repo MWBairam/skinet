@@ -1,8 +1,21 @@
+<!--
+    //we want to display a loading indicator before displaying any result related to what the user requested:
+    //so imported this in app.module.ts: NgxSpinnerModule
+    //remember that we delayed any http response for 1000 millisecond in the core folder -> interceptors -> loading.interceptor since this intercepts any response
+    //and during this time will display the spinner !
+    //and we used for that the busy.service.ts service in the app/core/services folder
+-->
+<ngx-spinner>
+    <div class="mt-5"><h3>Loading...</h3></div>
+</ngx-spinner>
+
+
+
 <app-nav-bar></app-nav-bar>
 <!-- section-header and breadcrumb-->
 <app-section-header></app-section-header>
 
-<div class="container" style="margin-top: 60px;">
+<div>
     <!--<h1>Welcome to {{title}}!</h1>-->
     
     <!-- display the products list -->
@@ -10,7 +23,7 @@
     <!-- or display the home page -->
     <!-- <app-home></app-home> -->
     
-    <!-- we will not use the above way of coures, we will use the our routes identified in app-routing.module.ts with the angular router-->
+    <!-- we will not use the above way of course, we will use the our routes identified in app-routing.module.ts with the angular router-->
     <router-outlet></router-outlet>
     <!-- this will call a specific component using its selector according to the link navigated in the browser and the routes in app-routing.module.ts -->
 </div>

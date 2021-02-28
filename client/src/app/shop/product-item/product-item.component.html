@@ -1,15 +1,43 @@
 <!-- here we will use the [product] passed to here from the shop.component.html where this product-item is used-->
 
-<div class="card h-100 shadow-sm"> <!-- h-100 will ensure if we have cards with different sizes, those will be re-sized to the same size in the same row-->
-  <img src="{{product.pictureUrl}}" alt="{{product.name}}" class="img-fluid bg-info"> <!-- img-fluid so that images are not stretched to down too much, bg-info to highlight image area https://getbootstrap.com/docs/4.0/utilities/colors/, -->
+<!-- 
+  //old template:
+
+  <div class="card h-100 shadow-sm"> <!-- h-100 will ensure if we have cards with different sizes, those will be re-sized to the same size in the same row
+  <img src="{{product.pictureUrl}}" alt="{{product.name}}" class="img-fluid bg-info"> <!-- img-fluid so that images are not stretched to down too much, bg-info to highlight image area https://getbootstrap.com/docs/4.0/utilities/colors/, 
   <div class="card-body d-flex flex-column">
-    <a routerLink="/shop/{{product.id}}"><h6 class="text-uppercase">{{product.name}}</h6></a><!-- router link is to go to https://localhost:4200/shop/id to open the product-details.component.html, and this uses the routes in app-routing.module.ts-->
-    <span class="mb-2">{{product.price | currency}}</span> <!-- the pipe used here | allow us to reformat the text to what we want, cuurency in here-->
-        <div class="btn-group mt-auto"> <!-- buttons have extra styling in product-item.component.scss-->
-          <button type="button" class="btn btn-outline-secondary mr-2"><img src="/assets/images/cart.png" style="max-height: 30px;" alt="logo"></button><!-- instead of the image, i tried to use fontawesome icon but ther is a problem with fa icons with angular !!-->
+    <a routerLink="/shop/{{product.id}}"><h6 class="text-uppercase">{{product.name}}</h6></a><!-- router link is to go to https://localhost:4200/shop/id to open the product-details.component.html, and this uses the routes in app-routing.module.ts
+    <span class="mb-2">{{product.price | currency}}</span> <!-- the pipe used here | allow us to reformat the text to what we want, cuurency in here
+        <div class="btn-group mt-auto"> <!-- buttons have extra styling in product-item.component.scss
+          <button type="button" class="btn btn-outline-secondary mr-2"><img src="/assets/images/cart.png" style="max-height: 30px;" alt="logo"></button><!-- instead of the image, i tried to use fontawesome icon but ther is a problem with fa icons with angular !!
           <button type="button" class="btn btn-outline-secondary" routerLink="/shop/{{product.id}}">View</button> 
-          <!-- router link is to go to https://localhost:4200/shop/id to open the product-details.component.html, and this uses the routes in app-routing.module.ts-->
+          <!-- router link is to go to https://localhost:4200/shop/id to open the product-details.component.html, and this uses the routes in app-routing.module.ts
         </div>
     </div>
+</div> 
+
+-->
+
+<!-- 
+  using new template,  so that the buttons appears over the picture when we hover over the product picture. 
+  we used the product-item.component.scss for this styling.
+-->
+
+<div class="card h-100 shadow-sm">
+  <div class="image position-relative" style="cursor: pointer;">
+      <img src="{{product.pictureUrl}}" alt="{{product.name}}" class="img-fluid bg-light">
+      <div class="d-flex align-items-center justify-content-center hover-overlay">
+          <button type="button" class="btn btn-primary fa fa-shopping-cart mr-2"></button>
+          <button routerLink="/shop/{{product.id}}" type="button" class="btn btn-primary">View</button>
+      </div>
+  </div>
+  
+  <div class="card-body d-flex flex-column">
+      <a routerLink="/shop/{{product.id}}">
+          <h6 class="text-uppercase">{{product.name}}</h6>
+      </a>
+      <span class="mb-2">{{product.price | currency}}</span>
+  </div>
 </div>
+
 

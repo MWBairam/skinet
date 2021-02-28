@@ -1,7 +1,48 @@
-.btn-group{
-    width: 100%
+
+
+
+// .btn-group{
+//     width: 100%
+// }
+
+// .btn{
+//     width: 50%
+// }
+
+
+//using new template,  so that the buttons appears over the picture when we hover over the product picture. 
+//we used the product-item.component.scss for this styling.
+.btn {
+    width: 30%;
+    height: 40px;
 }
 
-.btn{
-    width: 50%
+.image :hover {   //adding a hover event 
+    opacity: 1;
+    & button {  //scss benefit is that we can write the nested class inside here using the & 
+        transform: none;
+        opacity: 1;
+    }
+}
+
+.hover-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(255,255,255, 0.5);
+    opacity: 0;
+    transition: all 0.5s; //fade in and out  
+
+    & button {
+        z-index: 1000;
+        transition: all 0.5s;
+    }
+    & button:first-of-type {  //first button (add to cart button)
+        transform: translateX(-20px);
+    }
+    & button:last-of-type {  //second button (view button) 
+        transform: translateX(20px);
+    }
 }

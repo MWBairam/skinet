@@ -19,6 +19,7 @@ export class ShopComponent implements OnInit
   products: IProduct[];
   brands: IBrand[];
   types: IType[];
+
   //this will be used for sorting purposes:
   sortOptions = 
   [
@@ -27,17 +28,20 @@ export class ShopComponent implements OnInit
    {name: 'Price: High to Low', value:'priceDesc'}
   ];//it is an array
     //the name field what is we display on the HTML webPage, and the value field is what we want to append to the https request link
+  
   //this will be the total number of returned items:
   totalCount: number;
+
   //this is used for search purposes:
   //remember in shop.component.html in the Search part, in the textbox input html element, we gave it a "template refrence variable" name called #search
   //so that we can access that html input element from this component here using its name #search
   //we use the @ViewChild decoration for that purpose,
   //refrence the html element with the 'search', 
-  //and say it is a static element (which means it does not use *ngFor or *ngIf or .... and other angular directive in it tag
+  //and say it is not a static element (which means it can use *ngFor or *ngIf or .... and other angular directive in its tag as we did in the shop.component.ts where we did not show the search textbox untill the products list arrived)
   //let us call the the property name as searchTerm, and its type is ElementRef 
   //below as well 2 methods to deal with it
-  @ViewChild ('search', {static: true}) searchTerm: ElementRef;
+  @ViewChild ('search', {static: false}) searchTerm: ElementRef;
+  
   //also:
   /*instead of adding here the:
   brandId: number = 0;

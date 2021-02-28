@@ -19,7 +19,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-
+using StackExchange.Redis;
 
 namespace API
 {
@@ -61,6 +61,26 @@ namespace API
             
             //add the DbContext service, while using sqlite, with the configured connection string in appsettings.Development.json
             services.AddDbContext<StoreContext>(x => x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
+
+
+            //add the service of Redis:
+            //we installed Redis package in the Infrastructure Project which will communicate with it,
+            //we will add this service as a singleton service,
+            //just like how we used StoreContext (an application DBcontext which we created in the Infrastructure project using EntityFramework)
+            //to communicate with the sql DB, we use here a nearly equal concept which is called "IConnectionMultiplexer" but it is already provided by Redis and we do not create it.
+            //we used here also a connection string called "Redis" which is existed in our appsettings.json ("Redis": "localhost")
+            services.AddSingleton<IConnectionMultiplexer>
+            (
+                c =>
+                {
+                    var configuration = ConfigurationOptions.Parse(_config.GetConnectionString("Redis"), true);
+                    return ConnectionMultiplexer.Connect(configuration);
+                }
+            );
+            //and we used Redis to store customers' baskets and in it basket items.
+            //we used for that IBasketRepository and BasketRepository so we need to register these here:
+            //we added that in the ApplicationServicesExtensions in the middleware folder,
+            //and got that returned in the below sesrvices.AddApplicationServices().
 
 
             //bring the service written in the Extentions foldr -> ApplicationServicesExtensions class:

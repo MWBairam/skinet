@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PaginationModule } from 'ngx-bootstrap';
+import { CarouselModule, PaginationModule } from 'ngx-bootstrap';
 import { PagingHeaderComponent } from './components/paging-header/paging-header.component';
 import { PagerComponent } from './components/pager/pager.component';
 
@@ -15,8 +15,13 @@ import { PagerComponent } from './components/pager/pager.component';
     //each module by default imports the CommonModule which provide the common functionalities like variables, loops, ....
     CommonModule,
     //Import the IPagination module from the ngx-bootstrap library:
-    PaginationModule.forRoot()
+    PaginationModule.forRoot(),
     //PaginationModule has its own providers array which need to be injected at root module at startup, so that we need the part .forRoot()
+  
+    //add the Carousel module so we can make us of it in the Home Component:
+    CarouselModule.forRoot()
+    //ad export it in the below exports list
+  
   ],
   //add this export part, so that we can use the declared Components, and imports from everywhere:
   //export PaginationModule we imported above
@@ -25,7 +30,8 @@ import { PagerComponent } from './components/pager/pager.component';
   exports: [
     PaginationModule,
     PagingHeaderComponent,
-    PagerComponent
+    PagerComponent,
+    CarouselModule
   ]
 })
 export class SharedModule { }
