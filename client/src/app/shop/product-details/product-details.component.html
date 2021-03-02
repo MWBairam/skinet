@@ -15,10 +15,12 @@
             <h3>{{product.name}}</h3>
             <p style="font-size: 2em;">{{product.price | currency}}</p> <!-- | is a pipe, and "currency" will reformat the value here to be a currency value and by default wil use dollar sign-->
             <div class="d-flex justify-content-start align-items-center">
-                <img src="assets/images/plus.png" alt="increase" class="mr-2" style="max-height: 30px; cursor: pointer; font-size: 2em;">
-                <span class="font-weight-bold" style="font-size: 1.5em;">2</span>
-                <img src="assets/images/minus.png" alt="decrease" class="mx-2" style="max-height: 30px; cursor: pointer; font-size: 2em;"> <!-- mx is margin from left and right -->
-                <button class="btn btn-outline-secondary btn-lg ml-4">Add to cart</button>
+                <!-- <img src="assets/images/plus.png" alt="increase" class="mr-2" style="max-height: 30px; cursor: pointer; font-size: 2em;"> -->
+                <i (click)="decrementQuantity()" class="fa fa-minus-circle text-warning mr-2" style="cursor: pointer; font-size: 2em;"></i> <!-- fa is fontawesome icon -->
+                <span class="font-weight-bold" style="font-size: 1.5em;">{{quantity}}</span>
+                <!-- <img src="assets/images/minus.png" alt="decrease" class="mx-2" style="max-height: 30px; cursor: pointer; font-size: 2em;"> mx is margin from left and right -->
+                <i (click)="incrementQuantity()" class="fa fa-plus-circle text-warning mx-2" style="cursor: pointer; font-size: 2em;"></i>
+                <button (click)="addToBasket()" class="btn btn-outline-primary btn-sm ml-4">Add to basket</button>
             </div>
         </div>
         <div class="row mt-5">

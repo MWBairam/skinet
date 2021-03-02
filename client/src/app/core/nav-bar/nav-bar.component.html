@@ -15,12 +15,16 @@
     <!-- this button is to take us to the test-errors component which is for testing-->
   </nav>
   <div class="d-flex align-items-center">
-    <a class="position-relative">
+    <a class="position-relative" routerLink="/basket">
       <!--<img src="/assets/images/cart.png" style="max-height: 40px; margin-right: 40px;"  alt="logo">-->
       <!-- instead of the image above, we can use fontawesome icon -->
+      <!-- once we click on the basket item, open the https://localhost:4200/basket (basket component).
+      remember the routws in app-routing.module.ts and basket-routing.module.ts-->
       <i class="fa fa-shopping-cart fa-2x mr-5 text-dark"></i>
-      <div class="cart-no">5</div>
+      <div *ngIf="(userBasket$ | async) as userBasket" class="cart-no">{{userBasket.items.length}}</div>
       <!-- this cart-no has an additional styling in the nav-bar.component.scss-->
+      <!-- check if there is a basket stored in userBasket$. if so, extract the value from it (subscribe to it) using the pipe: | async
+      please go to basket.service.ts and read a lot of nots about obsevables, subscribing to it, .... and how we stored a basket in basket$ there !-->
     </a>
     <a class="btn btn-outline-secondary mr-2">Login</a>
     <a class="btn btn-outline-secondary mr-3">Sign up</a>

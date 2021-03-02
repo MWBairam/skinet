@@ -40,7 +40,13 @@ const routes: Routes = [
   //another breadcrumb configuration is done in teh shop-routing.module.ts as well !
 
 
-  
+  //same as what we did above for "shop", we will do the same for the "basket"
+  {path: 'basket', loadChildren: () => import('./basket/basket.module').then(mod =>mod.BasketModule), data: {breadcrumb: 'Basket'}},
+  //then continue configuring the routes in basket-routing.module.ts 
+
+  //same as what we did above for "shop" and "basket", we wil do the same for the "checkout":
+  {path: 'checkout', loadChildren: () => import('./checkout/checkout.module').then(mod =>mod.CheckoutModule), data: {breadcrumb: 'Checkout'}},
+
 
   //the following link is for the test-errors component in core folder:
   {path: 'test-errors', component: TestErrorsComponent, data: {breadcrumb: 'test-errors'}},

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BasketService } from './basket/basket.service';
 
 
 @Component({
@@ -13,15 +14,52 @@ export class AppComponent implements OnInit
     title = 'Skinet';
 
     //2-constructor:
-    constructor () {}
+    /*
+    inject the basket.service.ts here in order to use its methods:
+    why we need it here ? 
+    we had a problem in video 149 last 3 minutes, which is:
+    when we refresh the web page, and add a new item again to the already created basket (and already saved in the local storage of the browser)
+    , a new basket_id is created to store and holde the old items and the new added one after the refresh, 
+    replacing the old basket_id !
+    (take a look on the browser localstorage (using the inspect tool) where we store a basket_id , and notice how basket_id changes when we perform the above scenrio)
+    
+    to solve the above problem,
+    add a code in app.component.ts to check, once the angular starts, if there is a basket_id in the local storage of the browser, 
+    so set the special observable "basketSource" in basket.service.ts to that existed basket, using the getbasket() method (which came from basket.service.ts) 
+    (despite its name is getBasket(), it returns a basket value, and assign in basket.service.ts the special observable "basketSource" to that returned basket !)
+    
+    and remember that we saved the basket_id in the browser in the basket.service.ts in the createBasket method
+    */
+    constructor(private basketService: BasketService) { }
 
     //3-methods:
-    //3-a-lifecycle methods:
+    //a-lifecycle methods:
+    //the following ngOnInit() will be performed once the app.component.ts is instantiated:
     ngOnInit(): void 
     {
+      /*
+      read the notes above:
+      to solve the above problem,
+      add a code in app.component.ts to check, once the angular starts, if there is a basket_id in the local storage of the browser, 
+      so set the special observable "basketSource" in basket.service.ts to that existed basket, using the getbasket() method (which came from basket.service.ts) 
+      (despite its name is getBasket(), it returns a basket value, and assign in basket.service.ts the special observable "basketSource" to that returned basket !)
+      */
+      const basketId = localStorage.getItem('basket_id'); //getItem will get something from the local storage of a browser 
+      if (basketId) 
+      {
+        this.basketService.getBasket(basketId).subscribe 
+        /*
+        once we called .getBasket, the special observable "basketSource" in basket.service.ts is sat to the returned basket of the basket_id in local storage of the browser !
+        also, it getBasket returns that basket in an observable of the returned https response, so to read it, subscribe to it and log to console the word "initialised basket"
+        so that we know there was a basket_id in local storage of the browser.
+        */
+        (
+        () => {console.log('initialised basket');}, 
+        error => {console.log(error);}
+        );
+      }
     }
-  
-}
+  }
 
 
 

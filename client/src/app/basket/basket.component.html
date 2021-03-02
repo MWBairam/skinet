@@ -1,0 +1,103 @@
+<div class="container mt-2">
+    <!-- check if there items in the basket -->
+    <div *ngIf="(userBasket$ | async) === null">
+        <p>There are no items in your basket</p>
+    </div>
+
+    <!-- again, check if there items in the basket, and if true:-->
+    <div *ngIf="(userBasket$ | async) as userBasket">
+        <div class="pb-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 py-5 mb-1">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="border-0 bg-light" scope="col">
+                                            <div class="p-2 px-3 text-uppercase">Product</div>
+                                        </th>
+                                        <th scope="col" class="border-0 bg-light">
+                                            <div class="py-2 text-uppercase">Price</div>
+                                        </th>
+                                        <th scope="col" class="border-0 bg-light">
+                                            <div class="py-2 text-uppercase">Quantity</div>
+                                        </th>
+                                        <th scope="col" class="border-0 bg-light">
+                                            <div class="py-2 text-uppercase">Total</div>
+                                        </th>
+                                        <th scope="col" class="border-0 bg-light">
+                                            <div class="py-2 text-uppercase">Remove</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of userBasket.items">
+                                        <th scope="row">
+                                            <div class="p-2">
+                                                <img src="{{item.pictureUrl}}" alt="{{item.productName}}" class="img-fluid" style="max-height: 50px;">
+                                                <div class="ml-3 d-inline-block align-middle">
+                                                    <h5 class="mb-0">
+                                                        <a routerLink="/shop/{{item.id}}" class="text-dark">{{item.productName}}</a>
+                                                        <!-- when displaying the product as a basket item, make its name is clickable, so we can get to the product details page (remember routes in app-routing.module.ts and shop-routing.module.ts)-->
+                                                    </h5>
+                                                    <span class="text-muted font-weight-normal font-italic d-block">Type:{{item.type}}</span>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <td class="align-middle"><strong>{{item.price | currency}}</strong></td>
+                                        <td class="align-middle">
+                                            <div class="d-flex align-items-center">
+                                                <i  (click)="decrementItemQuantity(item)" class="fa fa-minus-circle text-warning mr-2" style="cursor: pointer; font-size: 2em;"></i>
+                                                <span class="font-weight-bold" style="font-size: 1.5em;">{{item.quantity}}</span>
+                                                <i  (click)="incrementItemQuantity(item)" class="fa fa-plus-circle text-warning mx-2" style="cursor: pointer; font-size: 2em;"></i>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle"> 
+                                            <strong>{{item.price * item.quantity | currency}}</strong>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <a class="text-danger">
+                                                <i (click)="removeBasketItem(item)" class="fa fa-trash" style="font-size: 2em; cursor: pointer;"></i> <!-- fa is a fontawesome icon-->
+                                            </a>
+                                        </td>
+                                        <!-- Note about the click events:
+                                          /*
+                                          -in basket html page, activate the increment and decrement font awesome icons so we can click on them to increas/decrease quantity of an item.
+                                          also, in basket html page, activate the trash font awesome icon so we can click on it to delete an item form the basket,
+                                        -in order to do that, create the requierd methods in basket.service.ts, and use them in basket.component.ts, and add the requierd onClick events on icons in basket.component.html 
+                                         */-->
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6 offset-6">
+                        <app-order-totals></app-order-totals>
+                        <a routerLink="/checkout" class="btn btn-outline-primary py-2 btn-block">Proceed to checkout</a>
+                        <!--
+                              -we need, in basket.component.html (below the html table we created where we displayed what was added to the basket) to show "total" calculations (products bill + shipping cost).
+                              -we will create for that a component (shared/components/order-totals.component.ts), then we will call it in the basket.component.html using <app-order-totals></app-order-totals>
+                              -and we should create an interface (angular model) for that in shared/models/basket called IBasketTotals.
+
+                              anyway, we are going to show these "total" calculations in basket component and checkout component and ...... 
+                              (in multiple components, not only use it in the basket html page !)
+                              so we will not subscribe to it directly in basket.service.ts, 
+                              we will store the returned observable from the https response in the basketTotalsSource special observable property in basket.service.ts.
+                              and read it in here from the public property basketTotals in basket.servie.ts,
+                              (again, remember the explanation in basket.service.ts for the BehaviousSubject (special observable) and the normal observable)
+                              (remember that in any html page, we extract value from an observable using "| async")
+
+                              use for that the injected basket.service.ts, and read the basketTotal$ from it.
+  
+                              please go to basket.service.ts and read a lot of notes about obsevables, subscribing to it, .... and how we stored a basket totals calculaions in basketTotals$ there !
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
