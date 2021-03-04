@@ -1,5 +1,6 @@
 using API.Errors;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -94,7 +95,16 @@ namespace API.Controllers
 
 
 
-
+        //the below is not rleated to the https errors:
+        //==============================================================================================================
+        //create a method with annotation [Authorize] so we cannot call via an https request unless the user is logged in !
+        //for the complete test, please watch video 172 !!
+        [HttpGet("testauth")]
+        [Authorize]
+        public ActionResult<string> GetSecretText()
+        {
+            return "secret stuff";
+        }
 
 
     }

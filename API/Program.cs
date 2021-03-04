@@ -6,6 +6,9 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Core.Entities.Identity;
+using Infrastructure.Identity;
 
 namespace API
 {
@@ -48,6 +51,21 @@ namespace API
                     //now migrate its tables to the DB, and create the DB if not existed:
                     //do it using the async await mechanism (so add async above in the main() function defenition and instead of void, return a Task):
                     await StoreContext.Database.MigrateAsync();
+
+
+                    //do the same for the second DbContext we have which is dedicted for microsoft identity tables:
+                    var identityContext = services.GetRequiredService<AppIdentityDbContext>();
+                    await identityContext.Database.MigrateAsync();
+                     /*
+                     Remember:
+                     and since we have 2 contexts now !
+                     1-the one we created in video 17 for the products, brands ,... tables and we called it StoreContext 
+                     2-the one we have just created, to hold the identity tables, and we called it AppIdentityDbContext
+                     so we have 2 databases, with 2 conenctionstrings  !
+                     */
+                    //also seed the test user we created in Infrastructure project in Identity folder in class AppIdentityDbContext
+                    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+                    await AppIdentityDbContextSeed.SeedUsersAsync(userManager);
                 }
                 catch(Exception ex)
                 {

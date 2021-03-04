@@ -9,6 +9,7 @@ using API.MiddleWare;
 using AutoMapper;
 using Core.Interfaces;
 using Infrastructure.Data;
+using Infrastructure.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -50,17 +51,36 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
 
+
+
             //add the AutoMapper service:
             //define in it the location of the Mapping profile we want using typeof()
             //the mapping profile we created is in API Project -> Helper folder
             services.AddAutoMapper(typeof(MappingProfiles));
 
 
+
+
             services.AddControllers();
             
             
+
+
+
+
             //add the DbContext service, while using sqlite, with the configured connection string in appsettings.Development.json
             services.AddDbContext<StoreContext>(x => x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
+            //also, add the second context we have, AppIdentityContext:
+            services.AddDbContext<AppIdentityDbContext>(x => {x.UseSqlite(_config.GetConnectionString("IdentityConnection"));});
+            /*
+            and since we have 2 contexts now !
+            1-the one we created in video 17 for the products, brands ,... tables and we called it StoreContext 
+            2-the one we have just created, to hold the identity tables, and we called it AppIdentityDbContext
+            so we have 2 databases, with 2 conenctionstrings  !
+            */
+
+
+
 
 
             //add the service of Redis:
@@ -83,12 +103,23 @@ namespace API
             //and got that returned in the below sesrvices.AddApplicationServices().
 
 
-            //bring the service written in the Extentions foldr -> ApplicationServicesExtensions class:
+
+
+            //bring the service written in the Extentions folder -> ApplicationServicesExtensions class:
             //(we wrote those services there to empty more space in here)
             services.AddApplicationServices();
+            //bring the service written in the Extentions folder -> IdentityServiceExtensions:
+            //(we wrote those services there to empty more space in here)
+            services.AddIdentityServices(_config);
+            //pass the above _config property which is of type IConfiguration
+            //which allows us to read the appSettings.Development.json and appSettings.json files 
+
 
 
             services.AddSwaggerDocumentation();
+
+
+
 
 
             //Configure CORS:
@@ -141,6 +172,7 @@ namespace API
 
             app.UseCors("CorsPolicy");
             
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

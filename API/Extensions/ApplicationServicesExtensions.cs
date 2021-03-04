@@ -2,13 +2,14 @@ using System.Linq;
 using API.Errors;
 using Core.Interfaces;
 using Infrastructure.Data;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace API.Extensions
 {
 
-    //creating the Extensions folder in the API project, and in it 2 classes ApplicationServiceExtension + SwaggerServiceExtension
+    //creating the Extensions folder in the API project, and in it 2 classes ApplicationServiceExtension + SwaggerServiceExtension (and 2 classes for Identity Services)
     //inside these 2 classes, we write services that occupy a lot of space in the start up file so startup file looks better !
     //it is not ncessary, but good to do it 
 
@@ -17,11 +18,24 @@ namespace API.Extensions
     {
         //the following function should be static as well since the class is static
         //this function return a collection of services we will write in it
-        //we should mention the keyword "this" before the parameter, so that "return service" will mean to return all the Services written in this function
+        //we should mention the keyword "this" before the below parameter, so that "return service" will mean to return all the Services written in this function
         //this class is function in the startup.cs file
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             //add the interfaces/implementations services:
+
+            
+
+            //when the user logins/registers, he gets a token to send with each subsequent https request.
+            //to generate a token, we created the ITokenService interface and its implementation in TokenService
+            //(in Core project, interfaces folder and in Infrastructure project, services folder)
+            //and injected the service in the AccountController.
+            //add the interface and its implementation in startup file (or in AppicationServicesExtensions)
+            //and add the Authentication service with tokens in startup file (or in the IdentityServiceExtensions)
+            services.AddSingleton<ITokenService, TokenService>();
+
+
+            
             //services.AddScoped<IProductRepository, ProductRepository>();
             //that service is not used anymore since we are using the below IgenericRepository interface and its GenericRepository Implementation
 
