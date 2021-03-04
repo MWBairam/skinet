@@ -30,6 +30,11 @@ namespace API.Helper
 
             //then use this map in the ProductController functions 
 
+
+
+            CreateMap<CustomerBasketDto, CustomerBasket>(); //no need for properties mapping, because the Dtp has exactly the same properties in the model
+            CreateMap<BasketItemDto, BasketItem>(); //no need for properties mapping, because the Dtp has exactly the same properties in the model
+
         }
     }
 }

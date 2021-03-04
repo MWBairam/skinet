@@ -8,6 +8,12 @@ namespace Core.Entities.Identity
     //IdentityUser has: a string Id for the user, userName (where microsoft stores email by default) PasswordHash (where the hashed password is stored), and .....
     public class AppUser : IdentityUser //the users table name in DB will remain AspNetUsers !
     {
+        //we can write above each property the data annotation [Requiered]
+        //or any other Data Annotation we want like [MaxLenght()] or  ......
+        //but for the AppUser model, we will do that on the Dto class level in API project, in Dtos folder for LoginDto and RegisterDto
+        //that is to avoid using libraries as dependencies in Core project !
+
+
         //IdentityUser has: 
         //a string Id for the user, 
         //userName (which is the same value to Email by default) 

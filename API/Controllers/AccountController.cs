@@ -104,8 +104,18 @@ namespace API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
-            //the same here, from angular side, we will ask the user to insert DsplayName, Email, Passowrd, and not all the columns in AspNetUsers !
+            //the same here, from angular side, we will ask the user to insert DisplayName, Email, Passowrd, and not all the columns in AspNetUsers table (identified in AppUser:IdentityUser) !
             //so angular will send those data and we will recieve them here as RegisterDto.
+
+            //using the below created method CheckEmailExistsAsync(), check if the email inserted by the user is already existed and used by user in the AspNetUsers table:
+            if (CheckEmailExistsAsync(registerDto.Email).Result.Value)
+            {
+                return new BadRequestObjectResult(new ApiValidationErrorResponse{Errors = new []{"Email address is in use"}});
+                //return the badRequest error,
+                //and displaying the https error 400 we flattened and re-designed in Errors folder, ApiResponse class (with the help of MiddleWare folder)
+            }
+
+
 
             //using the UserManager, create a new user:
             //smae way as we did it in the Infrastructure/Identity/AppIdentityDbContext
@@ -118,14 +128,16 @@ namespace API.Controllers
 
                 //we will not ask him to add "Address" info here now like we added it in the Infrastructure/Identity/AppIdentityDbContext
                 //, we will ask him to add Address info in other places like during checkout !
+                //remember that we are using foe registering the RegisterDto class, which requiers only the displayname, email, password as requierd 1
             };
             
             //create the above created user using the UserManager and .CreateAsync
             var result = await _userManager.CreateAsync(user, registerDto.Password);
 
             //if creation did not succeed (because for example, the email is already existed since it is unique, or weak password since there is a default policy for that from microsoft), 
+            //anyway, we processed the case of email is already existed above, and processed the weak password case in the RegisterDto using the RegularExpression data annotation !
             if (!result.Succeeded) return BadRequest(new ApiResponse(400));
-            //, return the badRequest error,
+            //return the badRequest error,
             //and displaying the https error 400 we flattened and re-designed in Errors folder, ApiResponse class (with the help of MiddleWare folder)
    
             //otherwise (creation was successful), return these info of the created user:

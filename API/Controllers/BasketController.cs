@@ -1,5 +1,7 @@
   
 using System.Threading.Tasks;
+using API.Dtos;
+using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -18,12 +20,14 @@ namespace API.Controllers
 
         //1-properties
         private readonly IBasketRepository _basketRepository;
+        private readonly IMapper _mapper; //the mapper will be used when returning/receiving Dtos in the UpdatBasket method !
 
         //2-Constructor:
         //inject TBasketRepositoy we created:
-        public BasketController(IBasketRepository basketRepository)
+        public BasketController(IBasketRepository basketRepository, IMapper mapper)
         {
             _basketRepository = basketRepository;
+            _mapper = mapper;
         }
 
         //3-methods:
@@ -40,9 +44,16 @@ namespace API.Controllers
 
         //there is not "CreateBasketAsync" method, becuase creation will be be done as well by the Update method
         [HttpPost]
-        public async Task<ActionResult<CustomerBasket>> UpdateBasket(CustomerBasket basket)
+        public async Task<ActionResult<CustomerBasket>> UpdateBasket(CustomerBasketDto basket)
         {
-            var updatedBasket = await _basketRepository.UpdateBasketAsync(basket);
+            //identify the received data from the client angular side as CustomerBasketDto, not the original model CustomerBasket !
+            //indded, the CustomerBasketDto and CustomerBasket have the same properties, but in CustomerBasketDto we did validations using data annotations !
+            
+            //after the validation has been done, transfer back from Dto to the original model:
+            var CustomerBasket = _mapper.Map<CustomerBasketDto, CustomerBasket>(basket);
+            
+            //then update:
+            var updatedBasket = await _basketRepository.UpdateBasketAsync(CustomerBasket);
 
             return Ok(updatedBasket);
         }

@@ -2,8 +2,14 @@ namespace Core.Entities
 {
     public class Product : BaseEntity
     {
+        //we can write above each property the data annotation [Requiered]
+        //or any other Data Annotation we want like [MacLenght()] or  ......
+        //but for the Product model, we will do that on the DB level in Infrastructur project, in Data/config folder
+
+
         //"Id" attribute is inherited from the BaseEntity class
-        public string Name { get; set; }
+
+        public string Name { get; set; }  //we can write above each property the data annotation [Requiered]
         public string Description {get; set;}
         public decimal Price {get; set;}
         public string PictureUrl {get; set;}
