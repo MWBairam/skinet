@@ -1,0 +1,66 @@
+
+<div class="d-flex justify-content-center mt-5">
+    <div class="col-3">
+        <!-- in shop.component.html, where we got data from the user in the search textbox,
+        we did not use the "Angular Form", 
+        but we added "template refrence variable" to the search input, using the #, and called it "search",
+        and we set its value in shop.component.ts directly by calling its name #search -->
+        <!-- here, we will use the Angular form, becuase we are reading data from multiple textboxes,
+        so that reading them using #<name> would be much harder than collecting them in a form !-->
+        <!-- different types of forms and how to build them are explained in login.component.ts -->
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <!-- use the FormGroup and its FormControls we created in register.component.ts-->
+        <!-- ngSubmit comes from angular features, which means that if we have a button in a form,
+        and we clicked that button, the method on its right will be called -->
+        <!-- each form can have one button !-->
+
+         <!-- title of Register -->
+        <div class="text-center mb-4"><h1 class="h3 mb-3 font-weight-normal">Register</h1> </div>
+        <!-- first input, which is the formControl displayName. the "type" is something from html to say we are going to write an email here. the id is to label this input in the label below -->
+        <div class="form-label-group">
+            <input formControlName="displayName" type="displayName" id="displayName" class="form-control" placeholder="Display Name" 
+            [ngClass]="(registerForm.get('displayName') && registerForm.get('displayName').touched ) ? registerForm.get('displayName').invalid ? 'is-invalid' : 'is-valid' : null"> <!-- we have 2 nested "if" statments, and we have 3 possibilites to implement 'is-invalid' : 'is-valid' : null-->
+            <!-- we applied on the input the class form-control, with another class "is-invalid" or "is-valid" according to the validation result in the register.component.ts in the createRegisterForm() method in the FormGroup-->
+            <label for="displayName">Display Name</label>
+            <!-- display the error of displayName is Requiered -->
+            <span class="text-danger" *ngIf="registerForm.get('displayName').invalid && registerForm.get('displayName').touched && registerForm.get('displayName').errors['required']">Display Name is requiered</span>
+              <!-- remember the validations done in the register.component.ts in the createRegisterForm() method in the FormGroup -->
+        </div>
+
+        <!-- second input, which is the formControl email. the "type" is something from html to say we are going to write an email here. the id is to label this input in the label below -->
+        <div class="form-label-group">
+            <input formControlName="email" type="email" id="inputEmail" class="form-control" placeholder="Email Address" 
+            [ngClass]="(registerForm.get('email') && registerForm.get('email').touched ) ? registerForm.get('email').invalid ? 'is-invalid' : 'is-valid' : null"> <!-- we have 2 nested "if" statments, and we have 3 possibilites to implement 'is-invalid' : 'is-valid' : null-->
+            <!-- we applied on the input the class form-control, with another class "is-invalid" or "is-valid" according to the validation result in the register.component.ts in the createRegisterForm() method in the FormGroup-->
+            <label for="inputEmail">Email Address</label>
+            <!-- display the error of Email is Requiered -->
+            <span class="text-danger" *ngIf="registerForm.get('email').invalid && registerForm.get('email').touched && registerForm.get('email').errors['required']">Email Address is requiered</span>
+            <!-- display the error of Email is invalid pattern -->
+            <span class="text-danger" *ngIf="registerForm.get('email').invalid && registerForm.get('email').touched && registerForm.get('email').errors['pattern']">Email Address is not valid</span>
+            <!-- remember the validations done in the register.component.ts in the createRegisterForm() method in the FormGroup -->
+        </div>
+
+        <!-- third input which is the formContol password-->
+        <div class="form-label-group">
+            <input formControlName="password" type="password" id="inputPassword" class="form-control" placeholder="Password"
+            [ngClass]="(registerForm.get('password') && registerForm.get('password').touched ) ? registerForm.get('password').invalid ? 'is-invalid' : 'is-valid' : null"> <!-- we have 2 nested "if" statments, and we have 3 possibilites to implement 'is-invalid' : 'is-valid' : null-->
+            <!-- we applied on the input the class form-control, with another class "is-invalid" or "is-valid" according to the validation result in the register.component.ts in the createRegisterForm() method in the FormGroup-->
+            <label for="inputPassword">password</label>
+            <!-- display the error of Password is Requiered -->
+            <span class="text-danger" *ngIf="registerForm.get('password').invalid && registerForm.get('password').touched && registerForm.get('password').errors['required']">Password is requiered</span>
+            <!-- remember the validations done in the register.component.ts in the createRegisterForm() method in the FormGroup -->
+        </div>        
+
+        <!-- while registering, we will contact the backend which might return error of for example email is used, or password is incorrect,
+        ,and remember that we stored the 401 validation-based errors in the "errors" array in register.component.ts in OnSubmit() method -->
+        <ul class="text-danger list-unstyled" *ngIf="errors">
+            <li *ngFor="let error of errors">{{error}}</li>
+        </ul>
+
+        <!-- the submit button. The [disabled] is to prohibit the user from clicking on the button 
+        as long as the validations done in the register.component.ts in the createRegisterForm() method in the FormGroup is not valid-->
+        <button [disabled]="registerForm.invalid" class="btn btn-sm btn-primary btn-block"  style="background-color: orange;" type="submit">Register</button>
+      </form>
+
+    </div>
+  </div>

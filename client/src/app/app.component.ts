@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AccountService } from './account/account.service';
 import { BasketService } from './basket/basket.service';
 
 
@@ -30,12 +31,33 @@ export class AppComponent implements OnInit
     
     and remember that we saved the basket_id in the browser in the basket.service.ts in the createBasket method
     */
-    constructor(private basketService: BasketService) { }
+
+
+
+    /*
+    also the same way on loading the current logged in user.
+    //after the login, if we refresh the browser (load the app.component.ts and app.module.ts again), we lose the login state !! 
+    //so to persist the login use the method loadCurrentUser(token: string) in the account.service.ts.
+    //remember from API project, AccountController, GetCurrentUser() method which is called by sending the https request https://locallhost:4200/api/account,
+    //and remember that we need to embbed the logged in user's token in the https Header, in the Authorization part of it.
+    //so prepare the that method with a parameter in which we will pass the logged in user's token.
+    //also do the same with loadCurrentLoggedUser below to pass the user's token to loadCurrentUser in account.service.ts
+    //and inject the account.service.ts here.
+    */
+
+    constructor(private basketService: BasketService, private accountService: AccountService) { }
 
     //3-methods:
     //a-lifecycle methods:
     //the following ngOnInit() will be performed once the app.component.ts is instantiated:
     ngOnInit(): void 
+    {
+      this.loadBasket();
+      this.loadCurrentLoggedUser();
+
+    }
+
+    loadBasket()
     {
       /*
       read the notes above:
@@ -44,21 +66,46 @@ export class AppComponent implements OnInit
       so set the special observable "basketSource" in basket.service.ts to that existed basket, using the getbasket() method (which came from basket.service.ts) 
       (despite its name is getBasket(), it returns a basket value, and assign in basket.service.ts the special observable "basketSource" to that returned basket !)
       */
-      const basketId = localStorage.getItem('basket_id'); //getItem will get something from the local storage of a browser 
-      if (basketId) 
-      {
-        this.basketService.getBasket(basketId).subscribe 
-        /*
-        once we called .getBasket, the special observable "basketSource" in basket.service.ts is sat to the returned basket of the basket_id in local storage of the browser !
-        also, it getBasket returns that basket in an observable of the returned https response, so to read it, subscribe to it and log to console the word "initialised basket"
-        so that we know there was a basket_id in local storage of the browser.
-        */
-        (
-        () => {console.log('initialised basket');}, 
-        error => {console.log(error);}
-        );
-      }
+     const basketId = localStorage.getItem('basket_id'); //getItem will get something from the local storage of a browser 
+     if (basketId) 
+     {
+       this.basketService.getBasket(basketId).subscribe 
+       /*
+       once we called .getBasket, the special observable "basketSource" in basket.service.ts is sat to the returned basket of the basket_id in local storage of the browser !
+       also, it getBasket returns that basket in an observable of the returned https response, so to read it, subscribe to it and log to console the word "initialised basket"
+       so that we know there was a basket_id in local storage of the browser.
+       */
+       (
+       () => {console.log('initialised basket');}, 
+       error => {console.log(error);}
+       );
+     }
     }
+
+    loadCurrentLoggedUser() 
+    {
+      //read the notes above:
+      
+      //remember that we stored the logged in user's token in the browser local storage in the login method in account.service.ts
+      //so now take it from there and send it to the loadCurrentUser method in the account.service.ts:
+      //(will send null if there is no user logged)
+      const token = localStorage.getItem('token');
+      this.accountService.loadCurrentUser(token)
+      .subscribe //the loadCurrentUser will return an observable of IUser model, subscribe to it to extract its value !
+      (
+        () => {console.log('loaded user');},  //and log to console as well 
+        error => {console.log(error);}
+      );
+      //when we call the loadCurrentuser from the account.service.ts, the observable currentUser$ there is set again to the same logged user!
+      //and since the currentUser$ is being read from multiple places, like nav-bar.component.ts/html, the user info will keep being persistent,
+      //because with each refresh in the browser or each button click that leads to re-load the app.component.ts here, 
+      //we are bringing again the user info and store it back again in the currentUser$ in account.service.ts 
+    }
+
+
+
+
+
   }
 
 

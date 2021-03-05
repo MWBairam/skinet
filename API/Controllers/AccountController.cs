@@ -95,6 +95,13 @@ namespace API.Controllers
 
 
 
+        
+
+        //the logout concept is only about the removal of the user's token from the browser local storage, 
+        //so when he tries to send an https request to the API project, to any function with [Authorize] data annotation there,
+        //he will not be allowed to do that there !
+        //ther is no logout method in the AccountController in API project, it is a concept to be done from client angular side only !
+        //(in src/app/account/account.service.ts)
 
 
 

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from './core/guard/auth.guard';
 import { NotFoundComponent } from './core/not-found/not-found.component';
 import { ServerErrorComponent } from './core/server-error/server-error.component';
 import { TestErrorsComponent } from './core/test-errors/test-errors.component';
@@ -45,12 +46,15 @@ const routes: Routes = [
   //then continue configuring the routes in basket-routing.module.ts 
 
   //same as what we did above for "shop" and "basket", we wil do the same for the "checkout":
-  {path: 'checkout', loadChildren: () => import('./checkout/checkout.module').then(mod =>mod.CheckoutModule), data: {breadcrumb: 'Checkout'}},
+  //also, here we added the canActivate: [AuthGuard], the auth.guard.ts in core/guard folder, so the user cannot go to checkout page unless he is logged in !
+  //please read th notes about this in auth.guard.ts in core/guard folder.
+  {path: 'checkout', canActivate: [AuthGuard] ,loadChildren: () => import('./checkout/checkout.module').then(mod =>mod.CheckoutModule), data: {breadcrumb: 'Checkout'}},
 
+  //same as what we did above for "shop" and "basket" and "checkout", we wil do the same for the "account":
+  {path: 'account', loadChildren: () => import('./account/account.module').then(mod =>mod.AccountModule), data: {breadcrumb: {skip: true}}}, //we will skip breadcrumb for account  module, login or register components
 
   //the following link is for the test-errors component in core folder:
   {path: 'test-errors', component: TestErrorsComponent, data: {breadcrumb: 'test-errors'}},
-
 
 
   //the following paths will be used to redirect users to the not-found or server-error components where we display and handle the 404 and 500 errors:

@@ -1,0 +1,51 @@
+<div class="d-flex justify-content-center mt-5"> 
+    <!-- justify-content-center is to center the elements in the middle with the appropriate spacing-->
+    <!-- mt is margin top -->
+    <div class="col-3">
+        <!-- in shop.component.html, where we got data from the user in the search textbox,
+        we did not use the "Angular Form", 
+        but we added "template refrence variable" to the search input, using the #, and called it "search",
+        and we set its value in shop.component.ts directly by calling its name #search -->
+        <!-- here, we will use the Angular form, becuase we are reading data from multiple textboxes,
+        so that reading them using #<name> would be much harder than collecting them in a form !-->
+        <!-- different types of forms and how to build them are explained in login.component.ts -->
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <!-- use the FormGroup and its FormControls we created in login.component.ts-->
+        <!-- ngSubmit comes from angular features, which means that if we have a button in a form,
+        and we clicked that button, the method on its right will be called -->
+        <!-- each form can have one button !-->
+
+        <!-- title of Login -->
+        <div class="text-center mb-4"><h1 class="h3 mb-3 font-weight-normal">Login</h1></div>
+        <!-- first input, which is the formControl email. the "type" is something from html to say we are going to write an email here. the id is to label this input in the label below -->
+        <div class="form-label-group">
+            <input formControlName="email" type="email" id="inputEmail" class="form-control" placeholder="Email Address" 
+            [ngClass]="(loginForm.get('email') && loginForm.get('email').touched ) ? loginForm.get('email').invalid ? 'is-invalid' : 'is-valid' : null"> <!-- we have 2 nested "if" statments, and we have 3 possibilites to implement 'is-invalid' : 'is-valid' : null-->
+            <!-- we applied on the input the class form-control, with another class "is-invalid" or "is-valid" according to the validation result in the login.component.ts in the createLoginForm() method in the FormGroup-->
+            <label for="inputEmail">Email Address</label>
+              <!-- display the error of Email is Requiered -->
+              <span class="text-danger" *ngIf="loginForm.get('email').invalid && loginForm.get('email').touched && loginForm.get('email').errors['required']">Email Address is requiered</span>
+              <!-- display the error of Email is invalid pattern -->
+              <span class="text-danger" *ngIf="loginForm.get('email').invalid && loginForm.get('email').touched && loginForm.get('email').errors['pattern']">Email Address is not valid</span>
+              <!-- remember the validations done in the login.component.ts in the createLoginForm() method in the FormGroup -->
+        </div>
+        <!-- second input which is the formContol password-->
+        <div class="form-label-group">
+            <input formControlName="password" type="password" id="inputPassword" class="form-control" placeholder="Password" 
+            [ngClass]="(loginForm.get('password') && loginForm.get('password').touched ) ? loginForm.get('password').invalid ? 'is-invalid' : 'is-valid' : null"> <!-- we have 2 nested "if" statments, and we have 3 possibilites to implement 'is-invalid' : 'is-valid' : null-->
+            <!-- we applied on the input the class form-control, with another class "is-invalid" or "is-valid" according to the validation result in the login.component.ts in the createLoginForm() method in the FormGroup-->
+            <label for="inputPassword">password</label>
+            <!-- display the error of Password is Requiered -->
+            <span class="text-danger" *ngIf="loginForm.get('password').invalid && loginForm.get('password').touched && loginForm.get('password').errors['required']">Password is requiered</span>
+            <!-- remember the validations done in the login.component.ts in the createLoginForm() method in the FormGroup -->
+        </div>
+       
+        <!-- the submit button. The [disabled] is to prohibit the user from clicking on the button 
+        as long as the validations done in the login.component.ts in the createLoginForm() method in the FormGroup is not valid-->
+        <button [disabled]="loginForm.invalid" class="btn btn-sm btn-primary btn-block" style="background-color: orange;" type="submit">Log in</button>
+      </form>
+    </div>
+  </div>
+
+
+

@@ -71,7 +71,9 @@
                     <!-- this is also important for the ngx-spinner we talked about in core/loading.interceptor.ts to hide the below while the spinner is being displayed -->
 
                     <!-- we will not use Angular Forms here, we will use something different -->
-                    <!-- add "template refrence variable" to this input, using the #, and call it search -->
+                    <!-- add "template refrence variable" to this input, using the #, and call it "search"
+                         and we set its value in shop.component.ts directly by calling its name #search -->
+                         <!-- whereas in the login.component.html, we used the "Angular Form"-->
                     <input (keyup.enter)="onSearch()" class="form-control mr-2" #search style="width: 300px" placeholder="Search" type="text">
                     <button (click)="onSearch()" class="btn btn-outline-primary my-2">Search</button>
                     <button (click)="onReset()" class="btn btn-outline-success ml-2 my-2">Reset</button>

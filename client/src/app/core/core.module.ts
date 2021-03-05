@@ -8,6 +8,7 @@ import { ServerErrorComponent } from './server-error/server-error.component';
 import { ToastrModule } from 'ngx-toastr';
 import { SectionHeaderComponent } from './section-header/section-header.component';
 import { BreadcrumbModule } from 'xng-breadcrumb';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -24,6 +25,9 @@ import { BreadcrumbModule } from 'xng-breadcrumb';
     //it is used in section-header to show a link of the current page where the user is at, like Home/library/product:
     BreadcrumbModule,
 
+    //import the SharedModule, in which we have a lot of useful modules, like the BsDropdownModule to create drop down lists as we did in the nav-bar.component.ts/html:
+    SharedModule,
+
     //import the ToastsModule which we use to show error notification 
     //remember that it was used in the interceptors folder -> error.interceptor.ts:
     //specifiy the position of the error notification to be at the bottom of the web page on the right
@@ -31,6 +35,8 @@ import { BreadcrumbModule } from 'xng-breadcrumb';
     ToastrModule.forRoot({positionClass: 'toast-bottom-right', preventDuplicates: true})
     //and this toastr comes with a css styles, so we need to add the css file link in the angular.json
     //but that did not work with this app, so i added them in Styles.scss file !
+
+
   ],
   //add this export part, so that we can use the declared NavBarComponent from everywhere:
   //what I mean is in any .html file, we can add the component using its selector <app-nav-bar></app-nav-bar>
