@@ -4,6 +4,9 @@ using System.Linq.Expressions;
 
 namespace Core.Specifications
 {
+    //this is an interface.
+    //its implementation is in the same folder in BaseSpecificatio.cd
+    
     //let the interface to accept a type (template) <T>
     public interface ISpecification<T>
     {

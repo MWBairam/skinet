@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 
 namespace Core.Specifications
 {
+    //this is an implementation of the interface ISpecification.
     public class BaseSpecification<T> : ISpecification<T>
     {
 

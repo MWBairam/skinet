@@ -6,14 +6,15 @@ import { PagerComponent } from './components/pager/pager.component';
 import { OrderTotalsComponent } from './components/order-totals/order-totals.component';
 import { CheckoutModule } from '../checkout/checkout.module';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { CdkStepperModule } from '@angular/cdk/stepper';
+import { StepperComponent } from './components/stepper/stepper.component';
 
 //everything related to ngx-bootstrap will be declared/imported here
 //then we can use it in any other module
 
 
 @NgModule({
-  declarations: [PagingHeaderComponent, PagerComponent, OrderTotalsComponent],
+  declarations: [PagingHeaderComponent, PagerComponent, OrderTotalsComponent, StepperComponent],
   imports: [
     //each module by default imports the CommonModule which provide the common functionalities like variables, loops, ....
     CommonModule,
@@ -29,27 +30,41 @@ import { ReactiveFormsModule } from '@angular/forms';
     //also in the register.component.ts/html and ....
     //so import ReactiveFormsModule here, then export it in the below, then use SharedModule in where you want to use the ReactiveFormsModule in it:
     ReactiveFormsModule,
+    //ad export it in the below exports list
+
+
+    //we will use in the checkout.component.ts a stepper wizard so we can guide the user to add his data step by step,
+    //we will use the one from the installed CDK from angular repo,
+    CdkStepperModule,
+    //ad export it in the below exports list so we can use it in stepper.component.ts which will be used in checkout.component.ts
 
     //also the DropDown lists module of https://valor-software.com/ngx-bootstrap/#/dropdowns so we can use it in any html file we want:
     //like using it in the nav-bar.component.ts/html 
     BsDropdownModule.forRoot()
+    //ad export it in the below exports list
+
   
   ],
   //add this export part, so that we can use the declared Components, and imports from everywhere:
   //export PaginationModule we imported above
   //export the component pagination-header.component.ts in "component" folder since it is shared, so we can sue it in shop.component.ts: 
   //export the component pager.component.ts in "component" folder since it is shared, so we can sue it in shop.component.ts:
-  //export the order-totals to be used in basket.component.html,
+  //export the order-totals to be used in basket.component.html, and checkout.component.html 
   //also, the ReactiveFormsModule as we explained above:
+  //also the CdkStepperModule explained above:
   //and the BsDropdownModule:
   exports: [
     PaginationModule,
     PagingHeaderComponent,
     PagerComponent,
     CarouselModule,
-    OrderTotalsComponent,
+    OrderTotalsComponent, 
     ReactiveFormsModule,
-    BsDropdownModule
+    BsDropdownModule,
+    //export the CdkStepperModule explained above, which is used in stepper.component.ts which will be used in checkout.component.ts
+    //so also export the stepper.component.ts we created in the shared/components folder:
+    CdkStepperModule,
+    StepperComponent
   ]
 })
 export class SharedModule { }

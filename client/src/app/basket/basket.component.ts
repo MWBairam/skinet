@@ -38,17 +38,20 @@ export class BasketComponent implements OnInit {
   also, in basket html page, activate the trash font awesome icon so we can click on it to delete an item form the basket,
   -in order to do that, create the requierd methods in basket.service.ts, and use them in basket.component.ts, and add the requierd onClick events on icons in basket.component.html 
   */
- removeBasketItem(item: IBasketItem) {
-  this.basketService.removeItemFromBasket(item);
-}
+  removeBasketItem(item: IBasketItem) 
+  {
+   this.basketService.removeItemFromBasket(item);
+  }
 
-incrementItemQuantity(item: IBasketItem) {
-  this.basketService.incrementItemQuantity(item);
-}
+  incrementItemQuantity(item: IBasketItem) 
+  {
+   this.basketService.incrementItemQuantity(item);
+  }
 
-decrementItemQuantity(item: IBasketItem) {
-  this.basketService.decrementItemQuantity(item);
-}
+  decrementItemQuantity(item: IBasketItem) 
+  {
+   this.basketService.decrementItemQuantity(item);
+  }
 
 
 

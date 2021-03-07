@@ -33,7 +33,7 @@ namespace API.Controllers
         /*
         ITokenService we designed it in Core project, interfaces folder, 
         //and implemented it in Infrastructure project, Services folder.
-        //it is tio generate tokens once the user logins or registers, and send it to the user after his login/register
+        //it is to generate tokens once the user logins or registers, and send it to the user after his login/register
         //so that he will send this token with each https request he sends.
         */
         public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService)
@@ -185,16 +185,16 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
-            //the ? means that this can be a null. And if any if User or Claims is null, "email" will be null,
+            //the ? means that this can be a null. And if any of User or Claims is null, "email" will be null,
             //so that "user" will be null and an empty UserDto will be returned. 
-            //first bring the user's email, buy how?
-            //remember that we have implemented the usgae of tokens as we explained above at the top of this file.
+            //first bring the user's email, but how?
+            //remember that we have implemented the usage of tokens as we explained above at the top of this file.
             //when the client angular side sends the https request https://locallhost:4200/api/account, 
             //it will be with authorization header which contains the current logged in user's token !
             //remember that in TokenService in (Infrastructure project in Services folder) when we formed the token,
             //we embedded the use's Email and DisplayName as a list of "Claims".
             //now from the received token (in the authorization header of the https request https://locallhost:4200/api/account), 
-            //we can re-extract the use's Email sing the HttpContext class, and User property, to the Claims list sub-property, to take the Email value out of it.
+            //we can re-extract the use's Email using the HttpContext service, and User property, to the Claims list sub-property, to take the Email value out of it.
             var email = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type ==ClaimTypes.Email)?.Value;
             //then, then in the AspNetUsers table, we will look up for the AspNetUser with that email using the help of the FindBtEmailAsync from the UserManager Service.
             var user = await _userManager.FindByEmailAsync(email);

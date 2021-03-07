@@ -96,6 +96,9 @@ export class BasketService {
 
   //3-methods:
   //======================================================================================================================
+  //the most important method here is addItemTobasket and used in shop-item.component.ts and which calls all the other methods in here.
+  
+  
   //get a basket from redis based on its Id:
   //we will send an https request: https://localhost:4200/api/basket?id="basketId" so that GetBasketById method will be automatically called in BasketController in the API project 
   //then we will get the https response

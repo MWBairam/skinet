@@ -53,6 +53,11 @@ namespace API.Extensions
 
 
 
+            //add the IOrderService and OrderService as scoped here:
+            services.AddScoped<IOrderService, OrderService>();
+
+
+
             //add this service to shape the validation-based bad request errors as we designed in the ApiValidationErrorResponse class in the Errors folder:
             //indeed, the services order in here is not important, but there are alawys exceptions,
             //the following service should be after the services.AddControllers(); service in the startup file:

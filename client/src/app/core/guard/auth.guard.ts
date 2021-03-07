@@ -10,8 +10,10 @@ import { AccountService } from 'src/app/account/account.service';
 /*
 -if we go to basket, when the user clicks on checkout, we will not allow him to go to the checkout.component.ts/html unless he is logged in !!
 -we will do that from the frontend side using what we call it the auth-guard 
+
 (from API BackEnd side, when can write above the Controller used for that the Data annotation [Authorize])
 (and we are going to do Authoriztion from BackEnd side, because it is related to the user's token, and the one we are doing here is in frontEnd only !!)
+
 -in src/app/core folder, create a folder called "guard"
 -then in it:
 guard>ng g g auth --skip-tests //angular generate guard and its name is auth 
