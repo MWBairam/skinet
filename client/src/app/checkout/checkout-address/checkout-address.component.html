@@ -1,0 +1,111 @@
+<!--
+  //we will use the ReactiveForm to collect data from user in this component.
+  //ReactiveForms is imported in shared.module.ts which is imported in checkout.module.ts
+  
+  //Note: I have explained everything about Angular forms in app/account/login/login.component.ts and html file
+  //so please read it from there first !
+  //also different way of creating FormGroup is illustrated in register.component.ts
+-->
+
+<div class="mt-4" [formGroup]="myCheckoutForm"> <!-- the submit form data action is in the button below -->
+
+    <div class="d-flex justify-content-between align-items-center">
+        <h4>Shipping address</h4>
+        <!-- in the below button,
+        once clicked, save what is written in the textboxes in the "Address" table (read the notes in checkout-address.component.ts),
+        Also, disable the link as long as the validation written in checkout.component.ts in checkoutForm in addressForm are not valid (which were all fields requiered)-->
+        <button  (click)="saveUserAddress()" [disabled]="!myCheckoutForm.get('addressForm').valid || !myCheckoutForm.get('addressForm').dirty" class="btn btn-sm btn-outline-success mb-3">
+            Save as default address
+        </button>
+    </div>
+
+    <!-- note: in above button, and below inputs, when you use .get method, remember that addressForm is sub-form in checkoutForm in
+    checkout.component.ts, so to access the addressForm controls, we wrote above the main form name,
+    then in below div we wrote the sub-form name, then access its controls using addressForm.<control_name>-->
+
+    <!-- for the below data, we have the IAddress modle in shared/models/address.ts -->
+
+    <div class="row" formGroupName="addressForm"> <!-- formGroup name comes from the checkout.component.ts where we created it with its FormControls-->
+        <div class="form-group col-6">
+            <div class="form-label-group">
+                <input formControlName="firstName" type="firstName" id="firstName" class="form-control" placeholder="First Name" 
+                [ngClass]="(myCheckoutForm.get('addressForm.firstName') && myCheckoutForm.get('addressForm.firstName').touched ) ? myCheckoutForm.get('addressForm.firstName').invalid ? 'is-invalid' : 'is-valid' : null"> <!-- we have 2 nested "if" statments, and we have 3 possibilites to implement 'is-invalid' : 'is-valid' : null-->
+                <!-- we applied on the input the class form-control, with another class "is-invalid" or "is-valid" according to the validation result in the checkout.component.ts in the createCheckoutForm() method in the FormGroup-->
+                <!-- <label for="firstName" class="mr-2">First Name</label> -->
+                <!-- display the error of is Requiered -->
+                <span class="text-danger" *ngIf="myCheckoutForm.get('addressForm.firstName').invalid && myCheckoutForm.get('addressForm.firstName').touched && myCheckoutForm.get('addressForm.firstName').errors['required']">First Name is requiered</span>
+                <!-- remember the validations done in the checkout.component.ts in the createCheckoutForm() method in the FormGroup -->
+            </div>
+        </div>
+        <div class="form-group col-6">
+            <div class="form-label-group">
+                <input formControlName="lastName" type="lastName" id="lastName" class="form-control" placeholder="Last Name" 
+                [ngClass]="(myCheckoutForm.get('addressForm.lastName') && myCheckoutForm.get('addressForm.lastName').touched ) ? myCheckoutForm.get('addressForm.lastName').invalid ? 'is-invalid' : 'is-valid' : null"> <!-- we have 2 nested "if" statments, and we have 3 possibilites to implement 'is-invalid' : 'is-valid' : null-->
+                <!-- we applied on the input the class form-control, with another class "is-invalid" or "is-valid" according to the validation result in the checkout.component.ts in the createCheckoutForm() method in the FormGroup-->
+                <!-- <label for="lastName" class="mr-2">Last Name</label> -->
+                <!-- display the error of is Requiered -->
+                <span class="text-danger" *ngIf="myCheckoutForm.get('addressForm.lastName').invalid && myCheckoutForm.get('addressForm.lastName').touched && myCheckoutForm.get('addressForm.lastName').errors['required']">Last Name is requiered</span>
+                <!-- remember the validations done in the checkout.component.ts in the createCheckoutForm() method in the FormGroup -->
+            </div>
+        </div>
+        <div class="form-group col-6">
+            <div class="form-label-group">
+                <input formControlName="street" type="street" id="street" class="form-control" placeholder="Street" 
+                [ngClass]="(myCheckoutForm.get('addressForm.street') && myCheckoutForm.get('addressForm.street').touched ) ? myCheckoutForm.get('addressForm.street').invalid ? 'is-invalid' : 'is-valid' : null"> <!-- we have 2 nested "if" statments, and we have 3 possibilites to implement 'is-invalid' : 'is-valid' : null-->
+                <!-- we applied on the input the class form-control, with another class "is-invalid" or "is-valid" according to the validation result in the checkout.component.ts in the createCheckoutForm() method in the FormGroup-->
+                <!-- <label for="street" class="mr-2">Street</label> -->
+                <!-- display the error of is Requiered -->
+                <span class="text-danger" *ngIf="myCheckoutForm.get('addressForm.street').invalid && myCheckoutForm.get('addressForm.street').touched && myCheckoutForm.get('addressForm.street').errors['required']">Street is requiered</span>
+                <!-- remember the validations done in the checkout.component.ts in the createCheckoutForm() method in the FormGroup -->
+            </div>
+        </div>
+        <div class="form-group col-6">
+            <div class="form-label-group">
+                <input formControlName="city" type="city" id="city" class="form-control" placeholder="city" 
+                [ngClass]="(myCheckoutForm.get('addressForm.city') && myCheckoutForm.get('addressForm.city').touched ) ? myCheckoutForm.get('addressForm.city').invalid ? 'is-invalid' : 'is-valid' : null"> <!-- we have 2 nested "if" statments, and we have 3 possibilites to implement 'is-invalid' : 'is-valid' : null-->
+                <!-- we applied on the input the class form-control, with another class "is-invalid" or "is-valid" according to the validation result in the checkout.component.ts in the createCheckoutForm() method in the FormGroup-->
+                <!-- <label for="city" class="mr-2">City</label> -->
+                <!-- display the error of is Requiered -->
+                <span class="text-danger" *ngIf="myCheckoutForm.get('addressForm.city').invalid && myCheckoutForm.get('addressForm.city').touched && myCheckoutForm.get('addressForm.city').errors['required']">City is requiered</span>
+                <!-- remember the validations done in the checkout.component.ts in the createCheckoutForm() method in the FormGroup -->
+            </div>
+        </div>
+        <div class="form-group col-6">
+            <div class="form-label-group">
+                <input formControlName="state" type="state" id="state" class="form-control" placeholder="state" 
+                [ngClass]="(myCheckoutForm.get('addressForm.state') && myCheckoutForm.get('addressForm.state').touched ) ? myCheckoutForm.get('addressForm.state').invalid ? 'is-invalid' : 'is-valid' : null"> <!-- we have 2 nested "if" statments, and we have 3 possibilites to implement 'is-invalid' : 'is-valid' : null-->
+                <!-- we applied on the input the class form-control, with another class "is-invalid" or "is-valid" according to the validation result in the checkout.component.ts in the createCheckoutForm() method in the FormGroup-->
+                <!-- <label for="state" class="mr-2">State</label> -->
+                <!-- display the error of is Requiered -->
+                <span class="text-danger" *ngIf="myCheckoutForm.get('addressForm.state').invalid && myCheckoutForm.get('addressForm.state').touched && myCheckoutForm.get('addressForm.state').errors['required']">State is requiered</span>
+                <!-- remember the validations done in the checkout.component.ts in the createCheckoutForm() method in the FormGroup -->
+            </div>
+        </div>
+        <div class="form-group col-6">
+            <div class="form-label-group">
+                <input formControlName="zipcode" type="zipcode" id="zipcode" class="form-control" placeholder="zipcode" 
+                [ngClass]="(myCheckoutForm.get('addressForm.zipcode') && myCheckoutForm.get('addressForm.zipcode').touched ) ? myCheckoutForm.get('addressForm.zipcode').invalid ? 'is-invalid' : 'is-valid' : null"> <!-- we have 2 nested "if" statments, and we have 3 possibilites to implement 'is-invalid' : 'is-valid' : null-->
+                <!-- we applied on the input the class form-control, with another class "is-invalid" or "is-valid" according to the validation result in the checkout.component.ts in the createCheckoutForm() method in the FormGroup-->
+                <!-- <label for="zipcode" class="mr-2">Zip Code</label> -->
+                <!-- display the error of is Requiered -->
+                <span class="text-danger" *ngIf="myCheckoutForm.get('addressForm.zipcode').invalid && myCheckoutForm.get('addressForm.zipcode').touched && myCheckoutForm.get('addressForm.zipcode').errors['required']">State is requiered</span>
+                <!-- remember the validations done in the checkout.component.ts in the createCheckoutForm() method in the FormGroup -->
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+
+<!-- add buttons to go back to basket or move to the next step which is the DeliveryMethods choosing-->
+<!-- use font awesome icons of fa-angle-left fa-angle-right to indicate the direction -->
+<div class="float-none d-flex justify-content-between flex-column flex-lg-row mb-5">
+        <button class="btn btn-sm btn-outline-primary" routerLink="/basket"><!-- routes are in app-routing.module.ts-->
+           <i class="fa fa-angle-left"></i> Back to Basket
+        </button>
+      <button class="btn btn-sm btn-primary" cdkStepperNext><!-- cdkStepperNext is a directive that no need to be confugured, it will take us to the next step as ordered in checkout.component.html -->
+          Go to Delivery <i class="fa fa-angle-right"></i> 
+      </button>
+</div>

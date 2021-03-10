@@ -83,4 +83,10 @@ export class TestErrorsComponent implements OnInit
     );
   }
 
+
+
+    //there is another error 401 happens when the user is not logged in,
+    //while the method has [Authorize] which requiers him to be logged in
+    //but we did not write anything for it in the BuggyController !
+
 }

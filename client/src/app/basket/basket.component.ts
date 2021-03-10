@@ -30,6 +30,7 @@ export class BasketComponent implements OnInit {
   //a-lifecycle methods:
   ngOnInit() 
   {
+    //read the basket$ observable from basket.service.ts and store it in the observable above which is going to be displayed in the html page
     this.userBasket$ = this.basketService.basket$;
   }
   //b-methods to:

@@ -107,4 +107,8 @@ export class LoginComponent implements OnInit
     error => {console.log(error);}
     );
   }
+  //if the .login returned https response error 401 (which was returned from AccountController)
+  //that means the login failed (user not existe, or username/password a re not correct)
+  //so that the error.interceptor.ts in core/interceptors folder wil automatically catch the error and act as we configured there
+  //to display the error using the toastr notification
 }

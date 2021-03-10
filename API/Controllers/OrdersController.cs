@@ -12,7 +12,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [Authorize] //so that only and only logged in user's can send https requests to this controller.
+    [Authorize] 
+    //this is for the authorized users only, which means for the logged in user only.
+    //so that only and only logged in users can send https requests to this controller. 
+    //https requests coming to here from angualr side should be with the current logged in user's token in the header.
+    //like how we did in the  client/src/app/checkout/checkout.service.ts in getDeliveryMethods() method 
     [ApiController]
     [Route("api/[controller]")]
     public class OrdersController : ControllerBase

@@ -5,6 +5,7 @@ import { BusyService } from '../services/busy.service';
 import { Injectable } from '@angular/core';
 import { delay, finalize } from 'rxjs/operators';
 
+//make this service file injectable of ocurse, so we can inject it in the basket.component.ts 
 @Injectable()
 export class LoadingInterceptor implements HttpInterceptor {
 
@@ -29,3 +30,23 @@ export class LoadingInterceptor implements HttpInterceptor {
         );
     }
 }
+    //then import this in app.module.ts in the Providers array.
+
+    
+
+/*
+if you want to exclude a specific http request from being intercepted to be delayed in order to display the spinner,
+you can add the following example before the calling the .busy method:
+
+        //for example, exclude the https ost request which includes in its link the 'orders' keyword,
+        //like the https://localhost:4200/api/orders (calling the OrdersController in API project)
+        if (req.method === 'POST' && req.url.includes('orders')) 
+        {
+            return next.handle(req);
+        }
+        //for example, exclude and bypass any https delete request:
+        if (req.method === 'DELETE') 
+        {
+            return next.handle(req);
+        }
+*/

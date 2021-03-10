@@ -77,6 +77,12 @@ export class ErrorInterceptor implements HttpInterceptor
                         //look at the picture in the course folder section 11 !
                         }
                     }
+                    //there is another error 401 happens when the user is not logged in,
+                    //while the method has [Authorize] which requiers him to be logged in
+                    if(CaughtError.status == 401)
+                    {
+                        this.toastr.error(CaughtError.error.message, CaughtError.error.statusCode);
+                    }                    
                     if(CaughtError.status == 404)
                     {
                         this.toastr.error(CaughtError.error.message, CaughtError.error.statusCode);
@@ -88,11 +94,11 @@ export class ErrorInterceptor implements HttpInterceptor
                         //for 400 validation-based errors, we did not redirect the browser to any component, and did not display any toastr notification. But we threw the error only 
                         //for 500 https error, we will redirect the browser to server-error.component.ts/.hml to disply the error with its info
 
-                        //in the API project, Errors folder, wee designed the class ApiException:ApiResponse, which is the https 500 error we want to be returned
+                        //in the API project, Errors folder, we designed the class ApiException:ApiResponse, which is the https 500 error we want to be returned
                         //(and used it in the Middleware folder)
                         //this response we designed has an additional part we added to the original https response, and we called it also error !
                         //look at the picture in the course folder section 11 !
-                        //once this error is recieved, we want to redirect the brwoser to server-error.component.ts/.html page while passing to it that error part we designed
+                        //once this error is recieved, we want to redirect the browser to server-error.component.ts/.html page while passing to it that error part we designed
                         //the Caughterror.error below is:
                         //the first CaughtError is the actual complete error of the https response we caught above besides catchError
                         //the second error keyword is the error part we added inside the actual error message
@@ -102,6 +108,7 @@ export class ErrorInterceptor implements HttpInterceptor
                         const navigationExtras: NavigationExtras = {state: {error: CaughtError.error}};
 
                         this.router.navigateByUrl('/server-error', navigationExtras);
+                        //and in server-error.component.ts we configured it to receive the naviagtion extras we configured above.
                     }
                 }
                 return throwError(CaughtError);
@@ -117,5 +124,25 @@ export class ErrorInterceptor implements HttpInterceptor
 //summary:
 //for the 400 error, first we redirected the browser to not-found.component.ts/.html , then commented this out to display a toastr notification instead
 //for the 404 erro the same, we used a toastr notification
+//also the 401
 //for 400 validation-based errors, we did not redirect the browser to any component, and did not display any toastr notification. But we threw the error only 
 //for 500 https error, we will redirect the browser to server-error.component.ts/.hml to disply the error with its info
+
+
+
+/*
+if you want to exclude a specific http request from being intercepted,
+you can add the following example before the calling the catchError:
+
+        //for example, exclude the https ost request which includes in its link the 'orders' keyword,
+        //like the https://localhost:4200/api/orders (calling the OrdersController in API project)
+        if (req.method === 'POST' && req.url.includes('orders')) 
+        {
+            return next.handle(req);
+        }
+        //for example, exclude and bypass any https delete request:
+        if (req.method === 'DELETE') 
+        {
+            return next.handle(req);
+        }
+*/

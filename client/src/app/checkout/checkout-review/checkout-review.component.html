@@ -1,0 +1,72 @@
+<div class="container mt-2">
+    <!-- check if there items in the basket -->
+    <!-- useful when we erase the basket info in the checkout.component.ts createOrder method, so no erro will appear-->
+    <div *ngIf="(userBasket$ | async) === null">
+        <p>There are no items in your basket</p>
+    </div>
+
+    <!-- again, check if there items in the basket, and if true:-->
+    <div *ngIf="(userBasket$ | async) as userBasket">
+        <div class="pb-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="border-0" scope="col">
+                                            <div class="p-2 px-3 text-uppercase d-flex align-items-center justify-content-center">Product</div>
+                                        </th>
+                                        <th scope="col" class="border-0">
+                                            <div class="py-2 text-uppercase d-flex align-items-center justify-content-center">Price</div>
+                                        </th>
+                                        <th scope="col" class="border-0">
+                                            <div class="py-2 text-uppercase d-flex align-items-center justify-content-center">Quantity</div>
+                                        </th>
+                                        <th scope="col" class="border-0">
+                                            <div class="py-2 text-uppercase d-flex align-items-center justify-content-center">Total</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of (userBasket$ | async).items">
+                                        <th scope="row">
+                                            <div class="p-2">
+                                                <img src="{{item.pictureUrl}}" alt="{{item.productName}}" class="img-fluid" style="max-height: 50px;">
+                                                <div class="ml-3 d-inline-block align-middle">
+                                                    <span class="text-muted font-weight-normal font-italic d-block">Type:{{item.type}}</span>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <td class="align-middle"><strong>{{item.price | currency}}</strong></td>
+                                        <td class="align-middle">
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <span class="font-weight-bold" style="font-size: 1em;">{{item.quantity}}</span>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle"> 
+                                            <strong>{{item.price * item.quantity | currency}}</strong>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- add buttons to go back to checkout-delivery or move to the next step which is the Payment choosing-->
+<!-- use font awesome icons of fa-angle-left fa-angle-right to indicate the direction -->
+<div class="float-none d-flex justify-content-between flex-column flex-lg-row mb-5">
+    <button class="btn btn-sm btn-outline-primary" cdkStepperPrevious><!-- cdkStepperPrevious is a directive that no need to be confugured, it will take us to the next step as ordered in checkout.component.html -->
+        <i class="fa fa-angle-left"></i> Back to Delivery
+    </button>
+    <button class="btn btn-sm btn-primary" cdkStepperNext><!-- cdkStepperNext is a directive that no need to be confugured, it will take us to the next step as ordered in checkout.component.html -->
+        Go to Payment <i class="fa fa-angle-right"></i> 
+    </button>
+</div>

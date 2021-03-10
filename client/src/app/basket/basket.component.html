@@ -1,5 +1,6 @@
 <div class="container mt-2">
     <!-- check if there items in the basket -->
+    <!-- useful when we erase the basket info in the checkout.component.ts createOrder method, so no erro will appear-->
     <div *ngIf="(userBasket$ | async) === null">
         <p>There are no items in your basket</p>
     </div>

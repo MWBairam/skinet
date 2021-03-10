@@ -1,0 +1,13 @@
+  //no constructor is used or needed. any way, if we want to write a one, we should also inherit the one from CdkStepper.
+  //I wrote a sample of that in the note file here in this folder, becuase writing that in a comment caused a problem in vs code !!!!!!
+
+  /*
+  //2-constructor:
+  constructor() {}
+  if we want this constructor, we should extend it to cover the inherited component CdkStepper, so it will be:
+   constructor() 
+   {
+     super(_dir: Directionality, _changeDetectorRef: ChangeDetectorRef, _elementRef?: ElementRef<HTMLElement> | undefined, _document?: any);
+   }
+  but we will not use it !
+  */

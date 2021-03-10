@@ -29,6 +29,10 @@ namespace Core.Specifications
         //we need to add the below AddInclude, and OrderByDesc, and pass to the constructor of the inherited class, the logged in user's email expression:
         public OrdersWithItemsAndOrderingSpecification(string email) : base(o => o.BuyerEmail == email)
         {
+            //OrderItems is a property of IReadOnlyList<OrderItem> in Order model,
+            //and since Orders and OrderItems are different tables, we are able to load all the OrderItems related to an Order
+            //because orderItem is an aggregated property as we said above.
+            //and use the AddInclude to do that:
             AddInclude(o => o.OrderItems);
             AddInclude(o => o.DeliveryMethod);
             AddOrderByDescending(o => o.OrderDate);

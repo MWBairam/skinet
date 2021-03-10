@@ -8,6 +8,7 @@ import { map, take } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { IAddress } from '../shared/models/address';
 
+//make it injectable sowe can inject it anywhere else
 @Injectable({
   providedIn: 'root'
 })
@@ -16,6 +17,7 @@ export class AccountService
   //1-properties:
   //baseurl in the appSettings.Development.json https://localhost:4200/api/
   baseUrl = environment.apiUrl;
+
   //create a "special observable" (BehaviorSubject):
   //very good explanation about observables as it is existed in the basket.service.ts. Please read al the notes there before completing the below.
   //    private currentUserSource = new BehaviorSubject<IUser>(null);
@@ -118,10 +120,18 @@ export class AccountService
       //becuase we we are not returning a subscribed observable here, and we are subscribing to an observable returned from here in app.component.ts when we called this method there !
     }
 
-    let headers = new HttpHeaders();  
-    headers = headers.set('Authorization', `Bearer ${token}`);
+    //    let headers = new HttpHeaders();  
+    //    headers = headers.set('Authorization', `Bearer ${token}`);
+    //    return this.http.get(this.baseUrl + 'account', {headers}).pipe( // ...... the rest of the command below) 
+    /*
+    -go back to AccountController, it has [Authorize] annotation, which means the user cannot send https requests to methods there unless logged in.
+    -also, some methods there extracts user's info (email and display name ) from the token (we inserted those in the token creation process in Infrastructure project, Services folder, TokenService.cs).
 
-    return this.http.get(this.baseUrl + 'account', {headers}) //embedd the above header in the sent https request, which contains in its Authorization part the logged in user's token. 
+    for both of the 2 reasons, we need to insert the current logged in user's token in the https header (Authorization part of the header).
+    and to do that, we can use the .set() above in each method we want like here, 
+    or depend on the jwt.interceptor.ts in shared/interceptors folder here which does that automatically since it is imported in app.module.ts
+    */
+    return this.http.get(this.baseUrl + 'account') 
     .pipe //the API project, AccountController, GetCurrentUser() method will return a UserDto which will be recieved in the IUser model here and we will store it in the observable above !
     (
       map
@@ -135,5 +145,23 @@ export class AccountService
         }
       })
     );
+  }
+
+
+  //we will not ask the user to add his address info while Registering. 
+  //We will allow him to do that when he is in the checkout page, in the "Address" tab, using the form there and the button "save as default address"
+  //the below 2 methods are used in the checkout.component.ts and checkout-addres.component.ts
+  //(not in the login.component or register.component)
+  //get the user's address from the "Addres" table in the AppIdentityDbContext:
+
+  //remember that we are sending the token in this request using the core/interceptors/jwt.interceptor.ts
+  //user Id is determined in AccountController in UpdateUserAddress out of his email embedded in the sent token.
+  
+  getUserAddress() {
+    return this.http.get<IAddress>(this.baseUrl + 'account/address');
+  }
+  //add/update the user's address by sending this https put request carrying the parameter "address" as the body of the request:
+  updateUserAddress(address: IAddress) {
+    return this.http.put<IAddress>(this.baseUrl + 'account/address', address);
   }
 }

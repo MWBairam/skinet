@@ -1,0 +1,12 @@
+<p>checkout-payment works!</p>
+
+<!-- add buttons to go back to checkout-review or submitting the order -->
+<!-- use font awesome icons of fa-angle-left fa-angle-right to indicate the direction -->
+<div class="float-none d-flex justify-content-between flex-column flex-lg-row mb-5">
+    <button class="btn btn-sm btn-outline-primary" cdkStepperPrevious><!-- cdkStepperPrevious is a directive that no need to be confugured, it will take us to the Previous step as ordered in checkout.component.html -->
+        <i class="fa fa-angle-left"></i> Back to Review
+    </button>
+    <button (click)="submitOrder()" class="btn btn-sm btn-primary"><!-- after order submit, we will redirect to the success page -->
+        Submit Order <i class="fa fa-angle-right"></i> 
+    </button>
+</div>

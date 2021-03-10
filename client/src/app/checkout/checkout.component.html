@@ -1,3 +1,44 @@
-<div class="container mt-5">
-    <h1>Only authorised users should be able to see this</h1>
+<div class="container mt-5 mb-5">
+    <div class="row">
+
+        <div class="col-8">
+            <app-stepper [linearModeSelected]="false" #appStepper>
+            <!-- add "template refrence variable" to this input, using the #, and call it "appStepper"
+            and we set its value in checkout.component.ts directly by calling its name #appStepper -->
+                <cdk-step [label]="'Address'" [completed]="(checkoutForm.get('addressForm')).valid"> 
+                <!-- "label" and "completed" are another @Input() properties in stepper.component,ts, but not written ! those are inherited from the component CdkStepper -->
+                <!-- "label" is to display "Address" in the button -->
+                <!-- "completed" is to mark the completness of this cdk-step with true or false according to the validation we wrote in the chekout.component.ts in checkoutForm.addressForm-->
+                <!-- please take a look on where those "label" and "completed" are exised in stepper.component.html -->   
+                    step1
+                    <app-checkout-address [myCheckoutForm]="checkoutForm"></app-checkout-address>
+                    <!-- and there is no route for those checkout components (checkout-address, checkout-delivery, checkout-review, checkout-payment)
+                    in app-routing.component.ts since we do not want the user to browse directly to those components,
+                    and we want them to be controller directly by the stepper-->
+                    <!--
+                     //we have a parent component checkout.component.ts, in it we have the parent property checkoutForm: FormGroup.
+                     //we have this child component checkout-address.component.ts, in it we have the child property myCheckoutForm: FormGroup 
+                     //in checkout.component.html we will pass the parent property checkoutForm -> to the child property myCheckoutForm so that data in
+                     //checkout-address.component.ts are filled.
+                    -->
+                </cdk-step>
+                <cdk-step [label]="'Delivery'" [completed]="(checkoutForm.get('deliveryForm')).valid">
+                     step2
+                     <app-checkout-delivery [myCheckoutForm]="checkoutForm"></app-checkout-delivery> <!-- same notes as above -->
+                </cdk-step>
+                <cdk-step [label]="'Review'">     
+                     step3
+                     <app-checkout-review></app-checkout-review><!-- there is no form for this, just re display the basket in redis items-->  
+                </cdk-step>
+                <cdk-step [label]="'Payment'">
+                     step4
+                     <app-checkout-payment [myCheckoutForm]="checkoutForm"></app-checkout-payment>           
+                </cdk-step>
+            </app-stepper>
+        </div>
+        <div class="col-4">
+            <!-- display the same summary we display in the basket, which is from shared/components/order-totals.component-->
+            <app-order-totals></app-order-totals>
+        </div>
+    </div>
 </div>

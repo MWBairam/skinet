@@ -107,5 +107,10 @@ namespace API.Controllers
         }
 
 
+
+        //there is another error 401 happens when the user is not logged in,
+        //while the method has [Authorize] which requiers him to be logged in
+
+
     }
 }

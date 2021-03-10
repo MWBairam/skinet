@@ -1,0 +1,46 @@
+<!--
+  //we will use the ReactiveForm to collect data from user in this component.
+  //ReactiveForms is imported in shared.module.ts which is imported in checkout.module.ts
+  
+  //Note: I have explained everything about Angular forms in app/account/login/login.component.ts and html file
+  //so please read it from there first !
+  //also different way of creating FormGroup is illustrated in register.component.ts
+-->
+
+
+
+<div class="mt-4" [formGroup]="myCheckoutForm"> <!-- the submit form data action is in the button below -->
+
+    <h4 class="mb-3">Choose your delivery method</h4>
+
+    <div class="row ml-5" formGroupName="deliveryForm"> <!-- sub-form in checkoutForm in checkout.component.ts -->
+
+        <div class="col-6 form-group" *ngFor="let method of deliveryMethods"> <!-- foreach loop on the deliveryMethods list we have in checkout-delivery.component.ts to display them-->
+            <input type="radio" (click)="setUserShippingPrice(method)" id={{method.id}} value={{method.id}} formControlName="deliveryMethod" class="custom-control-input"> <!-- control is in the form deliveryForm-->
+            <!-- the input is of type radio button -->
+            <!-- create this radio input with a click event,
+            so when this radio button is clicked, the whole "DeliveryMethod" object is passed to the setUserShippingPrice method in checkout-delivery.component.ts
+            so that we can deliver it also to basket.component.ts where we calculate the total, subtotal calculations,
+            so that the order-summary.component.ts can read all the calclations inside the basket.service.ts -->
+            <label for="{{method.id}}" class="custom-control-label">
+                <strong>{{method.shortName}} - {{method.price | currency}}</strong> <!-- format the delivery price with | currency pipe so it looks like a price-->
+                <br>
+                <span class="label-description">{{method.description}}</span>
+            </label>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- add buttons to go back to checkout-address or move to the next step which is the Review choosing-->
+<!-- use font awesome icons of fa-angle-left fa-angle-right to indicate the direction -->
+<div class="float-none d-flex justify-content-between flex-column flex-lg-row mb-5">
+    <button class="btn btn-sm btn-outline-primary" cdkStepperPrevious><!-- cdkStepperPrevious is a directive that no need to be confugured, it will take us to the Previous step as ordered in checkout.component.html -->
+        <i class="fa fa-angle-left"></i> Back to Address
+    </button>
+    <button class="btn btn-sm btn-primary" cdkStepperNext><!-- cdkStepperNext is a directive that no need to be confugured, it will take us to the next step as ordered in checkout.component.html -->
+        Go to Review <i class="fa fa-angle-right"></i> 
+    </button>
+</div>

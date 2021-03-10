@@ -179,9 +179,12 @@ namespace API.Controllers
         //adding another set of functions, other than "login" and "Register", as an added value methods:
 
         //c-GetCurrentUser:
-        //this is for the authorized users only, which means for the logged in user only.
         //it is an HtttpGet without a name and without parameters in the method, so we can call it using https://locallhost:4200/api/account only
         [Authorize]
+        //this is for the authorized users only, which means for the logged in user only.
+        //so that only and only logged in user can send https requests to this controller. 
+        //https requests coming to here from angualr side should be with the current logged in user's token in the header.
+        //like how we did in the  client/src/app/account/account.service.ts in loadCurrentUser method 
         [HttpGet]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
@@ -235,7 +238,7 @@ namespace API.Controllers
 
 
             //e-get the user's address info (remember in Core project, Entities/Identity folder, we designed the AppUser:IdentityUser to have an object of "Address")
-            [Authorize] //for only logged in users 
+            [Authorize] //for only logged in users //please read the not about authorization in GetCurrentUser() method above
             [HttpGet("address")]
             public async Task<ActionResult<AddressDto>> GetUserAddress()
             {
@@ -267,7 +270,7 @@ namespace API.Controllers
 
         //f-Update user's Address:
         //Note: it is also can be used to add Address info for a user (it is just like updateing null Address info into new info !)
-        [Authorize] //for only logged in users 
+        [Authorize] //for only logged in users //please read the not about authorization in GetCurrentUser() method above
         [HttpPut("address")] //updating data is an https put method !
         public async Task<ActionResult<AddressDto>> UpdateUserAddress(AddressDto addressdto)
         {

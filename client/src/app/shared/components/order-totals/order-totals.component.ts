@@ -15,9 +15,11 @@ import { BasketService } from 'src/app/basket/basket.service';
   -we need, in basket.component.html (below the html table we created where we displayed what was added to the basket) to show "total" calculations (products bill + shipping cost).
   -we will create for that a component (shared/components/order-totals.component.ts), then we will call it in the basket.component.html using <app-order-totals></app-order-totals>
   -and we should create an interface (angular model) for that in shared/models/basket called IBasketTotals.
+  -also, we displayed this order-totals in checkout.component.ts 
 
   anyway, we are going to show these "total" calculations in basket component and checkout component and ...... 
   (in multiple components, not only use it in the basket html page !)
+  
   so we will not subscribe to it directly in basket.service.ts, 
   we will store the returned observable from the https response in the basketTotalsSource special observable property in basket.service.ts.
   and read it in here from the public property basketTotals in basket.servie.ts,

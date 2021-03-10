@@ -15,6 +15,7 @@ import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { NgxSpinner } from 'ngx-spinner/lib/ngx-spinner.enum';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
+import { JwtInterceptor } from './core/interceptors/jwt.interceptors';
 
 
 @NgModule({
@@ -59,9 +60,12 @@ import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
   //then say both of these to be used by saying multi is true 
 
   //also add the loading interceptor we spoke about above in the import section !
+
+  //as well as the jwt interceptor which adds the logged in user's token in the https header:
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}    
   ],
 
 
