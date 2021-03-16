@@ -47,7 +47,7 @@ namespace Core.Entities.OrderAggregate
 
         //2-constructor:
         //constructor with parameters so when we create an instance of this class, we can pass values to the constructor to set the above properties:
-        public Order(IReadOnlyList<OrderItem> orderItems, string buyerEmail, Address shipToAddress, DeliveryMethod deliveryMethod, decimal subtotal)
+        public Order(IReadOnlyList<OrderItem> orderItems, string buyerEmail, Address shipToAddress, DeliveryMethod deliveryMethod, decimal subtotal, string paymentIntentId)
         {
             BuyerEmail = buyerEmail;
             //OrderDate has a default value
@@ -56,7 +56,7 @@ namespace Core.Entities.OrderAggregate
             OrderItems = orderItems;
             Subtotal = subtotal;
             //Status has a default value
-            //PaymentIntentId = paymentIntentId;
+            PaymentIntentId = paymentIntentId;
 
         }
 

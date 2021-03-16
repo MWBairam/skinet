@@ -72,11 +72,11 @@ namespace API.Controllers
             //we have 2 "Address" model, in Core/Entities/Identity/Address, or the Core/Entities/OrderAggregate/Address
             //so we specified the one we want which is related to Order part.
 
-            //the basketId and DeliverMethodId are passed from angulaer side as well in the recieved OrderDto.
+            //the basketId and DeliverMethodId and PaymentIntentId are passed from angular side as well in the recieved OrderDto.
 
             //now, we will call the method createOrderAsync in the OrderService to submit an Order in the DB Orders table.
-            //we need to pass to it the current logged in user's email, the DeliverMethod Id which is choosen, the basketId, and "Address" object info.
-            var order = await _orderService.CreateOrderAsync(email, orderDto.DeliveryMethodId, orderDto.BasketId, address);
+            //we need to pass to it the current logged in user's email, the DeliverMethod Id which is choosen, the basketId, "Address", and PaymentIntentId object info.
+            var order = await _orderService.CreateOrderAsync(email, orderDto.DeliveryMethodId, orderDto.BasketId, address, orderDto.PaymentIntentId);
             //we have called the CreateOrderAsync from the OrderService.
             //and there an Order will be submitted to DB in "Orders" table with the relevant OrderItems in "OrderItems" table !
             //then the submitted order will be returned and we stored it in the previous command in var order.

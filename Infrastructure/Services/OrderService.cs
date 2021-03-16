@@ -50,7 +50,7 @@ namespace Infrastructure.Services
         //a-create an order in the Order table,
         //the basket Id is needed to cpoy its items in records in OrderItems table for a specific Order.
         //remember that "Address" model in Core project, Entites/OrderAggregate folder, is a property in Order model.
-        public async Task<Order> CreateOrderAsync(string buyerEmail, int delieveryMethodId, string basketId, Address shippingAddress)
+        public async Task<Order> CreateOrderAsync(string buyerEmail, int delieveryMethodId, string basketId, Address shippingAddress, string paymentIntentId)
         {
             //once this is called in OrderService, that means we need to create an "Order" record inside Orders table
             //, with its "OredrItems" records inside OrderItems table.
@@ -88,7 +88,7 @@ namespace Infrastructure.Services
 
             //5-create the order
             //instantiate an object of "Order" model and pass the above variables to its constructor:
-            var order = new Order(items, buyerEmail, shippingAddress, deliveryMethod, subTotal);
+            var order = new Order(items, buyerEmail, shippingAddress, deliveryMethod, subTotal, paymentIntentId);
             //IMPORTANT NOTE:
             //"Order" model has an IReadOnlyList<OrderItem>, and in the previous command we passed to it the "items" list we created above out of our basket and Products DB table.
             //now, when we save this order from the previous command to the DB as below, and becauses of EntityFrameWork is smart !

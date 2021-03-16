@@ -161,13 +161,19 @@ export class CheckoutPaymentComponent implements OnInit, AfterViewInit, OnDestro
     const basket_Id = basket.id;
     const deliveryMethod_Id = +this.myCheckoutForm.get('deliveryForm').get('deliveryMethod').value;
     const ship_To_Address = this.myCheckoutForm.get('addressForm').value;
+    const paymentIntentId = basket.paymentIntentId;    
     //create the order to be sent:
     const orderToCreate = { 
       basketId: basket_Id,
       deliveryMethodId: deliveryMethod_Id,
-      shipToAddress: ship_To_Address
-      //properties here should like the ones in IOrder which is used in createOrder method in chekout.service.ts we are sending this order to.
+      shipToAddress: ship_To_Address,
+      paymentIntentId: paymentIntentId
+      //properties here should like the ones in IOrderToCreate which is used in createOrder method in chekout.service.ts we are sending this order to.
       //becarefull, since typescript will not correct the properties names since we did not identified the type of orderToCreat as IOrder explicitly.
+    
+      //remember that payment intent has been create in checkout-review.component.ts in "go to payment" button before reaching this checkout-payment.component.ts
+      //and the PAymentIntentId is updated in the basket, so we are sending it with the order we are creating
+
     }
     //pass the order to createOrder method in chekout.service.ts which will send it to the createOrder method in OrdersController in the API
     this.checkoutService.createOrder(orderToCreate)

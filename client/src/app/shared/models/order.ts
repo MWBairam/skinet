@@ -5,6 +5,7 @@ export interface IOrderToCreate {
     basketId: string;
     deliveryMethodId: number;
     shipToAddress: IAddress;
+    paymentIntentId: string;
 }
 
 //model for the order we are receiving from the "public async Task<ActionResult<Order>> CreateOrder(OrderDto orderDto)" method

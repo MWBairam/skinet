@@ -13,7 +13,7 @@ namespace Core.Interfaces
 
         //create an order in the Order table,
         //the basket Id is needed to cpoy its items in records in OrderItems table for a specific Order.
-        Task<Order> CreateOrderAsync(string buyerEmail, int delieveryMethod, string basketId, Address shippingAddress);
+        Task<Order> CreateOrderAsync(string buyerEmail, int delieveryMethod, string basketId, Address shippingAddress, string paymentIntentId);
 
         //get all orders of a specific suer (by querying the BuyerEmail):
         Task<IReadOnlyList<Order>> GetOrdersForUserAsync(string buyerEmail);
