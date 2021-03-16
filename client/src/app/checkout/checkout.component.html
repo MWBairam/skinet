@@ -2,9 +2,21 @@
     <div class="row">
 
         <div class="col-8">
-            <app-stepper [linearModeSelected]="false" #appStepper>
-            <!-- add "template refrence variable" to this input, using the #, and call it "appStepper"
-            and we set its value in checkout.component.ts directly by calling its name #appStepper -->
+            <app-stepper [linearModeSelected]="true" #MyAppStepper>
+            <!-- 
+            add "template refrence variable" to this input, using the #, and call it "appStepper"
+            so we can send it to the checkout-review.component.ts in the <app-checkout-review> tag below.
+            (checkout-review.component.ts has an @Input proerty of type cdkStepper. Please read th notes there.) 
+            -->
+            <!-- 
+            linearModeSelected is an property in stepper.component.ts,
+            and we set its value here so that it sets there the "linear" property which is not written 
+            in checkout.component.ts but it comes from the
+            inherited component CdkStepper (remember stepper.component.ts).
+            so we cannot go to any next step (wherever the cdkStepperNext directive is existed in a button, such as the one 
+            in the "go to delivery" button in checkout-address.component.ts) (or by clicking on the label tab, remember the [disabled]="true" in the button in stepper.component.html)
+            unless the validations of each form used below (addressForm, ...) identified in checkout.component.ts is valid ! 
+            -->
                 <cdk-step [label]="'Address'" [completed]="(checkoutForm.get('addressForm')).valid"> 
                 <!-- "label" and "completed" are another @Input() properties in stepper.component,ts, but not written ! those are inherited from the component CdkStepper -->
                 <!-- "label" is to display "Address" in the button -->
@@ -28,7 +40,9 @@
                 </cdk-step>
                 <cdk-step [label]="'Review'">     
                      step3
-                     <app-checkout-review></app-checkout-review><!-- there is no form for this, just re display the basket in redis items-->  
+                     <app-checkout-review [appStepper]="MyAppStepper"></app-checkout-review><!-- there is no form for this, just re display the basket in redis items-->  
+                     <!-- pass the above #MyAppStepper to the "@Input appStepper" property in checkout-revire.component.ts
+                     so we can control moving to the next step when only the creation of the PaymentIntent is successfull-->
                 </cdk-step>
                 <cdk-step [label]="'Payment'">
                      step4

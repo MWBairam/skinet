@@ -9,10 +9,16 @@ button.nav-link {
     &.active:hover {
         color: white;
     }
-    & :active {
+    &:active {
         outline: none;
     }
     &.active:focus {
         outline: none;
+    }
+
+    //we made the buttons disabled by default, and each button is activated when it is the current step,
+    //the styling changed, so modify it:
+    &:disabled:not(.active) { //the disabled event, not active nested classe
+        color: #333;
     }
 }

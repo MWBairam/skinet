@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { AccountService } from 'src/app/account/account.service';
+import { IAddress } from 'src/app/shared/models/address';
 
 @Component({
   selector: 'app-checkout-address',
@@ -58,7 +59,11 @@ export class CheckoutAddressComponent implements OnInit
     this.accountService.updateUserAddress(this.myCheckoutForm.get('addressForm').value)
     .subscribe 
     (
-      () => {this.toastr.success('Address saved');}, 
+      //we can only display a notification of success:
+      //   () => {this.toastr.success('Address saved');},
+      //or we can as well disable the "save address" button by reseting the validation status of addressForm to not valid,
+      //and with the help of what is written in the html page in [disabled] in that button, we can acheive that !
+      (address: IAddress) => {this.toastr.success('Address saved'); this.myCheckoutForm.get('addressForm').reset(address);} ,
       error => {this.toastr.error(error.message);console.log(error);}
     );
     //the UpdateUserAddress in AccountController upon successfull update, returns the updated address info in AddressDto (here we recive it as IAddress)

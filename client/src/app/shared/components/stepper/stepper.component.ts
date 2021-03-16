@@ -35,8 +35,9 @@ export class StepperComponent extends CdkStepper implements OnInit
   //3-methods:
   ngOnInit() 
   {
-    //"linear" is a property property came from CdkStepper inherited component.
-    //please read the note above the @Input property.    
+    //"linear" is a property came from CdkStepper inherited component.
+    //please read the note above the @Input property.   
+    //linearModeSelected is set in checkout.component.html ! 
     this.linear = this.linearModeSelected;
   }
   onClick(index: number) 

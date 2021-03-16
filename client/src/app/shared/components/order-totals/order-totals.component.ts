@@ -3,6 +3,8 @@ import { observable } from 'rxjs';
 import { IBasketTotals } from '../../models/basket';
 import { Observable } from 'rxjs';
 import { BasketService } from 'src/app/basket/basket.service';
+import { CheckoutService } from 'src/app/checkout/checkout.service';
+import { IDeliveryMethod } from '../../models/deliveryMethod';
 
 @Component({
   selector: 'app-order-totals',
@@ -41,9 +43,10 @@ export class OrderTotalsComponent implements OnInit
 {
   //1-properties:
   userOrderTotals$: Observable<IBasketTotals>;
+  
 
   //2-constructor:
-  constructor(private basketService: BasketService) { }
+  constructor(private basketService: BasketService, private checkoutService: CheckoutService) { }
 
   //3-methods:
   //lifecycle methods:

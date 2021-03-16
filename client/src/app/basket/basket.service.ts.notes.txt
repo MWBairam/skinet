@@ -117,7 +117,10 @@ export class BasketService {
             this.basketSource.next(basket);
             //the .pipe and map and .next are used to assign the returned observable to the above special observable basketSource                                 
             //in ssection-header.component.ts, we assigned the returned abservable directly to a normal observable, so we did not use those at all.
-
+            
+            //and also the above property is used in calculateTotals and setShippingPrice methods below, so update its value:
+            this.shipping = basket.shippingPrice;
+            
             this.calculateTotals();
             //the calculateTotal is a private method written below.
             //to know the story behind this method, read the notes above near the property "basketTotalSource".
@@ -263,15 +266,17 @@ export class BasketService {
     */
     const basket = new Basket();
     /*
-    now, we want if a user closesd the website, or stopped the browser, and comes back to the browser and opened the website again, 
+    now, we want if a user closed the website, or stopped the browser, and comes back to the browser and opened the website again, 
     to find his basket again,
     so we are using the localstorage function, which will save the basketId in the browser ! so that we can load a basket by retrieving a basketId from the browser localstorage !
     Note: if user opened chrome, added to the basket, then closed chrome, then opened the website from firefox, the basket will not appear !
     Note: if user1 opened chrome and added to basket, then closed the website, then user2 opened the website, he will find in his basket user1's basket !!
-    I do not kwon why the lecturer did that !!
-    a better souldtion is to use sql, and store baskets in a table which contains userName using the microsooft Identity (attach it with the functionalities of login) ! 
+    The lecturer used that to allow users to add items to basket anonymously without a login !
+	
+    another solution is to use sql, and store baskets in a table which contains userName using the microsooft Identity (attach it with the functionalities of login) ! 
     then bring a user's basket whatever the browser is, and without colliding with other users' basket who used the same browser before,
     or never store the basket at all ! and remove it once the user closes the website !
+	  But this solution will not allow the users to add items to basket anonymously and they need login !
     */
     localStorage.setItem('basket_id', basket.id);
     return basket;
@@ -314,6 +319,37 @@ export class BasketService {
     }
     return items;
   }
+
+  
+  setShippingPrice(deliveryMethod: IDeliveryMethod)
+  {
+    //since we are calculating the subtotal (sum of each product in the basket price *quantity), 
+    //let us also calculate the total as above,
+    //and we need to pass to it the shipping (delivery) method that the user choosed from the checkout-delivery.component.ts
+    //so we can display the subtotal and total and shipping price in orders-total.component.ts which is used in both
+    //basket.component.html and checkout-delivery.component.html !
+
+    //anyway, this value will remain zero unless the user goes to checkout page,
+    //and in the delivery tab, chooses a delivery method 
+    //so that the delivery method is passed from the checkout-delivery.component.ts to this method here.
+    
+    //set the above property shipping to the price existd in the passed deliveryMethod:
+    this.shipping = deliveryMethod.price;
+
+    //and store the delivery method Id the user has choosen in the basket:
+    const basket = this.getCurrentBasketValue();
+    basket.DeliveryMethodId = dm.id;
+    //and update the shipping price property:
+    basket.shippingPrice = dm.price;
+
+    //then recalculate the totals:
+    this.calculateTotals();
+
+    //then update the basket in redis:
+    this.setBasket(basket);
+  }
+
+
   //to know the story behind this method, read the notes above near the property "basketTotalSource":
   private calculateTotals() {
     
@@ -332,26 +368,6 @@ export class BasketService {
     //now, store the value of total as a special observable of type IBasketTotal (BehaviourSubject) in basketTotalSource property,
     //so we can read the basketTotalSource (via reading basketTotal) in any html page !
     this.basketTotalSource.next({shipping, total, subtotal});
-  }
-
-
-    setShippingPrice(deliveryMethod: IDeliveryMethod)
-  {
-    //since we are calculating the subtotal (sum of each product in the basket price *quantity), 
-    //let us also calculate the total as above,
-    //and we need to pass to it the shipping (delivery) method that the user choosed from the checkout-delivery.component.ts
-    //so we can display the subtotal and total and shipping price in orders-total.component.ts which is used in both
-    //basket.component.html and checkout-delivery.component.html !
-
-    //anyway, this value will remain zero unless the user goes to checkout page,
-    //and in the delivery tab, chooses a delivery method 
-    //so that the delivery method is passed from the checkout-delivery.component.ts to this method here.
-    
-    //set the above property shipping to the price existd in the passed deliveryMethod:
-    this.shipping = deliveryMethod.price;
-
-    //then recalculate the totals:
-    this.calculateTotals();
   }
   //======================================================================================================================
 
@@ -438,6 +454,41 @@ export class BasketService {
     this.basketSource.next(null);
     this.basketTotalSource.next(null);
     localStorage.removeItem('basket_id');
+  }
+
+
+
+
+
+
+  /*
+  this method is used to create a PaymentIntent.
+  we could have created a separated payment.service.ts file to write this method in, 
+  but we know that the CreateOrUpdatePaymentIntent method in the PaymentController in API project will return
+  the basket but with the updated values of DeliveryMethodeId that the user has choosen in checkout-delivery.component.ts/html 
+  and PaymentId, ClientSecret the stripe processor had returned.
+  so we need to update the above basketSource observable with the new basket which some other component reads.
+  so we have chosen to write this method here.
+  Note: the PaymentIntent should be created in the stripe before the user tries to submit the order (please remember the picture 257-3 in section 21)
+  so that we will implement createPaymentIntent method in checkout-review.component.ts when the user click "Go to Payment" 
+  so before entering the payment tab, the intent is created.
+  then in the payment tab, when the user fills in the card info, and click submit order, the API will check with stripe if an intent had been created with the clientSecret we stores in the basket,
+  and if yes, submit the order in the Orders table in the DB and take out the money.
+  */
+  createPaymentIntent() 
+  {
+    //this will send https post request https://localhost:4200/api/payment/<basket_id> (with empty body since we are not updating anuthing) to the
+    //CreateOrUpdatePaymentIntent method in the PaymentController in API project.
+    //and remember that CreateOrUpdatePaymentIntent method in the PaymentController in API project is for logged in users,
+    //so that the token should be sent with the request which is being done using the jwt.interceptor.ts 
+    return this.http.post(this.baseUrl + 'payments/' + this.getCurrentBasketValue().id, {})
+      .pipe //after we post the Intent request, the API will return the updated basket in the https response observable as we explained above, 
+      (     //we will not subscribe to the observable, but we will store the returned observable in the basketSource observable we have above:
+        map
+        (
+          (basket: IBasket) => {this.basketSource.next(basket);console.log(this.getCurrentBasketValue());}
+        )
+      )
   }
 
 

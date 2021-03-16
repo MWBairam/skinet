@@ -11,6 +11,21 @@ import uuid from 'uuid/v4';
 export interface IBasket {
     id: string;
     items: IBasketItem[];
+
+    //Another set of properties were added in video 260, 262 to support the checkout (in particular, the payment tab) process:
+    //? means it is optional and can be null. 
+    //So those are optional during basket creation (will be empty) and will get set to a value when the user do the payment.
+    //remember the PaymentSevice in infrastructure project in Services folder.
+
+    //and according to this, we need to update the CustomerBasketDto in Dtos folder and CustomerBasket in Entities in core project.
+    deliveryMethodId?: number;
+    clientSecret?: string;
+    paymentIntentId?: string;
+
+    //the following has been added in the video 264 to persist showing the value of shipping price of a delivery method
+    //in the order-total.component.html which reads the basket.
+    //added in client app shared/models/basket.ts IBasket, and CustomerBasket in core project/Entities and CustomerBasketDto in the API project 
+    shippingPrice?: number;
 }
 export interface IBasketItem {
     id: number; //it is going to be the IProduct Id !! (see explanation in basket.service.ts ! in addOrUpdateItemQuantity() method)

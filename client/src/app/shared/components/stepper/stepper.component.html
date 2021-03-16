@@ -4,16 +4,21 @@
         <!-- "steps" is a property came from CdkStepper inherited component, 
         so create this li for each step in there (ngFor is foreach loop, "step" is any word just to loop in the "steps")-->
         <!-- the "index" comes from the foreach loop, so each li has an index -->
-            <button (click)="onClick(i)" [class.active]="selectedIndex === i" class="nav-link py-3 text-uppercase font-weight-bold btn-block">
+            <button [disabled]="true" (click)="onClick(i)" [class.active]="selectedIndex === i" class="nav-link py-3 text-uppercase font-weight-bold btn-block">
             <!-- add onclick event so when this button is clicked, the ethod onClick(i) in stepper.component.ts is called while passing to it the 
             current clicked li index, so that stepper Index is set to this li index, as well as implementing the "active" class so that this button
             looks like active (selectedIndex === i is always true when this button is clicked)-->
+            
             <!-- this button has extra styles in stepper.component.scss-->
-                {{step.label}}:{{step.completed}}
-                <!-- we said that "steps" is a property came from CdkStepper inherited component.
-                and each entry in this "steps" has 2 sub-properties, "label" which we write its value in the checkout.component.html
-                and  "completed" which is false, and become true when click next buttons we added in
-                checkout-address.component.html checkout-delivery.component.html checkout-review.component.html checkout-payment.component.html -->
+
+            <!-- [disabled]="true": the steps we created in checkout.component.html will have a tab for each,
+            we will not be able to click on a tab to move to it !-->
+                
+            {{step.label}} 
+            <!-- {{step.label}}: we said that "steps" is a property came from CdkStepper inherited component. 
+            and each entry in this "steps" has 2 sub-properties, "label" which we write its value in the checkout.component.html
+            and  "completed" which is false, and become true when click next buttons we added in
+            checkout-address.component.html checkout-delivery.component.html checkout-review.component.html checkout-payment.component.html -->
             </button>
         </li>
     </ul>

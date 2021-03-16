@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AccountService } from '../account/account.service';
+import { BasketService } from '../basket/basket.service';
 
 @Component({
   selector: 'app-checkout',
@@ -22,7 +23,7 @@ export class CheckoutComponent implements OnInit
   //2-constructor:
   //inject the form builder
   //inject the account.service.ts (see the note below in getAddressFormValues())
-  constructor(private fb: FormBuilder, private accountService: AccountService) { }
+  constructor(private fb: FormBuilder, private accountService: AccountService, private basketService: BasketService) { }
 
   //3-methods:
   ngOnInit() 
@@ -33,6 +34,9 @@ export class CheckoutComponent implements OnInit
     //also, populate the logged in user's address from the Address table in the checkoutForm.addressForm:
     this.getAddressFormValues();
     //read the notes below about it and in the account.service.ts
+
+    //for this read the notes below before the method body:
+    this.getDeliveryMethodValue();
   }
 
   createCheckoutForm() 
@@ -69,6 +73,8 @@ export class CheckoutComponent implements OnInit
         (
           {
             nameOnCard: [null, Validators.required]
+            //for the other info of cardNumber, cardExpiry and cardCvc,
+            //please read the note on the top of checkout-payment.component.html 
           }
         )
       }
@@ -100,5 +106,21 @@ export class CheckoutComponent implements OnInit
   //or if there is no address info in the first place and the user would like to save new address info,
   //in checkout-address.component.ts we will do that using the method:
   //saveUserAddress()
-  
+
+
+
+  //the same way, 
+  //the user procedded to checkout, and in the delivery tab, choose a delivery method,
+  //then went back to add another item to the basket, 
+  //then again proceeded to checkout, he will find that his "delivery method" choice has been eliminated 
+  //and he needs to choose again.
+  //so to persist his choice, we stored that in the basket using the basket.service.ts setShippingPrice method.
+  //anyway, it is not mandatory to persist his choice and populate it to the form above, but it is good idea to do that.
+  getDeliveryMethodValue() {
+    const basket = this.basketService.getCurrentBasketValue();
+    if (basket.deliveryMethodId !== null) 
+    {
+      this.checkoutForm.get('deliveryForm').get('deliveryMethod').patchValue(basket.deliveryMethodId.toString());
+    }
+  }
 }

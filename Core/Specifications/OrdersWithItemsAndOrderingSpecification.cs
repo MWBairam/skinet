@@ -24,7 +24,7 @@ namespace Core.Specifications
    
     public class OrdersWithItemsAndOrderingSpecification : BaseSpecification<Order>
     {
-        //to get all Orders of a user (of BuyerEmail) with the parent recordof DeliveryMethod and child records of OrderItems,
+        //to get all Orders of a user (of BuyerEmail) with the parent record of DeliveryMethod and child records of OrderItems,
         //and the Orders are sorted by time,
         //we need to add the below AddInclude, and OrderByDesc, and pass to the constructor of the inherited class, the logged in user's email expression:
         public OrdersWithItemsAndOrderingSpecification(string email) : base(o => o.BuyerEmail == email)

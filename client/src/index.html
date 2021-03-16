@@ -9,5 +9,8 @@
 </head>
 <body>
   <app-root></app-root>
+  <!-- add the javascript script of stripe (payment processor) in index.html to be working in checkout-payment.component.ts.
+    (stripe recommends to add it on the highest level without any lazyloading)-->
+  <script src="https://js.stripe.com/v3/"></script>
 </body>
 </html>

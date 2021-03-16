@@ -31,8 +31,9 @@ import { SharedModule } from '../shared/shared.module';
     //import the ToastsModule which we use to show error notification 
     //remember that it was used in the interceptors folder -> error.interceptor.ts:
     //specifiy the position of the error notification to be at the bottom of the web page on the right
-    //and prevent duplicates toasts
-    ToastrModule.forRoot({positionClass: 'toast-bottom-right', preventDuplicates: true})
+    //and prevent duplicates toasts notifications
+    //and specify time to live in milliseconds
+    ToastrModule.forRoot({positionClass: 'toast-bottom-right', preventDuplicates: true, timeOut: 10000})
     //and this toastr comes with a css styles, so we need to add the css file link in the angular.json
     //but that did not work with this app, so i added them in Styles.scss file !
 

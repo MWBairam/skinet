@@ -66,7 +66,25 @@
     <button class="btn btn-sm btn-outline-primary" cdkStepperPrevious><!-- cdkStepperPrevious is a directive that no need to be confugured, it will take us to the next step as ordered in checkout.component.html -->
         <i class="fa fa-angle-left"></i> Back to Delivery
     </button>
-    <button class="btn btn-sm btn-primary" cdkStepperNext><!-- cdkStepperNext is a directive that no need to be confugured, it will take us to the next step as ordered in checkout.component.html -->
+    <!-- 
+        <button class="btn btn-sm btn-primary" (click)="createUserPaymentIntent()" cdkStepperNext>
+           //cdkStepperNext is a directive that no need to be confugured, it will take us to the next step as ordered in checkout.component.html 
+           //read the payment intent note in the .ts file
+           Go to Payment <i class="fa fa-angle-right"></i> 
+        </button> 
+    -->
+    <!-- instead of using cdkSteppernext to move to the next step, we will depend on the successful creation of the payment intent
+         in the createUserPaymentIntent() method. please read the solution in .ts file-->
+    <button class="btn btn-sm btn-primary" [disabled]="buttonIsDisabled" (click)="createUserPaymentIntent()">
+        <!-- for the buttonIsDisabled, please read the notes above this property in the .ts file-->
+        <!--
+            this button will send https post request to OrdersController https://localhost:4200/api/payments 
+            (and the payment intent to create is in the body part).
+            we want to exclude this request from being delayed to display the loading indicator in loading.interceptor.ts
+            and here display a font-awesome spinner icon.
+        -->
         Go to Payment <i class="fa fa-angle-right"></i> 
-    </button>
+        <i *ngIf="buttonIsDisabled" class="ml-4 fa fa-spinner fa-spin"></i>
+     </button> 
+
 </div>

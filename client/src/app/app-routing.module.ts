@@ -50,6 +50,9 @@ const routes: Routes = [
   //please read th notes about this in auth.guard.ts in core/guard folder.
   {path: 'checkout', canActivate: [AuthGuard] ,loadChildren: () => import('./checkout/checkout.module').then(mod =>mod.CheckoutModule), data: {breadcrumb: 'Checkout'}},
 
+  //same as what we did above for "shop" and "basket" and "checkout", we wil do the same for the "orders":
+  {path: 'orders', canActivate: [AuthGuard],loadChildren: () => import('./orders/orders.module').then(mod => mod.OrdersModule), data: { breadcrumb: 'Orders' }},
+  
   //same as what we did above for "shop" and "basket" and "checkout", we wil do the same for the "account":
   {path: 'account', loadChildren: () => import('./account/account.module').then(mod =>mod.AccountModule), data: {breadcrumb: {skip: true}}}, //we will skip breadcrumb for account  module, login or register components
 

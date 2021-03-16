@@ -93,9 +93,6 @@
             </div>
         </div>
     </div>
-
-
-
 </div>
 
 
@@ -105,7 +102,8 @@
         <button class="btn btn-sm btn-outline-primary" routerLink="/basket"><!-- routes are in app-routing.module.ts-->
            <i class="fa fa-angle-left"></i> Back to Basket
         </button>
-      <button class="btn btn-sm btn-primary" cdkStepperNext><!-- cdkStepperNext is a directive that no need to be confugured, it will take us to the next step as ordered in checkout.component.html -->
-          Go to Delivery <i class="fa fa-angle-right"></i> 
+      <button [disabled]="myCheckoutForm.get('addressForm').invalid" class="btn btn-sm btn-primary" cdkStepperNext><!-- cdkStepperNext is a directive that no need to be confugured, it will take us to the next step as ordered in checkout.component.html -->
+        <!-- the button is disabled as long as the validations in addressForm in checkoutForm in checkout.component.ts are invalid-->  
+        Go to Delivery <i class="fa fa-angle-right"></i> 
       </button>
 </div>

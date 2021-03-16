@@ -1,0 +1,11 @@
+checkout module is to create an order with the help of OrdersController.
+we create an order when we reach the button in checkout-payment.component.ts 
+
+oreders module is to get orders with the help of OrdersController.
+we get orders in 2 places:
+1-)nav-bar -> dropdown list besides the name -> orders 
+then orders.component.html is displayed showing a table with orders.
+when we click on an order, we are forwrded to order-detaild.component.html which its .ts file bring the order details by Id from OrdersController.
+2-)when we submit an order as we said above, we are redirected to checkout-success.component.html/.ts carrying the last submitted order.
+(creatOrder returns the order after being added to DB)
+so that using the order Id, open the order-detaild.component.html which its .ts file bring the order details by Id from OrdersController.

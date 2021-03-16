@@ -52,6 +52,7 @@ namespace Infrastructure.Data
             //this return something like  .where(p => p.Id == id).Include(p => ProductType).Include(ProductBrand) 
             //to call it, we pass to it, our DBContext table a linq AsQueryable table, with the ISpecification (which has Criteria, Includes needed)
             return await SpecificationEvaluator<T>.GetQuery(_Context.Set<T>().AsQueryable(), ISpecification).FirstOrDefaultAsync();
+
         }
 
         public async Task<IReadOnlyList<T>> ListAsync(ISpecification<T> ISpecification)
@@ -80,15 +81,13 @@ namespace Infrastructure.Data
 
 
 
-
-
         //generic add/update/delete methods:
         //we used them for example in OrderService where we added orders:
         //we do not want them to be async methods, so that the app can track the change.
         public void Add(T entity)
         {
             _Context.Set<T>().Add(entity);
-        }
+        }      
         public void Update(T entity)
         {
             _Context.Set<T>().Attach(entity);

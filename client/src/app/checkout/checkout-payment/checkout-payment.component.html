@@ -1,4 +1,45 @@
-<p>checkout-payment works!</p>
+  
+<div class="mt-4" [formGroup]="myCheckoutForm"><!--myCheckoutForm explained in in checkout-payment.component.ts-->
+    <div class="row">
+        <!-- to insert card data:
+        1-we need only to get the Name On Card from the customer,
+        2-then for the other info of cardNumber, cardExpiry and cardCvc, we will not create textboxes for them and validate them
+        in checkoutForm.paymentForm in checkout.component.ts, we will be depend on "stripe" the online payment processor
+        and its pure javascript functionalities we added in index.html : <script src="https://js.stripe.com/v3/"></script>.
+
+        Those divs has the #<name> (template refrence) so we can assign the values we get from stripe to them in
+        checkout-payment.component.ts by calling that refrence name -->
+
+        <div class="form-group col-12" formGroupName="paymentForm">
+            <div class="form-label-group">
+                <input formControlName="nameOnCard" type="nameOnCard" id="nameOnCard" class="form-control" placeholder="Name On Card" 
+                [ngClass]="(myCheckoutForm.get('paymentForm.nameOnCard') && myCheckoutForm.get('paymentForm.nameOnCard').touched ) ? myCheckoutForm.get('paymentForm.nameOnCard').invalid ? 'is-invalid' : 'is-valid' : null"> <!-- we have 2 nested "if" statments, and we have 3 possibilites to implement 'is-invalid' : 'is-valid' : null-->
+                <!-- we applied on the input the class form-control, with another class "is-invalid" or "is-valid" according to the validation result in the checkout.component.ts in the createCheckoutForm() method in the FormGroup-->
+                <!-- <label for="nameOnCard" class="mr-2">First Name</label> -->
+                <!-- display the error of is Requiered -->
+                <span class="text-danger" *ngIf="myCheckoutForm.get('paymentForm.nameOnCard').invalid && myCheckoutForm.get('paymentForm.nameOnCard').touched && myCheckoutForm.get('paymentForm.nameOnCard').errors['required']">Name On Card is requiered</span>
+                <!-- remember the validations done in the checkout.component.ts in the createCheckoutForm() method in the FormGroup -->
+            </div>
+        </div>
+        <div class="form-group col-6">
+            <div #cardNumber class="form-control py-3"></div>
+        </div>
+        <div class="form-group col-3">
+            <div #cardExpiry class="form-control py-3"></div>
+        </div>
+        <div class="form-group col-3">
+            <div #cardCvc class="form-control py-3"></div>
+        </div>
+        <div class="form-group col-12">
+            <ng-container *ngIf="cardErrors">
+                <span class="text-danger">{{cardErrors}}</span>
+            </ng-container>
+        </div>
+    </div>
+</div>
+
+
+
 
 <!-- add buttons to go back to checkout-review or submitting the order -->
 <!-- use font awesome icons of fa-angle-left fa-angle-right to indicate the direction -->
@@ -6,7 +47,26 @@
     <button class="btn btn-sm btn-outline-primary" cdkStepperPrevious><!-- cdkStepperPrevious is a directive that no need to be confugured, it will take us to the Previous step as ordered in checkout.component.html -->
         <i class="fa fa-angle-left"></i> Back to Review
     </button>
-    <button (click)="submitOrder()" class="btn btn-sm btn-primary"><!-- after order submit, we will redirect to the success page -->
+    <button [disabled]="buttonIsDisabled || myCheckoutForm.get('paymentForm').invalid || !cardNumberValid || !cardExpiryValid || !cardCvcValid" (click)="submitOrder()" class="btn btn-sm btn-primary">
+        <!-- after order submit, we will redirect to the success page -->
+        <!-- 
+            for the buttonIsDisabled, this button is disabled once the user clicks on it to protect him from
+            multiple clicks by mistakes ! please read the notes above this property in the .ts file !
+
+            also is disabled if the validation of the "name on card" field is invalid according to the validation done
+            in checkout.component.ts in checkoutForm in paymentForm !
+
+            also is disabled if the html elements of the the stripe are invalid.
+            their validation is done from the pure javascript functionality in index.html <script src="https://js.stripe.com/v3/"></script>
+            and we used for that the boolean properties cardNumberValid cardExpiryValid cardCvcValid with onChange method, the switch part.
+        -->
+        <!--
+            this button will send https post request to OrdersController https://localhost:4200/api/orders 
+            (and the order to create is in the body part).
+            we want to exclude this request from being delayed to display the loading indicator in loading.interceptor.ts
+            and here display a font-awesome spinner icon.
+        -->
         Submit Order <i class="fa fa-angle-right"></i> 
+        <i *ngIf="buttonIsDisabled" class="ml-4 fa fa-spinner fa-spin"></i>
     </button>
 </div>

@@ -17,7 +17,32 @@ export class LoadingInterceptor implements HttpInterceptor {
 
     //3-methods:
     //intercept any http response by implementing the abovementioned interface HttpInterceptor.
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> 
+    {
+        if (req.method === 'POST' && req.url.includes('orders')) 
+        {
+            //in checkout-payment.component.ts, the button "submit order", will send https post request to OrdersController
+            //  https://localhost:4200/api/orders (and the order to create is in the body part).
+            //we want to exclude this request from being delayed to display the loading indicator,
+            //and in checkout-payment.component.ts, the button "submit order" we will display a font-awesome spinner icon.
+            return next.handle(req);
+        }
+        if (req.method === 'POST' && req.url.includes('basket')) 
+        {
+            //in checkout-deivery.component.ts, when we click on any delivery method to be chosen,
+            //this post request will be sent to update the basket  https://localhost:4200/api/basket 
+            //(and the deliverymethod to save in the basket is in the body part).
+            //we want to exclude this request from being delayed to display the loading indicator,
+            return next.handle(req);
+        }
+        if (req.method === 'POST' && req.url.includes('payments')) 
+        {
+            //in checkout-review.component.ts, the button "go to payment", will send https post request to PaymentsController
+            //  https://localhost:4200/api/payments to creat a pyamentIntent (and the pyamentIntent to create is in the body part).
+            //we want to exclude this request from being delayed to display the loading indicator,
+            //and in checkout-review.component.ts, the button "go to payment" we will display a font-awesome spinner icon.
+            return next.handle(req);
+        }
         //start the spinner by calling the busy method
         this.busyService.busy();
         //after that, we mean by "next" is to continue any next processing, and we need to handle the "next" here by
@@ -46,6 +71,12 @@ you can add the following example before the calling the .busy method:
         }
         //for example, exclude and bypass any https delete request:
         if (req.method === 'DELETE') 
+        {
+            return next.handle(req);
+        }
+
+        //or:
+        if(req.url.includes('orders'))
         {
             return next.handle(req);
         }

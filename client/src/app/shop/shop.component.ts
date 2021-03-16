@@ -78,6 +78,7 @@ export class ShopComponent implements OnInit
   //ngOnDestroy: Just before the directive is destroyed.
   //and ......
   //if all of the lifecycle hooks were used, they would be called in a specific order absolutely.
+  //https://angular.io/guide/lifecycle-hooks
   //we will use the ngOnInit,
   //so that above besides the class name, we choose the Interface it came from, and Implement it.
   //the ngOnInit() in deed is the implementation of the OnInit interface.

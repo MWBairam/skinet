@@ -185,6 +185,7 @@ namespace API.Controllers
         //so that only and only logged in user can send https requests to this controller. 
         //https requests coming to here from angualr side should be with the current logged in user's token in the header.
         //like how we did in the  client/src/app/account/account.service.ts in loadCurrentUser method 
+        //Note: the login and register methods above should not be with [Authorize] because of course the user who logins/registers will not be already logged in !
         [HttpGet]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {

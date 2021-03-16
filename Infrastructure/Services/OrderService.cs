@@ -20,16 +20,19 @@ namespace Infrastructure.Services
         private readonly IGenericRepository<Product> _productRepo;  
         private readonly IGenericRepository<DeliveryMethod> _dmRepo;
         private readonly IGenericRepository<Order> _orderRepo;
-        //instead of adding IGenericRepository<Product>  IGenericRepository<DeliveryMethod> IGenericRepository<Order>,
-        //(IGenericRepository for the different Models) 
-        //the lecturer used the UnitOfWork to protect from having partial updates in video 218 219, but I did not use that !!
-        //the importance of this is:
-        //for example, example away from the Orders, 
-        //doing modifications on ProductBrands and Products at the same time, 
-        //and when we call the requiered methods from the same IGeneric repo, each repo of the instantiated repos will have its own copy (instance) of DbContext. 
-        //Then if the modification on Product successes, but the one in ProductBrand does not ! so we will have a partial update ! and we have to deal with products for a brand that does not exist !
-        //So we will implement the concept of Unit of Work, which creates one instance of the DbContext for all the instantiated repos, and which rolles back all the changes if any single modification fails to be implemented !
-
+        /*
+        Note:
+        instead of adding IGenericRepository<Product>,  IGenericRepository<DeliveryMethod> and IGenericRepository<Order>,
+        (IGenericRepository for the different Models) 
+        the lecturer used the UnitOfWork to protect from having partial updates, in video 218 219, but I did not use that !!
+        (also the lecturer used that in the PaymentService in video 260 and i did not use that !!)
+        the importance of this is:
+        for example, example away from the Orders, 
+        doing modifications on ProductBrands and Products at the same time, 
+        and when we call the requiered methods from the same IGeneric repo, each repo of the instantiated repos will have its own copy (instance) of DbContext (storeContext). 
+        Then if the modification on Product successes, but the one in ProductBrand does not ! so we will have a partial update ! and we have to deal with products for a brand that does not exist !
+        So we will implement the concept of Unit of Work, which creates one instance of the DbContext for all the instantiated repos, and which rolles back all the changes if any single modification fails to be implemented !
+        */
 
 
 
@@ -71,7 +74,7 @@ namespace Infrastructure.Services
                 //remember that ProductItemOrdered class has a constructor, so pass the values while instantiating to it:
                 var itemOrdered = new ProductItemOrdered(productItem.Id, productItem.Name, productItem.PictureUrl);
                 //now create the OrderItem instance://not that we passed the price after reading it from the Products table, but the quantity after reading it from the basket:
-                var orderItem = new OrderItem(itemOrdered, productItem.Id, product.Quantity);
+                var orderItem = new OrderItem(itemOrdered, productItem.Price, product.Quantity);
                 //now add this orderItem in the list of items above:
                 items.Add(orderItem);
             }
@@ -129,7 +132,7 @@ namespace Infrastructure.Services
             then in the ListAsync method in the GenericRepository, with the help of the SpecificationEvalutor in Data folder,
             we get that.
             */
-            var spec = new OrdersWithItemsAndOrderingSpecification(buyerEmail);
+            var spec = new OrdersWithItemsAndOrderingSpecification(id, buyerEmail);
             return await _orderRepo.GetEnityWithSpec(spec);
         }
 

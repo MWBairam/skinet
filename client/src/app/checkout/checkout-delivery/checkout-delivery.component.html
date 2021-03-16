@@ -40,7 +40,8 @@
     <button class="btn btn-sm btn-outline-primary" cdkStepperPrevious><!-- cdkStepperPrevious is a directive that no need to be confugured, it will take us to the Previous step as ordered in checkout.component.html -->
         <i class="fa fa-angle-left"></i> Back to Address
     </button>
-    <button class="btn btn-sm btn-primary" cdkStepperNext><!-- cdkStepperNext is a directive that no need to be confugured, it will take us to the next step as ordered in checkout.component.html -->
+    <button [disabled]="myCheckoutForm.get('deliveryForm').invalid" class="btn btn-sm btn-primary" cdkStepperNext><!-- cdkStepperNext is a directive that no need to be confugured, it will take us to the next step as ordered in checkout.component.html -->
+        <!-- the button is disabled as long as the validations in deliveryForm in checkoutForm in checkout.component.ts are invalid-->  
         Go to Review <i class="fa fa-angle-right"></i> 
     </button>
 </div>

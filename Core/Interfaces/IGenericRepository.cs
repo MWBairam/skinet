@@ -57,6 +57,7 @@ namespace Core.Interfaces
         //we used them for example in OrderService where we added orders:
         //we do not want them to be async methods, so that the app can track the change.
         void Add(T entity);
+        void Update (T entity);
         void Delete(T entity);
         Task<int> Complete();
 

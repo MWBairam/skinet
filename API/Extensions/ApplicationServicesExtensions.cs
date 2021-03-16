@@ -58,6 +58,10 @@ namespace API.Extensions
 
 
 
+            //add the IPyamentService nd PaymentService where we deal with the third party payment processor "Stripe":
+            services.AddScoped<IPaymentService, PaymentService>();
+
+            
             //add this service to shape the validation-based bad request errors as we designed in the ApiValidationErrorResponse class in the Errors folder:
             //indeed, the services order in here is not important, but there are alawys exceptions,
             //the following service should be after the services.AddControllers(); service in the startup file:
