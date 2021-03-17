@@ -11,6 +11,7 @@ using System.Linq;
 using AutoMapper;
 using API.Helper;
 using Microsoft.AspNetCore.Cors;
+using API.Helpers;
 
 namespace API.Controllers
 {
@@ -91,6 +92,7 @@ namespace API.Controllers
             //and change the return type above from Task<ActionResult<Product>> to Task<ActionResult<ProductToReturnDto>>
         //}
         //rewrite the above GetProducts function to get the paginated list of Products with the number of filtered products and PageIndex and Page Size
+        [Cached(600)] //to know what the job of this, please read the Helper folder, CachedAttribute class.
         [HttpGet]
         public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts([FromQuery]ProductSpecParams ProductParams)
         {
@@ -118,6 +120,7 @@ namespace API.Controllers
         //the id in the HttpGet because we have 2 HttpGet methods in this api, so the controller is not confused about what get should be useing when called !
         //sice we have 2 API Get functions, use in the terminal ">dotnet watch run" in order to run and test in postman, otherwise,
         //if you used ">dotnet run" and tried to test in postman, you will receive an unhandled exeption sayin conflict with 2 Get methods
+        [Cached(600)] //to know what the job of this, please read the Helper folder, CachedAttribute class.
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductToReturnDto>> GetProduct(int id)
         {
@@ -164,6 +167,7 @@ namespace API.Controllers
 
         //let us bring the Brands and Types from the same Repository we used:
         //add a route for this Get as "brands" so we can call it using https://localhost:5001/api/products/brands :
+        [Cached(600)] //to know what the job of this, please read the Helper folder, CachedAttribute class.        
         [HttpGet("brands")]
         public async Task<ActionResult<List<ProductBrand>>> getBrands()
         {
@@ -179,6 +183,7 @@ namespace API.Controllers
 
 
         //add a route for this Get as "types" https://localhost:5001/api/products/types :
+        [Cached(600)] //to know what the job of this, please read the Helper folder, CachedAttribute class.        
         [HttpGet("types")]
         public async Task<ActionResult<List<ProductType>>> getTypes()
         {

@@ -19,7 +19,7 @@
                 <!-- the name in item.name came from the name field in the sortOptions in shop.component.ts -->
                 </select>
                 <h5 class="text-warning ml-3">Brands</h5>
-                <ul class="list-group my-3"> <!-- my is margin on y axis -->
+                <ul class="list-group my-3"> <!-- my is margin on y axis --><!-- list-group has a styling in shop.component.scss-->
                     <li class="list-group-item" 
                         *ngFor="let item of brands"
                         [class.active]="item.id === this.shopParams.brandId"
@@ -37,7 +37,7 @@
                     <!-- the id in item.id came from the "brand" model in the models folder-->
                 </ul>
                 <h5 class="text-warning ml-3">Types</h5>
-                <ul class="list-group my-3">
+                <ul class="list-group my-3"><!-- list-group has a styling in shop.component.scss-->
                     <li class="list-group-item" 
                         *ngFor="let item of types"
                         [class.active]="item.id === this.shopParams.typeId"

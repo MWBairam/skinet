@@ -14,7 +14,11 @@ namespace Infrastructure.Data
         private readonly IDatabase _redisDatabase;
 
         //2-constructor:
-        //inject the Redis ConnectionMultiplexer (the same wya we used to inject our DB context when we wanted to talk to sql db):
+        //inject the Redis IConnectionMultiplexer.
+        //remember the same way, when we wanted to talk to an SQL DB, we injected a DBContext.
+        //here we inject IConnectionMultiplexer interface in ordrer to talk to redis.
+        //Usually we write the DBContext as we did in StoreContext. But IConnectionMultiplexer is readywithout any modificcation from StackExchange.Redis library.  
+        //and we remember that we added a service for this in startuyp.cs file just like how we did that for sql as well.
         public BasketRepository(IConnectionMultiplexer redis)
         {
             _redisDatabase = redis.GetDatabase();  //redis,  which stores data as strings and json files 

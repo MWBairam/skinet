@@ -24,6 +24,10 @@ namespace API.Extensions
         {
             //add the interfaces/implementations services:
 
+            //when it comes to "caching" concept, it is better to register this service as singleton
+            //so it is available any time for any user:
+            services.AddSingleton<IResponseCacheService, ResponseCacheService>();
+
             
 
             //when the user logins/registers, he gets a token to send with each subsequent https request.
