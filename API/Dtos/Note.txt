@@ -2,14 +2,18 @@ In this folder,
 we create Data Transfer objects (DTOs).
 Those are the propertiese we need to only recieve/return in our controller instead of recieving/returning all the properties identified in Core project, Entities folder.
 For the DTOs which identifies the properties to be recieved, should match the models in Client project, src/app/shared/models 
+and match its sequence there as well. 
 
 e.g:
 In OrdersController we have this method:
 "public async Task<ActionResult<Order>> CreateOrder(OrderDto orderDto)"
 it should receive (in the https put request body) an object has properties identified in the OrderDto.
-so make sure that angular client side sends to use thos properties onlt. so in src/app/shared/models identify for example IOrder for that.
+so make sure that angular client side sends to use thos properties only. 
+so in src/app/shared/models identify for example IOrder for that with the same properties in OrderDto and same sequence in there.
 
-so that we are not sending all the properties identified in the Core project, Entities/OrderAggregate/Order.cs model.
+
+so that we are not sending/returning all the properties identified in the Core project, Entities/OrderAggregate/Order.cs model such
+as the Id of an sql record  !! 
 
 e.g:
 "public async Task<ActionResult<OrderToReturnDto>> GetOrderByIdForUser(int id)" 

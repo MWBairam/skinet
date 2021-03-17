@@ -1,13 +1,3 @@
-.featured {
-    height: 250px;
-}
-
-.firstCarouselImg {
-    object-fit: cover;
-    height: 550px;
-    width: 100%;
-}
-
 //when we click on a link, let us color it with orange:
 a {
     text-decoration: none; //to disable the underline
@@ -19,4 +9,3 @@ a {
         color: orange;
     }
 }
-

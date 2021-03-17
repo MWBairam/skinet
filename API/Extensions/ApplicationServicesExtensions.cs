@@ -49,7 +49,7 @@ namespace API.Extensions
             //add the generic interface/implementation service:
             services.AddScoped(  typeof(IGenericRepository<>) , (  typeof(GenericRepository<>)  ) );
 
-
+  
             //and we used Redis to store customers' baskets and in it basket items.
             //we used for that IBasketRepository and BasketRepository so we need to register these here:
             //(redis connection string service is in startup.cs)
@@ -64,6 +64,9 @@ namespace API.Extensions
 
             //add the IPyamentService nd PaymentService where we deal with the third party payment processor "Stripe":
             services.AddScoped<IPaymentService, PaymentService>();
+
+            //the services realted to submit a message from the contact us page:
+            services.AddScoped<IMessageService, MessageService>();
 
             
             //add this service to shape the validation-based bad request errors as we designed in the ApiValidationErrorResponse class in the Errors folder:

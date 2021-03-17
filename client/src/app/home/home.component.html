@@ -32,51 +32,53 @@
     <div class="col">
       <div class="card mb-4 shadow-sm">
       <div class="card-header">
-        <h4 class="my-0 fw-normal">Free</h4>
+        <h4 class="my-0 fw-normal">Shop Freely</h4>
       </div>
       <div class="card-body">
-        <h1 class="card-title pricing-card-title">$0 <small class="text-muted">/ mo</small></h1>
+        <h1 class="card-title pricing-card-title">24 <small class="text-muted">/7</small></h1>
         <ul class="list-unstyled mt-3 mb-4">
-          <li>10 users included</li>
-          <li>2 GB of storage</li>
-          <li>Email support</li>
-          <li>Help center access</li>
+          <li>Store is available at any time.</li>
+          <li>Shop based on types and brands you like.</li>
+          <li>Email and messages support.</li>
+          <li>Filter based on your convinience.</li>
         </ul>
-        <button type="button" class="w-100 btn btn-lg btn-outline-primary">Sign up for free</button>
+        <button type="button" class="w-100 btn btn-lg btn-outline-primary" routerLink="/shop">
+         Shop
+        </button>
       </div>
     </div>
     </div>
     <div class="col">
       <div class="card mb-4 shadow-sm">
       <div class="card-header">
-        <h4 class="my-0 fw-normal">Pro</h4>
+        <h4 class="my-0 fw-normal">Free Sign up</h4>
       </div>
       <div class="card-body">
-        <h1 class="card-title pricing-card-title">$15 <small class="text-muted">/ mo</small></h1>
+        <h1 class="card-title pricing-card-title">$0 <small class="text-muted">/0</small></h1>
         <ul class="list-unstyled mt-3 mb-4">
-          <li>20 users included</li>
-          <li>10 GB of storage</li>
-          <li>Priority email support</li>
-          <li>Help center access</li>
+          <li>Sign up for free to unlock the checkout.</li>
+          <li>Simple steps for sign up using Email.</li>
+          <li>Secure accounts.</li>
+          <li>Grep Orders based on your account.</li>
         </ul>
-        <button type="button" class="w-100 btn btn-lg btn-primary">Get started</button>
+        <button type="button" class="w-100 btn btn-lg btn-outline-primary" routerLink="/account/register">Sign up</button>
       </div>
     </div>
     </div>
     <div class="col">
       <div class="card mb-4 shadow-sm">
       <div class="card-header">
-        <h4 class="my-0 fw-normal">Enterprise</h4>
+        <h4 class="my-0 fw-normal">Reviews</h4>
       </div>
       <div class="card-body">
-        <h1 class="card-title pricing-card-title">$29 <small class="text-muted">/ mo</small></h1>
+        <h1 class="card-title pricing-card-title">24 <small class="text-muted">/7</small></h1>
         <ul class="list-unstyled mt-3 mb-4">
-          <li>30 users included</li>
-          <li>15 GB of storage</li>
-          <li>Phone and email support</li>
-          <li>Help center access</li>
+          <li>Unlimited support.</li>
+          <li>Contact us on our four media accounts.</li>
+          <li>Feel free to send us a message.</li>
+          <li>As well as your own opinions.</li>
         </ul>
-        <button type="button" class="w-100 btn btn-lg btn-primary">Contact us</button>
+        <button type="button" class="w-100 btn btn-lg btn-outline-primary" routerLink="/contact">Contact us</button>
       </div>
     </div>
     </div>
@@ -144,7 +146,7 @@
 
   </div>
 
-
+  <!-- footer -->
   <div class="container">
   <footer class="pt-4 my-md-5 pt-md-5 border-top">
     <div class="row">
@@ -153,34 +155,47 @@
         <small class="d-block mb-3 text-muted">© 2017–2021</small>
       </div>
       <div class="col-6 col-md">
-        <h5>Features</h5>
+        <h5>Fast Links</h5>
         <ul class="list-unstyled text-small">
-          <li><a class="link-secondary" href="#">Cool stuff</a></li>
-          <li><a class="link-secondary" href="#">Random feature</a></li>
-          <li><a class="link-secondary" href="#">Team feature</a></li>
-          <li><a class="link-secondary" href="#">Stuff for developers</a></li>
-          <li><a class="link-secondary" href="#">Another one</a></li>
-          <li><a class="link-secondary" href="#">Last time</a></li>
+          <li><a class="p-2" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
+          <li><a class="p-2" routerLink="/shop" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Shop</a></li>
+          <li><a class="p-2" routerLink="/contact" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Contact</a></li>
+          <!-- the <a> tag has extra styling in home.component.scss -->
         </ul>
       </div>
       <div class="col-6 col-md">
-        <h5>Resources</h5>
+        <h5>Contact Us</h5>
         <ul class="list-unstyled text-small">
-          <li><a class="link-secondary" href="#">Resource</a></li>
-          <li><a class="link-secondary" href="#">Resource name</a></li>
-          <li><a class="link-secondary" href="#">Another resource</a></li>
-          <li><a class="link-secondary" href="#">Final resource</a></li>
+          <li class=" d-flex lh-sm my-1">
+            <i class="fa fa-facebook fa-2x mr-2"></i>
+            <a href="https://facebook.com" URL> facebook </a>
+          </li>
+          <li class=" d-flex lh-sm my-1">
+            <i class="fa fa-instagram fa-2x mr-2"></i>
+            <a href="https://instagram.com" URL> instagram </a>
+          </li>
+          <li class=" d-flex lh-sm my-1">
+            <i class="fa fa-whatsapp fa-2x mr-2"></i>
+            <a> 123456789 </a>
+          </li>
+          <li class=" d-flex lh-sm my-1">
+            <i class="fa fa-inbox fa-2x mr-2"></i>
+            <a> randomemail@test.com </a>
+          </li>
+
         </ul>
       </div>
       <div class="col-6 col-md">
-        <h5>About</h5>
+        <h5>About Us</h5>
         <ul class="list-unstyled text-small">
-          <li><a class="link-secondary" href="#">Team</a></li>
-          <li><a class="link-secondary" href="#">Locations</a></li>
-          <li><a class="link-secondary" href="#">Privacy</a></li>
-          <li><a class="link-secondary" href="#">Terms</a></li>
+          <li>
+            <p>
+              We are an online store where you can shop online what you need.
+              We support different types of cards for payment.
+            </p>
+          </li>
         </ul>
       </div>
     </div>
   </footer>
-</div>
+  </div>

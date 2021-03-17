@@ -1,0 +1,161 @@
+<div class="bg-light">
+    <div class="container">
+
+        <div class="py-5 text-center">
+          <img class="d-block mx-auto mb-4" src="/assets/images/contactus.png" alt="" height="300" width="100%">
+          <h2>Send A Message</h2>
+          <p class="lead">We care about your opinion and your user experience. Please leave a message below so we can read it and reply to your email if requiered.</p>
+        </div>
+
+        <form [formGroup]="messageForm" (ngSubmit)="onSubmit()">
+          <div class="row g-3">
+
+            <div class="col-md-5 col-lg-4 order-md-last">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                  <span class="text-muted">Social Media</span>
+                </h4>
+                <ul class="list-group mb-3">
+                  <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div>
+                      <h6 class="my-0">Facebook</h6>
+                      <small class="text-muted"><a href="https://facebook.com" URL> facebook.com </a></small>
+                    </div>
+                    <span class="text-muted"><i class="fa fa-facebook fa-2x mr-3"></i></span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div>
+                      <h6 class="my-0">Instagram</h6>
+                      <small class="text-muted"><a href="https://instagram.com" URL> instagram.com </a></small>
+                    </div>
+                    <span class="text-muted"><i class="fa fa-instagram fa-2x mr-2"></i></span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div>
+                      <h6 class="my-0">Whatsapp</h6>
+                      <small class="text-muted">+123456789</small>
+                    </div>
+                    <span class="text-muted"><i class="fa fa-whatsapp fa-2x mr-2"></i></span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div>
+                      <h6 class="my-0">Email</h6>
+                      <small class="text-muted">randomemail@test.com</small>
+                    </div>
+                    <span class="text-muted"><i class="fa fa-inbox fa-2x mr-2"></i></span>
+                  </li>
+                </ul>
+            </div>
+
+            <div class="col-md-7 col-lg-8">
+              <h4 class="mb-3">Information</h4>
+              <div class="row g-3">
+
+                <div class="col-sm-6">
+                  <label for="displayName" class="form-label">First Name</label>
+                  <input formControlName="firstName" type="firstName" id="firstName" class="form-control" 
+                  [ngClass]="(messageForm.get('firstName') && messageForm.get('firstName').touched ) ? messageForm.get('firstName').invalid ? 'is-invalid' : 'is-valid' : null"> 
+                  <span class="text-danger" *ngIf="messageForm.get('firstName').invalid && messageForm.get('firstName').touched && messageForm.get('firstName').errors['required']">First Name is requiered</span>
+                </div>
+    
+                <div class="col-sm-6">
+                  <label for="lastName" class="form-label">Last Name</label>
+                  <input formControlName="lastName" type="lastName" id="lastName" class="form-control" 
+                  [ngClass]="(messageForm.get('lastName') && messageForm.get('lastName').touched ) ? messageForm.get('lastName').invalid ? 'is-invalid' : 'is-valid' : null"> 
+                  <span class="text-danger" *ngIf="messageForm.get('lastName').invalid && messageForm.get('lastName').touched && messageForm.get('lastName').errors['required']">Last Name is requiered</span>
+                </div>
+    
+                <div class="col-sm-12">
+                  <label for="inputEmail">Email Address</label>
+                  <input formControlName="email" type="email" id="inputEmail" class="form-control" placeholder="you@example.com" 
+                  [ngClass]="(messageForm.get('email') && messageForm.get('email').touched ) ? messageForm.get('email').invalid ? 'is-invalid' : 'is-valid' : null"> 
+                  <span class="text-danger" *ngIf="messageForm.get('email').invalid && messageForm.get('email').touched && messageForm.get('email').errors['required']">Email Address is requiered</span>
+                  <span class="text-danger" *ngIf="messageForm.get('email').invalid && messageForm.get('email').touched && messageForm.get('email').errors['pattern']">Email Address is not valid</span>
+                </div>
+    
+                <div class="col-sm-12">
+                  <label for="address" class="form-label">Address</label>
+                  <input formControlName="address" type="address" id="address" class="form-control" placeholder="1234 Main St"
+                  [ngClass]="(messageForm.get('address') && messageForm.get('address').touched ) ? messageForm.get('address').invalid ? 'is-invalid' : 'is-valid' : null"> 
+                  <span class="text-danger" *ngIf="messageForm.get('address').invalid && messageForm.get('address').touched && messageForm.get('address').errors['required']">Address Name is requiered</span>
+                </div>
+
+                <div class="col-sm-12">
+                  <label for="message" class="form-label">Message</label>
+                  <textarea formControlName="message" type="message" id="message" class="form-control" placeholder="Message here" rows="4" cols="50"
+                  [ngClass]="(messageForm.get('message') && messageForm.get('message').touched ) ? messageForm.get('message').invalid ? 'is-invalid' : 'is-valid' : null"> </textarea>
+                  <span class="text-danger" *ngIf="messageForm.get('message').invalid && messageForm.get('message').touched && messageForm.get('message').errors['required']">Message Name is requiered</span>
+                </div>
+
+              </div>
+              <hr class="my-4">
+              <button [disabled]="messageForm.invalid" class="w-100 btn btn-primary btn-md" type="submit">
+                Send Message <i *ngIf="buttonIsDisabled" class="ml-5 fa fa-spinner fa-spin"></i>
+                <!-- in loadin.interceptor.ts, I excluded the post request sent when we click this button from being intercepted
+                to display the loading sign, and instead here we wil display a spinner.-->
+              </button>
+              
+            </div>
+
+          </div>
+        </form>
+        
+    </div>
+
+    <!--footer-->
+    <div class="container ">
+      <footer class="pt-4 my-md-5 pt-md-5 border-top">
+        <div class="row">
+          <div class="col-12 col-md">
+            <img class="mb-2" src="assets/images/cart.png" alt="" width="15" height="15">
+            <small class="d-block mb-3 text-muted">© 2017–2021</small>
+          </div>
+          <div class="col-6 col-md">
+            <h5>Fast Links</h5>
+            <ul class="list-unstyled text-small">
+              <li><a class="p-2" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
+              <li><a class="p-2" routerLink="/shop" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Shop</a></li>
+              <li><a class="p-2" routerLink="/contact" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Contact</a></li>
+              <!-- the <a> tag has extra styling in contact.component.scss -->
+            </ul>
+          </div>
+          <div class="col-6 col-md">
+            <h5>Contact Us</h5>
+            <ul class="list-unstyled text-small">
+              <li class=" d-flex lh-sm my-1">
+                <i class="fa fa-facebook fa-2x mr-2"></i>
+                <a href="https://facebook.com" URL> facebook </a>
+              </li>
+              <li class=" d-flex lh-sm my-1">
+                <i class="fa fa-instagram fa-2x mr-2"></i>
+                <a href="https://instagram.com" URL> instagram </a>
+              </li>
+              <li class=" d-flex lh-sm my-1">
+                <i class="fa fa-whatsapp fa-2x mr-2"></i>
+                <a> 123456789 </a>
+              </li>
+              <li class=" d-flex lh-sm my-1">
+                <i class="fa fa-inbox fa-2x mr-2"></i>
+                <a> randomemail@test.com </a>
+              </li>
+    
+            </ul>
+          </div>
+          <div class="col-6 col-md">
+            <h5>About Us</h5>
+            <ul class="list-unstyled text-small">
+              <li>
+                <p>
+                  We are an online store where you can shop online what you need.
+                  We support different types of cards for payment.
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+    </div>
+</div>
+
+
+
+

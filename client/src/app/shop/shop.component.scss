@@ -20,3 +20,15 @@
         border-radius: 10px;
     }
 }
+
+//when we click on a link, let us color it with orange:
+a {
+    text-decoration: none; //to disable the underline
+    color: #343a40;
+
+    //we want to add a sub style class for tha <a>, and instead of writing:
+    //a .active {} out of this class like how we used to do it in CSS, we can write "&.active{}" inside here, which a good feature from scss  
+    &.active{ 
+        color: orange;
+    }
+}

@@ -64,6 +64,9 @@ namespace API.Helper
                 //so we used for it the OrderItemUrlResolver to add the https://<IP>:port/
                                
                 //other parameters do not need to be mapped manually since tests in postman shows correct results.
+
+
+                CreateMap<Message, MessageDto>();
         }
     }
 }

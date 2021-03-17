@@ -1,0 +1,2 @@
+Those services use the GenericRepository from the Data folder.
+that is why we created them in here, becuase those depend on Repo from Data folder.

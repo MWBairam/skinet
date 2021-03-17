@@ -25,6 +25,9 @@ namespace Infrastructure.Data
         public DbSet<Order> Orders {get; set;}
         public DbSet<OrderItem> OrderItem {get; set;}
 
+        //contact us:
+        public DbSet<Message> Messages {get; set;}
+
 
 
 
