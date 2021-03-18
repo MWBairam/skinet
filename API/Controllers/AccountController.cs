@@ -29,7 +29,7 @@ namespace API.Controllers
         //2-Constructor:
         //Inject and use the Microsoft identity services:
         //UserManager to create new users and search for a user in database.
-        //SignInManager to detect user's sign In.
+        //SignInManager to detect a user's signIn.
         /*
         ITokenService we designed it in Core project, interfaces folder, 
         //and implemented it in Infrastructure project, Services folder.
