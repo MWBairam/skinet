@@ -15,7 +15,7 @@ import { IAddress } from '../shared/models/address';
 export class AccountService 
 {
   //1-properties:
-  //baseurl in the appSettings.Development.json https://localhost:4200/api/
+  //baseurl in the appSettings.Development.json https://localhost:5001/api/
   baseUrl = environment.apiUrl;
 
   //create a "special observable" (BehaviorSubject):
@@ -42,7 +42,7 @@ export class AccountService
   //a-login:
   login(values: any) 
   {
-    //send the https://localhost:4200/api/account/login to the API project, which will return a UserDto and we will recieve it in IUser model !
+    //send the https://localhost:5001/api/account/login to the API project, which will return a UserDto and we will recieve it in IUser model !
     return this.http.post(this.baseUrl + 'account/login', values) 
     .pipe
     (
@@ -63,7 +63,7 @@ export class AccountService
   //b-register:
   register(values: any) 
   {
-    //send the https://localhost:4200/api/account/register to the API project, which will return a UserDto and we will recieve it in IUser model !
+    //send the https://localhost:5001/api/account/register to the API project, which will return a UserDto and we will recieve it in IUser model !
     return this.http.post(this.baseUrl + 'account/register', values) 
     .pipe(
       map((user: IUser) => //the reyrned value of type IUser existed in shared/models
@@ -97,7 +97,7 @@ export class AccountService
   //d-validate email existance:
   checkEmailExists(email: string) 
   {
-    //send https request https://localhost:4200/api/account/emailexists?email=xxxxx 
+    //send https request https://localhost:5001/api/account/emailexists?email=xxxxx 
     //to the AccountController in the API project which returns true if there is a user in the AspNetUsers table using the passed email here !
     return this.http.get(this.baseUrl + 'account/emailexists?email=' + email);
   }

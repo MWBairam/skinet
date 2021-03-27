@@ -22,7 +22,7 @@ export class LoadingInterceptor implements HttpInterceptor {
         if (req.method === 'POST' && req.url.includes('orders')) 
         {
             //in checkout-payment.component.ts, the button "submit order", will send https post request to OrdersController
-            //  https://localhost:4200/api/orders (and the order to create is in the body part).
+            //  https://localhost:5001/api/orders (and the order to create is in the body part).
             //we want to exclude this request from being delayed to display the loading indicator,
             //and in checkout-payment.component.ts, the button "submit order" we will display a font-awesome spinner icon.
             return next.handle(req);
@@ -30,7 +30,7 @@ export class LoadingInterceptor implements HttpInterceptor {
         if (req.method === 'POST' && req.url.includes('basket')) 
         {
             //in checkout-deivery.component.ts, when we click on any delivery method to be chosen,
-            //this post request will be sent to update the basket  https://localhost:4200/api/basket 
+            //this post request will be sent to update the basket  https://localhost:5001/api/basket 
             //(and the deliverymethod to save in the basket is in the body part).
             //we want to exclude this request from being delayed to display the loading indicator,
             return next.handle(req);
@@ -38,7 +38,7 @@ export class LoadingInterceptor implements HttpInterceptor {
         if (req.method === 'POST' && req.url.includes('message')) 
         {
             //in contact.component.ts, when we click on send message,
-            //this post request will be sent to update the basket  https://localhost:4200/api/message/sendmessage 
+            //this post request will be sent to update the basket  https://localhost:5001/api/message/sendmessage 
             //(and the message to save in is in the body part).
             //we want to exclude this request from being delayed to display the loading indicator,
             //and in contact.component.ts, the button "send message" we will display a font-awesome spinner icon.
@@ -47,7 +47,7 @@ export class LoadingInterceptor implements HttpInterceptor {
         if (req.method === 'POST' && req.url.includes('payments')) 
         {
             //in checkout-review.component.ts, the button "go to payment", will send https post request to PaymentsController
-            //  https://localhost:4200/api/payments to creat a pyamentIntent (and the pyamentIntent to create is in the body part).
+            //  https://localhost:5001/api/payments to creat a pyamentIntent (and the pyamentIntent to create is in the body part).
             //we want to exclude this request from being delayed to display the loading indicator,
             //and in checkout-review.component.ts, the button "go to payment" we will display a font-awesome spinner icon.
             //but anyway, delay it in order to show the spinner there.
@@ -74,7 +74,7 @@ if you want to exclude a specific http request from being intercepted to be dela
 you can add the following example before the calling the .busy method:
 
         //for example, exclude the https ost request which includes in its link the 'orders' keyword,
-        //like the https://localhost:4200/api/orders (calling the OrdersController in API project)
+        //like the https://localhost:5001/api/orders (calling the OrdersController in API project)
         if (req.method === 'POST' && req.url.includes('orders')) 
         {
             return next.handle(req);

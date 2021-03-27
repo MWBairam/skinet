@@ -12,7 +12,7 @@ import { IOrderToCreate } from '../shared/models/order';
 export class CheckoutService 
 {
   //1-properties:
-  //baseurl in the appSettings.Development.json https://localhost:4200/api/
+  //baseurl in the appSettings.Development.json https://localhost:5001/api/
   baseUrl = environment.apiUrl;
 
   //2-constructor:
@@ -60,7 +60,7 @@ export class CheckoutService
   createOrder(order: IOrderToCreate) 
   {
     //https post request to ceateOrder method in the OrdersController
-    //url=https://localhost:4200/api/orders
+    //url=https://localhost:5001/api/orders
     //the body of the request is the "order" we have passed to here.
     return this.http.post(this.baseUrl + 'orders', order);
   }

@@ -5,7 +5,7 @@
   <nav class="my-2 my-md-0 mr-md-3 text-uppercase" style="font-size: larger;">
     <a class="p-2" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
     <a class="p-2" routerLink="/shop" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Shop</a>
-    <!-- routerLink is to go to https://localhost:4200/ to open the home.component.html, and this uses the routes in app-routing.component.ts-->
+    <!-- routerLink is to go to https://localhost:5001/ to open the home.component.html, and this uses the routes in app-routing.component.ts-->
     <!-- we can write [router-link]="['/']" or router-link="/" to take us to the hompe page-->
     <!-- apply the bootstrap class active when this link is clicked-->
     <!-- in nav-bar.component.scss there are style for the <a> element in active and not active state -->
@@ -18,7 +18,7 @@
     <a class="position-relative" routerLink="/basket">
       <!--<img src="/assets/images/cart.png" style="max-height: 40px; margin-right: 40px;"  alt="logo">-->
       <!-- instead of the image above, we can use fontawesome icon -->
-      <!-- once we click on the basket item, open the https://localhost:4200/basket (basket component).
+      <!-- once we click on the basket item, open the https://localhost:5001/basket (basket component).
       remember the routws in app-routing.module.ts and basket-routing.module.ts-->
       <i class="fa fa-shopping-cart fa-2x mr-5 text-dark"></i>
       <div *ngIf="(userBasket$ | async) as userBasket" class="cart-no">{{userBasket.items.length}}</div>

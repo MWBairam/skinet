@@ -23,10 +23,14 @@ namespace API
 
 
 
-            //we will modify it to create the requiered DB (if not existed) and do the update-databse (to complete any new migration) once this project is started:
+            //we will modify it to create the requiered DB (if not existed) and do the update-databse (to complete any new migration) once this project is started.
+            //This is essential for publishing the website on a production server, so at first startup, the Db is created on the production server, otherwise, 
+            //we do not have any way to create the DB using EntityFramework.
+
             //the following is as recommended from microsoft:
 
-            //instead of running CreateHostBuilder(args).Build() immediately using .Run() as before, we will assign it as a variable, then after we do the migration, we will run it:
+            //instead of running CreateHostBuilder(args).Build() immediately using .Run() as before, we will assign it as a variable, then after we do the migration, 
+            //we will run it:
             var host = CreateHostBuilder(args).Build();
             //now we need to use microsoft "Services", same as used in the startup.cs file
             //we should also, for any service we create, specify a lifetime for time,

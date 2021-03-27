@@ -9,8 +9,8 @@ namespace API.Helper
     //we used this resolver in the MappingProfiles in Helper folder when we mapped "Product" model to "ProductToReturnDto"
     
     //we notice that the returned pictureUrl is for example: images/products/sb-ang1.png
-    //indeed, the API consumer should receive the full url https://<IP>:port/<PictureUrl>
-    //we will configure it for localhost, later when we publish, we will replcae localhost with the IP of the machine we are publishing on
+    //indeed, the API consumer should receive the full url https://localhost:port/<PictureUrl>
+    
 
     //in the appsettings.Development.json, add:
     //"ApiUrl" : "https://localhost:5001/"
@@ -41,7 +41,7 @@ namespace API.Helper
             //this is not going to happen, because we made the PictureUrl in the DB table requiered (not nullable) but it is good to check again
             if(!string.IsNullOrEmpty(source.PictureUrl))
             {
-                //as long as it is not null, add the https://<IP>:port/ to the url
+                //as long as it is not null, add the https://localhost:port/ to the url
                 return _config["ApiUrl"] + source.PictureUrl; //read the "ApiUrl" from appSettings.Development.json
                 //be careful to use this library: Microsoft.Extensions.Configuration
                 //not this AutoMapper.Configuration

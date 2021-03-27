@@ -67,7 +67,7 @@ export class RegisterComponent implements OnInit
   {
     //use the account.service.ts where the account methods are there !
     //use the register method we wrote there,
-    //which will send the https://localhost:4200/api/account/register to the API project AccountController, 
+    //which will send the https://localhost:5001/api/account/register to the API project AccountController, 
     //which will return a UserDto and we will recieve it in IUser model in acount.service.ts in the register method !
 
     //remember that the method returns an observable which we should subscribe to it to extract its value, then perform anything while subscribing to it !

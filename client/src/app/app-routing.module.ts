@@ -21,16 +21,16 @@ const routes: Routes = [
 
   
   
-  //add a route to the "home" page (module/component) when the user request https://localhost:4200 only without adding anything else
-  {path: '', component: HomeComponent, data: {breadcrumb: 'Home'}}, //the '' means nothing after https://localhost:4200 
+  //add a route to the "home" page (module/component) when the user request https://localhost:5001 only without adding anything else
+  {path: '', component: HomeComponent, data: {breadcrumb: 'Home'}}, //the '' means nothing after https://localhost:5001 
   
 
 
 
   //instead of writing these 2 links (routes) here,
   /*
-  {path: 'shop', component: ShopComponent}, //when the user clicks on "shop" button in the home page, the link will be https://localhost:4200/shop, so route the request to shop module/component
-  {path: 'shop/:id', component:ProductDetailsComponent}, //when the user clicks on "view" button in the shop page in the product-item area, the link will be https://localhost:4200/shop/id, so route the request to product-details module/component
+  {path: 'shop', component: ShopComponent}, //when the user clicks on "shop" button in the home page, the link will be https://localhost:5001/shop, so route the request to shop module/component
+  {path: 'shop/:id', component:ProductDetailsComponent}, //when the user clicks on "view" button in the shop page in the product-item area, the link will be https://localhost:5001/shop/id, so route the request to product-details module/component
   */
   //we will write them in shop-routing.module.ts !
   //why is that? if we kept them here, the shop.module.ts will be loaded directly once the angular app runs ! which might hurt the performance !

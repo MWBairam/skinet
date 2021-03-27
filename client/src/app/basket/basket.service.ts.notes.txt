@@ -16,7 +16,7 @@ export class BasketService {
 
   //1-properies:
   //a-the base url we want to form our https request in the below methods:
-  baseUrl = environment.apiUrl; //https://localhost:4200/api/ 
+  baseUrl = environment.apiUrl; //https://localhost:5001/api/ 
   //b-properties of type of "observable", which we need to store the returned observable from the https response.
   private basketSource = new BehaviorSubject<IBasket>(null); //this is a special type of observables, we specified in it the exact type of data to be retuerned which is of IBasket model, and if empty, return an object of IBasket with null info ! (complete reading the notes below)
   basket$ = this.basketSource.asObservable();
@@ -102,7 +102,7 @@ export class BasketService {
   
   
   //get a basket from redis based on its Id:
-  //we will send an https request: https://localhost:4200/api/basket?id="basketId" so that GetBasketById method will be automatically called in BasketController in the API project 
+  //we will send an https request: https://localhost:5001/api/basket?id="basketId" so that GetBasketById method will be automatically called in BasketController in the API project 
   //then we will get the https response
   //to take out a value from this response, we need to do .subscribe  
   getBasket(id: string) 
@@ -437,7 +437,7 @@ export class BasketService {
     }
   }
   deleteBasket(basket: IBasket) {
-    //call the DeleteBasket method in API project BasketController by sending this https delete request: https://localhost:4200/api/basket?id=xxx
+    //call the DeleteBasket method in API project BasketController by sending this https delete request: https://localhost:5001/api/basket?id=xxx
     return this.http.delete(this.baseUrl + 'basket?id=' + basket.id)
     .subscribe //a confirm will be returned in the https delete response, subscribe to the observable returned, 
     (
@@ -477,7 +477,7 @@ export class BasketService {
   */
   createPaymentIntent() 
   {
-    //this will send https post request https://localhost:4200/api/payment/<basket_id> (with empty body since we are not updating anuthing) to the
+    //this will send https post request https://localhost:5001/api/payment/<basket_id> (with empty body since we are not updating anuthing) to the
     //CreateOrUpdatePaymentIntent method in the PaymentController in API project.
     //and remember that CreateOrUpdatePaymentIntent method in the PaymentController in API project is for logged in users,
     //so that the token should be sent with the request which is being done using the jwt.interceptor.ts 

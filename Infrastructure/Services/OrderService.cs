@@ -29,9 +29,14 @@ namespace Infrastructure.Services
         the importance of this is:
         for example, example away from the Orders, 
         doing modifications on ProductBrands and Products at the same time, 
-        and when we call the requiered methods from the same IGeneric repo, each repo of the instantiated repos will have its own copy (instance) of DbContext (storeContext). 
-        Then if the modification on Product successes, but the one in ProductBrand does not ! so we will have a partial update ! and we have to deal with products for a brand that does not exist !
-        So we will implement the concept of Unit of Work, which creates one instance of the DbContext for all the instantiated repos, and which rolles back all the changes if any single modification fails to be implemented !
+        and when we call the requiered methods from the same IGeneric repo, 
+        each repo of the instantiated repos will have its own copy (instance) of DbContext (storeContext). 
+
+        Then if the modification on Product successes, but the one in ProductBrand does not ! 
+        so we will have a partial update ! and we have to deal with products for a brand that does not exist !
+
+        So we will implement the concept of Unit of Work, which creates one instance of the DbContext for all the instantiated repos, 
+        and which rolles back all the changes if any single modification fails to be implemented !
         */
 
 

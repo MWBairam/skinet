@@ -53,7 +53,6 @@ namespace API.Helpers
         */
 
 
-
         //1-properties:
         private readonly int _timeToLiveSeconds;
         /*

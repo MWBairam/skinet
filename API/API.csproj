@@ -11,6 +11,7 @@
     <PackageReference Include="Stripe.net" Version="39.39.0"/>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\**" CopyToPublishDirectory="PreserveNewest" />
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj"/>
   </ItemGroup>
 </Project>

@@ -5,6 +5,7 @@ using Core.Entities;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Stripe;
 using Order = Core.Entities.OrderAggregate.Order;
@@ -28,12 +29,15 @@ namespace API.Controllers
         
         //in step 3 above, stripe will send us, so to trust it, we will check what is sent against this below web hook secret.
         //it is brought from
-        private const string WhSecret = "whsec_PPP9SWFvRxBOhdZpGuf7hsGb7fE0KVkV"; //video 278 to see how to bring it for a test environment
+        private readonly string _WhSecret ; //video 278 to see how to bring it for a test environment. //also store it in appsettings.json
         private readonly ILogger<PaymentsController> _logger;
-        public PaymentsController(IPaymentService paymentService, ILogger<PaymentsController> logger)
+        //private readonly IConfiguration _config;
+        public PaymentsController(IPaymentService paymentService, ILogger<PaymentsController> logger, IConfiguration config)
         {
             _logger = logger;
             _paymentService = paymentService;
+            //_config = config;
+            _WhSecret = config.GetSection("StripeSettings:WhSecret").Value;
         }
 
         [Authorize]
@@ -72,7 +76,7 @@ namespace API.Controllers
             //so we can reconstruct here the stripe (payment succeeded or failed) event in order to process it below.
             //pass to the ConstructEvent method also the web hook secret we identified above, and the stripe-signature in the 
             //https header in order to trust that this really came from stripe !
-            var stripeEvent = EventUtility.ConstructEvent(json, Request.Headers["Stripe-Signature"], WhSecret);
+            var stripeEvent = EventUtility.ConstructEvent(json, Request.Headers["Stripe-Signature"], _WhSecret);
 
             //create those 2 variables:
             //a-first one is of type PaymentIntent (from stripe library)

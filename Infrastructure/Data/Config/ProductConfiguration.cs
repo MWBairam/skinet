@@ -24,7 +24,7 @@ namespace Infrastructure.Data.Config
             builder.Property(p => p.Id).IsRequired();
             //make the name and description columns not nullable (requiered) and with max of 100 character
             builder.Property(p => p.Name).IsRequired().HasMaxLength(100);
-            builder.Property(p => p.Description).IsRequired().HasMaxLength(100);
+            //builder.Property(p => p.Description).IsRequired().HasMaxLength(100);//sqlite, sql, ... care about max lenght, but in the production env, we switched to postgres which does not care about it !
             //tell explicitly the DB that the price is a decimal value, with 18 decimal digits and 2 digits after the point.
             //it is not supported in sqlite, but will be useful when we move to MySql when we go to production
             builder.Property(p => p.Price).HasColumnType("decimal(18,2)"); 

@@ -3,3 +3,7 @@ bin
 appsettings.json
 *.db
 *.rdb
+docker-compose.yml
+publish
+wwwroot
+content
