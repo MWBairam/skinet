@@ -207,7 +207,7 @@ namespace API.Controllers
             return new UserDto //we can configure a mapping for that in Helper folder, MappingProfile class, and use it as we did in ProductsController !
             {
                 Email = user.Email,
-                Token = _tokenService.CreateToken(user),
+                Token = _tokenService.CreateToken(user), 
                 DisplayName = user.DisplayName
             };
         }
@@ -251,20 +251,38 @@ namespace API.Controllers
 		    var user = await _userManager.Users.Include(x => x.Address).SingleOrDefaultAsync(x => x.Email == email);
             //_userManager.User will return an IQuerable list of the AspNetUsers table, then we can iclude the Address info for each user, then choose the user we want using his email !
             
+    
             //then we will take out from that user Address, only what is defined in the AddressDto template, and return it:
-            return  new AddressDto //we can configure a mapping for that in Helper folder, MappingProfile class, and use it as we did in ProductsController !
+            if(user.Address != null)
             {
-                FirstName = user.Address.FirstName,
-                LastName = user.Address.LastName,
-                Street = user.Address.Street,
-                City = user.Address.City,
-                State = user.Address.State,
-                Zipcode = user.Address.Zipcode
-            };
+                return new AddressDto //we can configure a mapping for that in Helper folder, MappingProfile class, and use it as we did in ProductsController !
+                {
+                    FirstName = user.Address.FirstName,
+                    LastName = user.Address.LastName,
+                    Street = user.Address.Street,
+                    City = user.Address.City,
+                    State = user.Address.State,
+                    Zipcode = user.Address.Zipcode
+                };
+            }
+            else
+                return new AddressDto //we can configure a mapping for that in Helper folder, MappingProfile class, and use it as we did in ProductsController !
+                {
+                    FirstName = "",
+                    LastName = "",
+                    Street = "",
+                    City = "",
+                    State = "",
+                    Zipcode = ""
+                };
+
             //indeed, AddresDto is very important here, because if we tried to return the complete "Address" as it is described in
             //core project, Entities/Identity folder, we will return with it the property "public AppUser AppUser { get; set; }"
             //which will make a loop !! because we are returning the user with user.address which will return user.address ... !!
             //watch video 177
+
+
+
         }
 
 
